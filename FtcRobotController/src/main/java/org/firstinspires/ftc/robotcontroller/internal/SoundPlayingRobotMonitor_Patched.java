@@ -2,6 +2,7 @@ package org.firstinspires.ftc.robotcontroller.internal;
 
 import android.support.annotation.Nullable;
 import android.support.annotation.RawRes;
+import android.util.Log;
 
 import com.qualcomm.ftcrobotcontroller.R;
 
@@ -20,5 +21,7 @@ public final class SoundPlayingRobotMonitor_Patched extends SoundPlayingRobotMon
         }
         if (soundMatched)
             super.playSound(sound, resourceId, runWhenStarted, runWhenFinished);
+        else
+            Log.w("SoundPlaying_User", "Sound " + resourceId + " is not avaliable and may cause bugs.");
     }
 }
