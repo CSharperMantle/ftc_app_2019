@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import android.support.annotation.NonNull;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -12,7 +14,7 @@ public final class JTeleOpFinal_DeviceManager implements Closeable{
     public DcMotor backLeftDrive;
     public DcMotor backRightDrive;
 
-    public void init(HardwareMap hm) {
+    public void init(@NonNull HardwareMap hm) {
         frontLeftDrive = hm.get(DcMotor.class, "frontLeftDrive");
         frontRightDrive = hm.get(DcMotor.class, "frontRightDrive");
         backLeftDrive = hm.get(DcMotor.class, "backLeftDrive");

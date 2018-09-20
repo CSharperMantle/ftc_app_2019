@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @SuppressWarnings("unused")
-@TeleOp(name="JTeleOpTest", group="test")
+@TeleOp(name="JTeleOpTest", group="JTest")
 public final class JTeleOpTest extends LinearOpMode {
 
     private JTeleOpFinal_DeviceManager _deviceManager;
