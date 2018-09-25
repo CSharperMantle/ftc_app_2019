@@ -19,17 +19,7 @@ public final class JTestVuMarkNavigation extends LinearOpMode {
 
     public static final String TAG = "JTestVuMarkNavigation";
 
-    private final String vuforiaLicenseKey =
-            "AVkhglD/////AAADmXDi5jqMNElPqdugVXJjZUwG" +
-            "CACWSA+2X9FnKUGIZ19FSiR1Vhvn5amX7bepl39L" +
-            "vukVM35/gwtVlW1sJUoakHA+Sa//eU8yZbrQ+hHC" +
-            "OMqK16bh2jFaEh2Z5oX3blfOcnY+KBhT1pZCvpn7" +
-            "uc7tozv/hEh6k0txpLHH71S2oo+jYbld1PL9lxpB" +
-            "L2l8CIqQLa4MVzVgHvlnH+47M+VgaE2nhKR//xSm" +
-            "c9Y7JP4WxP+G427hHpr/Uj0yectnEAb6zRf0ay5U" +
-            "eOPjWQfIqP8cBN5hJ8FZeI49HDazlbNoQQZpVer4" +
-            "T2pZWHKju2M6CqMTbrVNHgU+QOE5zKH/iQsljQME" +
-            "+VCvEhLrhgqs5aqF5Zm3";
+    private final String vuforiaLicenseKey =JAutonomousFinal_Shared.vuforiaLicenseKey;
 
     private OpenGLMatrix lastLocation = null;
     private VuforiaLocalizer vuforia = null;

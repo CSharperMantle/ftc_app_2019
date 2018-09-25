@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import java.io.Closeable;
 
-public final class JTeleOpFinal_DeviceManager implements Closeable{
+public final class JTeleOpFinal_DeviceManager implements Closeable {
 
     public DcMotor frontLeftDrive;
     public DcMotor frontRightDrive;
