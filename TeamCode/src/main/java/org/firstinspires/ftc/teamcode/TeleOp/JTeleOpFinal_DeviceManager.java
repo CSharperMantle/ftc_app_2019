@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.io.Closeable;
 
@@ -12,17 +15,34 @@ public final class JTeleOpFinal_DeviceManager implements Closeable {
     public DcMotor frontRightDrive;
     public DcMotor backLeftDrive;
     public DcMotor backRightDrive;
+    public VoltageSensor hubVoltageSensorOne;
 
     public JTeleOpFinal_DeviceManager(HardwareMap hm) {
         init(hm);
     }
 
+    public JTeleOpFinal_DeviceManager(HardwareMap hm, Telemetry telem) {
+        init(hm, telem);
+    }
+
     public void init(HardwareMap hm) {
+        init(hm, null);
+    }
+
+    public void init(HardwareMap hm, Telemetry telem) {
         frontLeftDrive = hm.get(DcMotor.class, "frontLeftDrive");
         frontRightDrive = hm.get(DcMotor.class, "frontRightDrive");
         backLeftDrive = hm.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hm.get(DcMotor.class, "backRightDrive");
+        hubVoltageSensorOne = hm.get(VoltageSensor.class, "Expansion Hub 1");
+
         setAllZeroPowerBehaviorDrives(DcMotor.ZeroPowerBehavior.FLOAT);
+        if (telem != null) {
+            telem.addData(this.toString(), "Init finished.");
+            if (hubVoltageSensorOne.getVoltage() < 10.0)
+                telem.addData(this.toString(), "Voltage too low, is " + hubVoltageSensorOne.getVoltage());
+            telem.update();
+        }
     }
 
     public void stopAllDrives() {

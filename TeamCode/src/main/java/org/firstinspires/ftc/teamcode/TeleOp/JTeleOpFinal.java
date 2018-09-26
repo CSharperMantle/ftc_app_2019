@@ -8,7 +8,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public final class JTeleOpFinal extends LinearOpMode {
     @Override
     public void runOpMode() {
-        final JTeleOpFinal_DeviceManager deviceManager = new JTeleOpFinal_DeviceManager(this.hardwareMap);
+        final JTeleOpFinal_DeviceManager deviceManager = new JTeleOpFinal_DeviceManager(this.hardwareMap, this.telemetry);
+
+        telemetry.addData(this.toString(), "Initialized");
+        telemetry.update();
 
         while (true) {
             if (this.gamepad1.dpad_up)
@@ -48,6 +51,8 @@ public final class JTeleOpFinal extends LinearOpMode {
                 deviceManager.drive(JTeleOpFinal_DeviceManager.Direction.BACKRIGHT);
 
             deviceManager.stopAllDrives();
+
+            telemetry.update();
 
             if (this.isStopRequested()) {
                 deviceManager.close();
