@@ -5,14 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @SuppressWarnings("unused")
-@TeleOp(name="JTeleOpTest", group="Test")
+@TeleOp(name="JTeleOpTest_2019", group="Test")
 public final class JTeleOpTest extends LinearOpMode {
 
     private JTeleOpFinal_DeviceManager _deviceManager;
 
     @Override
     public void runOpMode() {
-        _deviceManager = new JTeleOpFinal_DeviceManager();
+        _deviceManager = new JTeleOpFinal_DeviceManager(this.hardwareMap);
         _deviceManager.init(hardwareMap);
 
         while (true) {
