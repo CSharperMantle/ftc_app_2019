@@ -46,6 +46,27 @@ public final class JTeleOpFinal_DeviceManager implements Closeable {
         backLeftDrive.setZeroPowerBehavior(behavior);
     }
 
+    public void spinWithTrigger(Direction direction, float power) {
+        switch (direction) {
+            case SPINLEFT:
+                frontRightDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+                frontLeftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+                backRightDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+                backLeftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+                setAllPowerDrives(power);
+                break;
+            case SPINRIGHT:
+                frontRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+                frontLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+                backRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+                backLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+                setAllPowerDrives(power);
+                break;
+            default:
+                throw new IllegalArgumentException(direction.name());
+        }
+    }
+
     public void drive(Direction direction) {
         switch (direction) {
             case FORWARD:

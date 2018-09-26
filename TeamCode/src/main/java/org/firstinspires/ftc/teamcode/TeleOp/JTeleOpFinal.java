@@ -29,6 +29,12 @@ public final class JTeleOpFinal extends LinearOpMode {
             if (this.gamepad1.right_bumper)
                 deviceManager.drive(JTeleOpFinal_DeviceManager.Direction.SPINRIGHT);
 
+            if (this.gamepad1.left_trigger > 0.0)
+                deviceManager.spinWithTrigger(JTeleOpFinal_DeviceManager.Direction.SPINLEFT, this.gamepad1.left_trigger);
+
+            if (this.gamepad1.right_trigger > 0.0)
+                deviceManager.spinWithTrigger(JTeleOpFinal_DeviceManager.Direction.SPINRIGHT, this.gamepad1.right_trigger);
+
             if (this.gamepad1.x)
                 deviceManager.drive(JTeleOpFinal_DeviceManager.Direction.FRONTLEFT);
 
