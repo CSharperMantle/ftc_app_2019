@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @SuppressWarnings("unused")
 @TeleOp(name="JTeleOpFinal_2019", group="Final")
-public final class JTeleOpFinal extends LinearOpMode {
+public final class JTeleOpFinal_2019 extends LinearOpMode {
     @Override
     public void runOpMode() {
         final JTeleOpFinal_DeviceManager deviceManager = new JTeleOpFinal_DeviceManager(this.hardwareMap, this.telemetry);

@@ -34,7 +34,7 @@ public final class JTeleOpFinal_DeviceManager implements Closeable {
         frontRightDrive = hm.get(DcMotor.class, "frontRightDrive");
         backLeftDrive = hm.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hm.get(DcMotor.class, "backRightDrive");
-        hubVoltageSensorOne = hm.get(VoltageSensor.class, "Expansion Hub 1");
+        hubVoltageSensorOne = hm.get(VoltageSensor.class, "drivingEngineHub");
 
         setAllZeroPowerBehaviorDrives(DcMotor.ZeroPowerBehavior.FLOAT);
         if (telem != null) {
