@@ -11,11 +11,12 @@ import java.io.Closeable;
 
 public final class JTeleOpFinal_DeviceManager implements Closeable {
 
-    public DcMotor frontLeftDrive;
-    public DcMotor frontRightDrive;
-    public DcMotor backLeftDrive;
-    public DcMotor backRightDrive;
-    public VoltageSensor hubVoltageSensorOne;
+    private DcMotor frontLeftDrive = null;
+    private DcMotor frontRightDrive = null;
+    private DcMotor backLeftDrive = null;
+    private DcMotor backRightDrive = null;
+    private DcMotor escalatorDrive = null;
+    private VoltageSensor hubVoltageSensorOne = null;
 
     public JTeleOpFinal_DeviceManager(HardwareMap hm) {
         init(hm);
@@ -34,6 +35,7 @@ public final class JTeleOpFinal_DeviceManager implements Closeable {
         frontRightDrive = hm.get(DcMotor.class, "frontRightDrive");
         backLeftDrive = hm.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hm.get(DcMotor.class, "backRightDrive");
+        escalatorDrive = hm.get(DcMotor.class, "escalatorDrive");
         hubVoltageSensorOne = hm.get(VoltageSensor.class, "drivingEngineHub");
 
         setAllZeroPowerBehaviorDrives(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -170,6 +172,7 @@ public final class JTeleOpFinal_DeviceManager implements Closeable {
         frontRightDrive.close();
         backLeftDrive.close();
         backRightDrive.close();
+        escalatorDrive.close();
     }
 
     public enum Direction {
