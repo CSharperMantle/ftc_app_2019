@@ -35,7 +35,6 @@ android {
             keyPassword 'nfls_keystore'
             storeFile rootProject.file('libs/nfls_keystore.jks')
             storePassword 'nfls_keystore'
-            v2SigningEnabled true
         }
     }
 
@@ -113,4 +112,5 @@ repositories {
         dirs rootProject.file('libs')
     }
 }
+
 apply from: 'build.release.gradle'
