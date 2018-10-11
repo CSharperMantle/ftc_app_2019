@@ -54,4 +54,18 @@ public abstract class JAutonomousFinal_Shared {
      * */
     public static final int cameraLeftDisplacement = 0;
 
+    /**
+     * Converts an value in mm to inch.
+     */
+    public static float mmToInch(float mm) {
+        return mm / mmPerInch;
+    }
+
+    /**
+     * Converts an value in inch to mm.
+     */
+    public static float inchToMm(float inch) {
+        return inch * mmPerInch;
+    }
+
 }
