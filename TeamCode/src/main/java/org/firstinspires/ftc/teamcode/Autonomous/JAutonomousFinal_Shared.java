@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Parameters;
 
@@ -57,15 +58,19 @@ public abstract class JAutonomousFinal_Shared {
     /**
      * Converts an value in mm to inch.
      */
-    public static float mmToInch(float mm) {
+    public static float millimeterToInch(float mm) {
         return mm / mmPerInch;
     }
 
     /**
      * Converts an value in inch to mm.
      */
-    public static float inchToMm(float inch) {
+    public static float inchToMillimeter(float inch) {
         return inch * mmPerInch;
     }
 
+    public static void writeMessageRefresh(String caption, String text, Telemetry t) {
+        t.addData(caption, text);
+        t.update();
+    }
 }

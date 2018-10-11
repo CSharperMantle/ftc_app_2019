@@ -137,9 +137,9 @@ public class JRoverRuckusVuforiaNavigation extends LinearOpMode {
             if (targetVisible) {
                 VectorF translation = lastLocation.getTranslation();
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                        JAutonomousFinal_Shared.mmToInch(translation.get(0)),
-                        JAutonomousFinal_Shared.mmToInch(translation.get(1)),
-                        JAutonomousFinal_Shared.mmToInch(translation.get(2))
+                        JAutonomousFinal_Shared.millimeterToInch(translation.get(0)),
+                        JAutonomousFinal_Shared.millimeterToInch(translation.get(1)),
+                        JAutonomousFinal_Shared.millimeterToInch(translation.get(2))
                 );
 
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
