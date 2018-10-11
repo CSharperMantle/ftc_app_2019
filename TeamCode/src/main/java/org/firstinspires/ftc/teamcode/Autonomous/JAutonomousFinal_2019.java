@@ -89,9 +89,11 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
             if (this.isStopRequested()) break;
         }
 
+        writeMessageRefresh("JAutonomousFinal_2019", "Closing", this.telemetry);
         frontLeftDrive.close();
         frontRightDrive.close();
         backLeftDrive.close();
         backRightDrive.close();
+        writeMessageRefresh("JAutonomousFinal_2019", "Closed devices", this.telemetry);
     }
 }
