@@ -88,7 +88,6 @@ android {
             debuggable true
             jniDebuggable true
             renderscriptDebuggable true
-            minifyEnabled false
             signingConfig signingConfigs.debug
             ndk {
                 abiFilters "armeabi-v7a"
