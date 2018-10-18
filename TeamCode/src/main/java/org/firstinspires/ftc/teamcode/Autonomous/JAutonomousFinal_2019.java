@@ -27,13 +27,19 @@ import static org.firstinspires.ftc.teamcode.Autonomous.JAutonomousFinal_Shared.
 public final class JAutonomousFinal_2019 extends LinearOpMode {
     @Override
     public void runOpMode() {
-        writeMessageRefresh("JAutonomousFinal_2019", "Init", this.telemetry);
+        writeMessageRefresh(this.toString(), "Init", this.telemetry);
+
         DcMotor frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         DcMotor frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
         DcMotor backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         DcMotor backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        boolean isTargetVisible = false;
+        OpenGLMatrix lastLocation = null;
+
+        int cameraMonitorViewId = hardwareMap.appContext
+                .getResources()
+                .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = JAutonomousFinal_Shared.vuforiaLicenseKey ;
@@ -42,6 +48,7 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
         VuforiaLocalizer vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         VuforiaTrackables targetsRoverRuckus = vuforia.loadTrackablesFromAsset("RoverRuckus");
+
         VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
         blueRover.setName("Blue-Rover");
         VuforiaTrackable redFootprint = targetsRoverRuckus.get(1);
@@ -82,18 +89,39 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
             ((VuforiaTrackableDefaultListener)trackable.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
         }
 
-        writeMessageRefresh("JAutonomousFinal_2019", "Init done.", this.telemetry);
+        writeMessageRefresh(this.toString(), "Init done.", this.telemetry);
         this.waitForStart();
-        while (true) {
+        //Start requested
+        targetsRoverRuckus.activate();
 
-            if (this.isStopRequested()) break;
+        //Loop until stop requested
+        while (this.opModeIsActive()) {
+            isTargetVisible = false;
+            for (VuforiaTrackable trackable : allTrackables) {
+                if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                    telemetry.addData("Visible Target", trackable.getName());
+                    isTargetVisible = true;
+
+                    OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                    if (robotLocationTransform != null) {
+                        lastLocation = robotLocationTransform;
+                    }
+                    break;
+                }
+            }
+
+            if(isTargetVisible) {
+                //Got target, go for it!
+
+            }
         }
 
-        writeMessageRefresh("JAutonomousFinal_2019", "Closing", this.telemetry);
+        //Clean up
+        writeMessageRefresh(this.toString(), "Closing", this.telemetry);
         frontLeftDrive.close();
         frontRightDrive.close();
         backLeftDrive.close();
         backRightDrive.close();
-        writeMessageRefresh("JAutonomousFinal_2019", "Closed devices", this.telemetry);
+        writeMessageRefresh(this.toString(), "Closed devices", this.telemetry);
     }
 }
