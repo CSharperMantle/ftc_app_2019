@@ -110,7 +110,7 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
                 }
             }
 
-            if(isTargetVisible) {
+            if (isTargetVisible) {
                 //Got target, go for it!
 
             }
