@@ -30,12 +30,10 @@ android {
             storeFile rootProject.file('libs/ftc.debug.keystore')
             storePassword 'android'
         }
-        release {
-            keyAlias 'nfls_keystore'
-            keyPassword 'nfls_keystore'
-            storeFile rootProject.file('libs/nfls_keystore.jks')
-            storePassword 'nfls_keystore'
-        }
+    }
+
+    aaptOptions {
+        noCompress "tflite"
     }
 
     defaultConfig {
@@ -78,8 +76,6 @@ android {
         release {
             // Disable debugging for release versions so it can be uploaded to Google Play.
             //debuggable true
-            minifyEnabled true
-            signingConfig signingConfigs.release
             ndk {
                 abiFilters "armeabi-v7a"
             }
@@ -88,7 +84,6 @@ android {
             debuggable true
             jniDebuggable true
             renderscriptDebuggable true
-            signingConfig signingConfigs.debug
             ndk {
                 abiFilters "armeabi-v7a"
             }
@@ -111,5 +106,4 @@ repositories {
         dirs rootProject.file('libs')
     }
 }
-
 apply from: 'build.release.gradle'
