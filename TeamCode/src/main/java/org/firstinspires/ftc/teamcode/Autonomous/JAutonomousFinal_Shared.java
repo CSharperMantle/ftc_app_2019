@@ -73,4 +73,13 @@ public abstract class JAutonomousFinal_Shared {
         t.addData(caption, text);
         t.update();
     }
+
+    /**
+     * Represents a group of numbers that means position.
+     * */
+    enum Position {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
 }

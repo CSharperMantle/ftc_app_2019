@@ -11,6 +11,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +27,23 @@ import static org.firstinspires.ftc.teamcode.Autonomous.JAutonomousFinal_Shared.
 @Autonomous(name="JAutonomousFinal_2019", group="Final")
 @SuppressWarnings("unused")
 public final class JAutonomousFinal_2019 extends LinearOpMode {
+
+    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+
     @Override
     public void runOpMode() {
-        writeMessageRefresh(this.toString(), "Init", this.telemetry);
+        writeMessageRefresh(this.toString(), "Init...", this.telemetry);
 
+        /* Engine init scripts... */
         DcMotor frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         DcMotor frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
         DcMotor backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         DcMotor backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+        /* ...Engine init scripts */
 
+        /* Vuforia init scripts... */
         boolean isTargetVisible = false;
         OpenGLMatrix lastLocation = null;
 
@@ -88,8 +98,20 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
         {
             ((VuforiaTrackableDefaultListener)trackable.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection);
         }
+        /* ...Vuforia init scripts */
 
-        writeMessageRefresh(this.toString(), "Init done.", this.telemetry);
+        /* TFOD init scripts... */
+        if (!ClassFactory.getInstance().canCreateTFObjectDetector()) { throw new RuntimeException("TensorFlow not supported"); }
+        JAutonomousFinal_Shared.Position mineralPosition;
+        TFObjectDetector objectDetector;
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        objectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        objectDetector.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+        /* ...TFOD init scripts */
+
+        writeMessageRefresh(this.toString(), "...Init", this.telemetry);
         this.waitForStart();
         //Start requested
         targetsRoverRuckus.activate();
@@ -111,7 +133,43 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
             }
 
             if (isTargetVisible) {
-                //Got target, go for it!
+                //TODO: Got target, go for it!
+                while (true) {
+                    //TODO: Don't forget to drive!
+                    List<Recognition> updatedRecognitions = objectDetector.getUpdatedRecognitions();
+                    if (updatedRecognitions != null) {
+                        if (updatedRecognitions.size() == 3) {
+                            int goldMineralX = -1;
+                            int silverMineral1X = -1;
+                            int silverMineral2X = -1;
+                            for (Recognition recognition : updatedRecognitions) {
+                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                    goldMineralX = (int) recognition.getLeft();
+                                } else if (silverMineral1X == -1) {
+                                    silverMineral1X = (int) recognition.getLeft();
+                                } else {
+                                    silverMineral2X = (int) recognition.getLeft();
+                                }
+                            }
+                            if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                                if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                                    telemetry.addData("Gold Mineral Position", "Left");
+                                    mineralPosition = JAutonomousFinal_Shared.Position.LEFT;
+                                    break;
+                                } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                                    telemetry.addData("Gold Mineral Position", "Right");
+                                    mineralPosition = JAutonomousFinal_Shared.Position.RIGHT;
+                                    break;
+                                } else {
+                                    telemetry.addData("Gold Mineral Position", "Center");
+                                    mineralPosition = JAutonomousFinal_Shared.Position.CENTER;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                //TODO: Got position of gold mineral, push it away!
 
             }
         }
