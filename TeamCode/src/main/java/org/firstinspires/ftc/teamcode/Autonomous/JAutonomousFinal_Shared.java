@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Parameters;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 
 public abstract class JAutonomousFinal_Shared {
     /**
@@ -77,10 +78,35 @@ public abstract class JAutonomousFinal_Shared {
     /**
      * Represents a group of numbers that means position.
      * */
-    enum Position {
+    public enum Position {
         LEFT,
         CENTER,
         RIGHT
+    }
+
+    /**
+     * Represents a group of strings can be used in navigation target detecting.
+     * */
+    public enum NavigationTargetName {
+        Blue_Rover,
+        Red_Footprint,
+        Front_Craters,
+        Back_Space
+    }
+
+    public NavigationTargetName parseNavigationTargetName(String nameStr) {
+        switch (nameStr) {
+            case "Blue-Rover":
+                return NavigationTargetName.Blue_Rover;
+            case "Red-Footprint":
+                return NavigationTargetName.Red_Footprint;
+            case "Front-Craters":
+                return NavigationTargetName.Front_Craters;
+            case "Back-Space":
+                return NavigationTargetName.Back_Space;
+            default:
+                throw new IllegalArgumentException(nameStr);
+        }
     }
 
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
