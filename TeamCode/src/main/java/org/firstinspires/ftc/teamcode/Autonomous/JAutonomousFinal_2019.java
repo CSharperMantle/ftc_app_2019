@@ -171,6 +171,17 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
                 }
                 //TODO: Got position of gold mineral, push it away!
 
+                switch (mineralPosition) {
+                    case LEFT:
+                        //TODO: Goto LEFT
+                        break;
+                    case RIGHT:
+                        //TODO: Goto RIGHT
+                        break;
+                    case CENTER:
+                        //TODO: Goto CENTER
+                        break;
+                }
             }
         }
 
