@@ -27,6 +27,7 @@ public final class JTensorFlowMineralDetect extends LinearOpMode {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfodParameters.minimumConfidence = JAutonomousFinal_Shared.MINIMUM_CONFIDENCE;
         objectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         objectDetector.loadModelFromAsset(JAutonomousFinal_Shared.TFOD_MODEL_ASSET,
                 JAutonomousFinal_Shared.LABEL_GOLD_MINERAL,
@@ -41,8 +42,7 @@ public final class JTensorFlowMineralDetect extends LinearOpMode {
         while (true) {
             updatedRecognitions = objectDetector.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
-                telemetry.addData(this.toString(), "# Object(s) detected");
-                telemetry.addData(this.toString(), updatedRecognitions.size());
+                telemetry.addData(this.toString(), Integer.toString(updatedRecognitions.size()) + " Object(s) detected");
                 telemetry.update();
 
                 if (updatedRecognitions.size() == 3) {

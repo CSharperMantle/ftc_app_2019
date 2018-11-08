@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Parameters;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 public abstract class JAutonomousFinal_Shared {
     /**
@@ -28,7 +28,7 @@ public abstract class JAutonomousFinal_Shared {
     /**
      * One inch is equal to 25.4 mm.
      * */
-    public static final float mmPerInch = 25.4f;
+    private static final float mmPerInch = 25.4f;
 
     /**
      * The width of the FTC playing field this year.
@@ -70,6 +70,9 @@ public abstract class JAutonomousFinal_Shared {
         return inch * mmPerInch;
     }
 
+    /**
+     * Provides an easier way to write a message on an instance of {@link Telemetry}, and
+     * than refresh it.*/
     public static void writeMessageRefresh(String caption, String text, Telemetry t) {
         t.addData(caption, text);
         t.update();
@@ -94,7 +97,11 @@ public abstract class JAutonomousFinal_Shared {
         Back_Space
     }
 
-    public NavigationTargetName parseNavigationTargetName(String nameStr) {
+    /**
+     * Provides an easier way to convert target name in
+     * format {@link String} to a new {@link NavigationTargetName}.
+     * */
+    public static NavigationTargetName parseNavigationTargetName(String nameStr) {
         switch (nameStr) {
             case "Blue-Rover":
                 return NavigationTargetName.Blue_Rover;
@@ -112,4 +119,9 @@ public abstract class JAutonomousFinal_Shared {
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+
+    /**
+     * Represents the minimum confidence used in {@link TFObjectDetector}.
+     * */
+    public static final double MINIMUM_CONFIDENCE = 0.8;
 }

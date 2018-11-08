@@ -45,6 +45,7 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
 
         /* Vuforia init scripts... */
         boolean isTargetVisible = false;
+        JAutonomousFinal_Shared.NavigationTargetName targetName;
         OpenGLMatrix lastLocation = null;
 
         int cameraMonitorViewId = hardwareMap.appContext
@@ -121,9 +122,10 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
             isTargetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                    telemetry.addData("Visible Target", trackable.getName());
+                    String trackableName = trackable.getName();
+                    telemetry.addData("Visible Target", trackableName);
                     isTargetVisible = true;
-
+                    targetName = JAutonomousFinal_Shared.parseNavigationTargetName(trackableName);
                     OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
                     if (robotLocationTransform != null) {
                         lastLocation = robotLocationTransform;
@@ -185,12 +187,14 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
             }
         }
 
-        //Clean up
+        //Clean up...
         writeMessageRefresh(this.toString(), "Closing", this.telemetry);
+        objectDetector.shutdown();
         frontLeftDrive.close();
         frontRightDrive.close();
         backLeftDrive.close();
         backRightDrive.close();
         writeMessageRefresh(this.toString(), "Closed devices", this.telemetry);
+        //...Clean up
     }
 }
