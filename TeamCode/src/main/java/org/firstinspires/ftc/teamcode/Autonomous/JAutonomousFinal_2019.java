@@ -113,12 +113,12 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
                 .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
-        parameters.vuforiaLicenseKey = JAutonomousFinal_Shared.vuforiaLicenseKey ;
+        parameters.vuforiaLicenseKey = JAutonomousFinal_Shared.vuforiaLicenseKey;
         parameters.cameraDirection = JAutonomousFinal_Shared.cameraDirection;
 
         VuforiaLocalizer vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        targetsRoverRuckus = vuforia.loadTrackablesFromAsset("RoverRuckus");
+        targetsRoverRuckus = vuforia.loadTrackablesFromAsset(JAutonomousFinal_Shared.MODEL_ASSET_NAME);
 
         VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
         blueRover.setName("Blue-Rover");
@@ -223,4 +223,5 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
         backRightDrive.close();
         writeMessageRefresh(this.toString(), "Closed devices", this.telemetry);
     }
+
 }

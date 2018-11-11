@@ -119,6 +119,7 @@ public abstract class JAutonomousFinal_Shared {
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    public static final String MODEL_ASSET_NAME = "RoverRuckus";
 
     /**
      * Represents the minimum confidence used in {@link TFObjectDetector}.
