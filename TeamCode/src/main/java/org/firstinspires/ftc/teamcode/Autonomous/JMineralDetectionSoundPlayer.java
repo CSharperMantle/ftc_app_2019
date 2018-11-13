@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.ftccommon.SoundPlayer;
+import android.media.AudioManager;
+import android.media.SoundPool;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -8,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.R;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ public final class JMineralDetectionSoundPlayer extends LinearOpMode {
     public void runOpMode() {
         VuforiaLocalizer vuforia;
         TFObjectDetector objectDetector;
+        SoundPool soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 
         VuforiaLocalizer.Parameters param = new VuforiaLocalizer.Parameters();
         param.vuforiaLicenseKey = JAutonomousFinal_Shared.vuforiaLicenseKey;
@@ -42,14 +46,17 @@ public final class JMineralDetectionSoundPlayer extends LinearOpMode {
         objectDetector.activate();
         List<Recognition> updatedRecognitions;
 
+        int goldSoundId = soundPool.load(this.hardwareMap.appContext, R.raw.gold, 1);
+        int silverSoundId = soundPool.load(this.hardwareMap.appContext, R.raw.silver, 1);
+
         while (opModeIsActive()) {
             updatedRecognitions = objectDetector.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
                 for (Recognition recognition : updatedRecognitions) {
                     if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) {
-                        SoundPlayer.getInstance().startPlaying(this.hardwareMap.appContext, 0x7f090007);
+                        soundPool.play(goldSoundId, 0.8f, 0.8f, 1, -1, 1.0f);
                     } else if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL)) {
-                        SoundPlayer.getInstance().startPlaying(this.hardwareMap.appContext, 0x7f09000a);
+                        soundPool.play(silverSoundId, 0.8f, 0.8f, 1, -1, 1.0f);
                     }
                 }
             }
