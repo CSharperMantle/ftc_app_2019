@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import android.media.MediaPlayer;
-
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -41,13 +39,14 @@ public final class JMineralDetectionSoundPlayer extends LinearOpMode {
 
         objectDetector.activate();
         List<Recognition> updatedRecognitions;
-        while (true) {
+
+        while (opModeIsActive()) {
             updatedRecognitions = objectDetector.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
-                for ( Recognition recognition : updatedRecognitions ) {
-                    if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL) ) {
+                for (Recognition recognition : updatedRecognitions) {
+                    if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) {
                         SoundPlayer.getInstance().startPlaying(this.hardwareMap.appContext, R.raw.gold);
-                    } else if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL) ) {
+                    } else if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL)) {
                         SoundPlayer.getInstance().startPlaying(this.hardwareMap.appContext, R.raw.silver);
                     }
                 }
