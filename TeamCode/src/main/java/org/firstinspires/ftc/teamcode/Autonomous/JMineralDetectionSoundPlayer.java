@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.ftccommon.SoundPlayer;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.teamcode.R;
 
 import java.util.List;
 
+@Autonomous(name="JMineralDetectionSoundPlayer", group="Test")
+@SuppressWarnings("unused")
 public final class JMineralDetectionSoundPlayer extends LinearOpMode {
 
     @Override
@@ -45,9 +47,9 @@ public final class JMineralDetectionSoundPlayer extends LinearOpMode {
             if (updatedRecognitions != null) {
                 for (Recognition recognition : updatedRecognitions) {
                     if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) {
-                        SoundPlayer.getInstance().startPlaying(this.hardwareMap.appContext, R.raw.gold);
+                        SoundPlayer.getInstance().startPlaying(this.hardwareMap.appContext, 0x7f090007);
                     } else if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL)) {
-                        SoundPlayer.getInstance().startPlaying(this.hardwareMap.appContext, R.raw.silver);
+                        SoundPlayer.getInstance().startPlaying(this.hardwareMap.appContext, 0x7f09000a);
                     }
                 }
             }
