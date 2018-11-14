@@ -64,7 +64,7 @@ public final class JMineralDetectionSoundPlayer extends LinearOpMode {
                         soundPool.play(silverSoundId, 0.8f, 0.8f, 1, -1, 1.0f);
                         try {
                             Thread.sleep(1000);
-                        } catch (Exception e) {
+                        } catch(Exception e) {
                             System.exit(0);
                         }
                     }
