@@ -45,14 +45,27 @@ public final class JMineralDetectionSoundPlayer extends LinearOpMode {
 
         while (opModeIsActive()) {
             updatedRecognitions = objectDetector.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                for (Recognition recognition : updatedRecognitions) {
-                    if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) {
-                        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, R.raw.gold);
-                        while (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) { idle(); }
-                    } else if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL)) {
-                        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, R.raw.silver);
-                        while (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL)) { idle(); }
+            if ((updatedRecognitions != null) && (updatedRecognitions.size() > 0)) {
+                Recognition recognition = updatedRecognitions.get(0);
+                if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) {
+                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, R.raw.gold);
+                    while (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) {
+                        idle();
+                        updatedRecognitions = objectDetector.getUpdatedRecognitions();
+                        if ((updatedRecognitions != null) && (updatedRecognitions.size() > 0)) {
+                            recognition = updatedRecognitions.get(0);
+                        }
+                        if (isStopRequested()) break;
+                    }
+                } else if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL)) {
+                    SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, R.raw.silver);
+                    while (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL)) {
+                        idle();
+                        updatedRecognitions = objectDetector.getUpdatedRecognitions();
+                        if ((updatedRecognitions != null) && (updatedRecognitions.size() > 0)) {
+                            recognition = updatedRecognitions.get(0);
+                        }
+                        if (isStopRequested()) break;
                     }
                 }
             }
