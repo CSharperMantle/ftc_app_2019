@@ -54,14 +54,14 @@ public final class JMineralDetectionSoundPlayer extends LinearOpMode {
             if (updatedRecognitions != null) {
                 for (Recognition recognition : updatedRecognitions) {
                     if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) {
-                        soundPool.play(goldSoundId, 0.8f, 0.8f, 1, -1, 1.0f);
+                        //soundPool.play(goldSoundId, 0.8f, 0.8f, 1, -1, 1.0f);
                         try {
                             Thread.sleep(1000);
                         } catch (Exception e) {
                             System.exit(0);
                         }
                     } else if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_SILVER_MINERAL)) {
-                        soundPool.play(silverSoundId, 0.8f, 0.8f, 1, -1, 1.0f);
+                        //soundPool.play(silverSoundId, 0.8f, 0.8f, 1, -1, 1.0f);
                         try {
                             Thread.sleep(1000);
                         } catch(Exception e) {
