@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -32,19 +31,14 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
-    private DcMotor frontLeftDrive = null;
-    private DcMotor frontRightDrive = null;
-    private DcMotor backLeftDrive = null;
-    private DcMotor backRightDrive = null;
+    private JAutonomousFinal_DeviceManager deviceManager = new JAutonomousFinal_DeviceManager();
 
-    private VuforiaLocalizer vuforia = null;
     private boolean isTargetVisible = false;
     private OpenGLMatrix lastLocation = null;
     private JAutonomousFinal_Shared.NavigationTargetName targetName = null;
     private VuforiaTrackables targetsRoverRuckus = null;
     private List<VuforiaTrackable> allTrackables = null;
 
-    private TFObjectDetector objectDetector = null;
     private JAutonomousFinal_Shared.Position goldenMineralPosition = null;
 
     @Override
@@ -116,9 +110,9 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
         parameters.vuforiaLicenseKey = JAutonomousFinal_Shared.vuforiaLicenseKey;
         parameters.cameraDirection = JAutonomousFinal_Shared.cameraDirection;
 
-        VuforiaLocalizer vuforia = ClassFactory.getInstance().createVuforia(parameters);
+        deviceManager.vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        targetsRoverRuckus = vuforia.loadTrackablesFromAsset(JAutonomousFinal_Shared.MODEL_ASSET_NAME);
+        targetsRoverRuckus = deviceManager.vuforia.loadTrackablesFromAsset(JAutonomousFinal_Shared.MODEL_ASSET_NAME);
 
         VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
         blueRover.setName("Blue-Rover");
@@ -164,10 +158,7 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
 
     private void initHardware() {
         /* initHardware()... */
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
-        frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
-        backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
-        backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+        deviceManager.init(this.hardwareMap);
         /* ...initHardware() */
     }
 
@@ -175,17 +166,17 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
         /* initTensorFlow()... */
         if (!ClassFactory.getInstance().canCreateTFObjectDetector()) { throw new RuntimeException("TensorFlow not supported"); }
         JAutonomousFinal_Shared.Position mineralPosition;
-        TFObjectDetector objectDetector;
+
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        objectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        objectDetector.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+        deviceManager.objectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, deviceManager.vuforia);
+        deviceManager.objectDetector.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
         /* ...initTensorFlow() */
     }
 
     private JAutonomousFinal_Shared.Position detectMineral() {
-        List<Recognition> updatedRecognitions = objectDetector.getUpdatedRecognitions();
+        List<Recognition> updatedRecognitions = deviceManager.objectDetector.getUpdatedRecognitions();
         if (updatedRecognitions != null) {
             if (updatedRecognitions.size() == 3) {
                 int goldMineralX = -1;
@@ -216,11 +207,7 @@ public final class JAutonomousFinal_2019 extends LinearOpMode {
 
     private void cleanUp() {
         writeMessageRefresh(this.toString(), "Closing", this.telemetry);
-        objectDetector.shutdown();
-        frontLeftDrive.close();
-        frontRightDrive.close();
-        backLeftDrive.close();
-        backRightDrive.close();
+        deviceManager.close();
         writeMessageRefresh(this.toString(), "Closed devices", this.telemetry);
     }
 
