@@ -12,7 +12,7 @@ public abstract class JAutonomousFinal_Shared {
     /**
      * The vuforia license key will be used in {@link Parameters}*/
     public static final String vuforiaLicenseKey =
-                    "AVkhglD/////AAADmXDi5jqMNElPqdugVXJjZUwG" +
+            "AVkhglD/////AAADmXDi5jqMNElPqdugVXJjZUwG" +
                     "CACWSA+2X9FnKUGIZ19FSiR1Vhvn5amX7bepl39L" +
                     "vukVM35/gwtVlW1sJUoakHA+Sa//eU8yZbrQ+hHC" +
                     "OMqK16bh2jFaEh2Z5oX3blfOcnY+KBhT1pZCvpn7" +
@@ -140,10 +140,10 @@ public abstract class JAutonomousFinal_Shared {
         deviceManager.setAllDriveMode(DcMotor.RunMode.RUN_TO_POSITION);
         deviceManager.drive(direction);
         while (caller.opModeIsActive() &&
-                (deviceManager.frontLeftDrive.isBusy() &&
-                        deviceManager.frontLeftDrive.isBusy() &&
-                        deviceManager.backLeftDrive.isBusy() &&
-                        deviceManager.backRightDrive.isBusy())) {
+                deviceManager.frontLeftDrive.isBusy() &&
+                deviceManager.frontLeftDrive.isBusy() &&
+                deviceManager.backLeftDrive.isBusy() &&
+                deviceManager.backRightDrive.isBusy()) {
             caller.telemetry.addData("Running to", newPosition);
             caller.telemetry.update();
         }
