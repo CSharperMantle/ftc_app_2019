@@ -15,6 +15,14 @@ public final class JAutonomousFinal_Main extends LinearOpMode {
      */
     @Override
     public void runOpMode() throws InterruptedException {
+        JAutonomousFinal_Facade facade = new JAutonomousFinal_Facade(this.hardwareMap);
 
+        this.waitForStart();
+
+        while (this.opModeIsActive()) {
+
+        }
+
+        facade.close();
     }
 }

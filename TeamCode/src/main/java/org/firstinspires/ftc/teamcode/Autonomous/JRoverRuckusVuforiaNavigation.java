@@ -65,8 +65,8 @@ public class JRoverRuckusVuforiaNavigation extends LinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
-        parameters.vuforiaLicenseKey = JAutonomousFinal_Shared.vuforiaLicenseKey ;
-        parameters.cameraDirection   = JAutonomousFinal_Shared.cameraDirection;
+        parameters.vuforiaLicenseKey = JAutonomousFinal_Shared.VUFORIA_LICENSE_KEY;
+        parameters.cameraDirection   = JAutonomousFinal_Shared.CAMERA_DIRECTION;
 
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
@@ -84,29 +84,29 @@ public class JRoverRuckusVuforiaNavigation extends LinearOpMode {
         allTrackables.addAll(targetsRoverRuckus);
 
         OpenGLMatrix blueRoverLocationOnField = OpenGLMatrix
-                .translation(0, JAutonomousFinal_Shared.mmFTCFieldWidth, JAutonomousFinal_Shared.mmTargetHeight)
+                .translation(0, JAutonomousFinal_Shared.MM_FTC_FIELD_WIDTH, JAutonomousFinal_Shared.MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0));
         blueRover.setLocation(blueRoverLocationOnField);
 
         OpenGLMatrix redFootprintLocationOnField = OpenGLMatrix
-                .translation(0, -JAutonomousFinal_Shared.mmFTCFieldWidth, JAutonomousFinal_Shared.mmTargetHeight)
+                .translation(0, -JAutonomousFinal_Shared.MM_FTC_FIELD_WIDTH, JAutonomousFinal_Shared.MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180));
         redFootprint.setLocation(redFootprintLocationOnField);
 
         OpenGLMatrix frontCratersLocationOnField = OpenGLMatrix
-                .translation(-JAutonomousFinal_Shared.mmFTCFieldWidth, 0, JAutonomousFinal_Shared.mmTargetHeight)
+                .translation(-JAutonomousFinal_Shared.MM_FTC_FIELD_WIDTH, 0, JAutonomousFinal_Shared.MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , 90));
         frontCraters.setLocation(frontCratersLocationOnField);
 
         OpenGLMatrix backSpaceLocationOnField = OpenGLMatrix
-                .translation(JAutonomousFinal_Shared.mmFTCFieldWidth, 0, JAutonomousFinal_Shared.mmTargetHeight)
+                .translation(JAutonomousFinal_Shared.MM_FTC_FIELD_WIDTH, 0, JAutonomousFinal_Shared.MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90));
         backSpace.setLocation(backSpaceLocationOnField);
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
-                .translation(JAutonomousFinal_Shared.cameraForwardDisplacement, JAutonomousFinal_Shared.cameraLeftDisplacement, JAutonomousFinal_Shared.cameraVerticalDisplacement)
+                .translation(JAutonomousFinal_Shared.CAMERA_FORWARD_DISPLACEMENT, JAutonomousFinal_Shared.CAMERA_LEFT_DISPLACEMENT, JAutonomousFinal_Shared.CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
-                        JAutonomousFinal_Shared.cameraDirection == FRONT ? 90 : -90, 0, 0));
+                        JAutonomousFinal_Shared.CAMERA_DIRECTION == FRONT ? 90 : -90, 0, 0));
 
         for (VuforiaTrackable trackable : allTrackables)
         {

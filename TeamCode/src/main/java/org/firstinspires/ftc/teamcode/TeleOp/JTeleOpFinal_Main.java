@@ -15,6 +15,14 @@ public final class JTeleOpFinal_Main extends LinearOpMode {
      */
     @Override
     public void runOpMode() throws InterruptedException {
+        JTeleOpFinal_Facade facade = new JTeleOpFinal_Facade(this.hardwareMap);
 
+        this.waitForStart();
+
+        while (this.opModeIsActive()) {
+            JTeleOpFinal_Handler.gamepadsKeyHandler(facade, this.gamepad1, this.gamepad2);
+        }
+
+        facade.closeDevice();
     }
 }

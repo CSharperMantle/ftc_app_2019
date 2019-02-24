@@ -6,9 +6,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Para
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 public abstract class JAutonomousFinal_Shared {
+
+    public static final String LEFT_DRIVE_NAME = "left_drive";
+    public static final String RIGHT_DRIVE_NAME = "right_drive";
+
+    public static final String LEVEL_1_LEFT_SERVO_NAME = "level_1_left_servo";
+    public static final String LEVEL_1_RIGHT_SERVO_NAME = "level_1_right_servo";
+    public static final String LEVEL_2_LEFT_SERVO_NAME = "level_2_left_servo";
+    public static final String LEVEL_2_RIGHT_SERVO_NAME = "level_2_right_servo";
+    public static final String LEVEL_3_LEFT_SERVO_NAME = "level_3_left_servo";
+    public static final String LEVEL_3_RIGHT_SERVO_NAME = "level_3_right_servo";
+
     /**
      * The vuforia license key will be used in {@link Parameters}*/
-    public static final String vuforiaLicenseKey =
+    public static final String VUFORIA_LICENSE_KEY =
             "AVkhglD/////AAADmXDi5jqMNElPqdugVXJjZUwG" +
                     "CACWSA+2X9FnKUGIZ19FSiR1Vhvn5amX7bepl39L" +
                     "vukVM35/gwtVlW1sJUoakHA+Sa//eU8yZbrQ+hHC" +
@@ -23,51 +34,51 @@ public abstract class JAutonomousFinal_Shared {
     /**
      * Shows which camera should be used in {@link VuforiaLocalizer.Parameters}.
      * */
-    public static final VuforiaLocalizer.CameraDirection cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+    public static final VuforiaLocalizer.CameraDirection CAMERA_DIRECTION = VuforiaLocalizer.CameraDirection.BACK;
 
     /**
      * One inch is equal to 25.4 mm.
      * */
-    private static final float mmPerInch = 25.4f;
+    private static final float MM_PER_INCH = 25.4f;
 
     /**
      * The width of the FTC playing field this year.
      * (from the center point to the outer panels)
      * */
-    public static final float mmFTCFieldWidth = (12*6) * mmPerInch;
+    public static final float MM_FTC_FIELD_WIDTH = (12*6) * MM_PER_INCH;
 
     /**
      * The height of the targeting pictures.
      * */
-    public static final float mmTargetHeight = (6) * mmPerInch;
+    public static final float MM_TARGET_HEIGHT = (6) * MM_PER_INCH;
 
     /**
      * The horizontal distance of the camera to the very front of the robot.
      * */
-    public static final int cameraForwardDisplacement = 110;
+    public static final int CAMERA_FORWARD_DISPLACEMENT = 110;
 
     /**
      * The vertical distance of the camera to the ground.
      * */
-    public static final int cameraVerticalDisplacement = 200;
+    public static final int CAMERA_VERTICAL_DISPLACEMENT = 200;
 
     /**
      * The horizontal distance of the camera to the middle line of the robot. (left is positive, right is negative)
      * */
-    public static final int cameraLeftDisplacement = 0;
+    public static final int CAMERA_LEFT_DISPLACEMENT = 0;
 
     /**
      * Converts an value in mm to inch.
      */
     public static float millimeterToInch(float mm) {
-        return mm / mmPerInch;
+        return mm / MM_PER_INCH;
     }
 
     /**
      * Converts an value in inch to mm.
      */
     public static float inchToMillimeter(float inch) {
-        return inch * mmPerInch;
+        return inch * MM_PER_INCH;
     }
 
     /**
@@ -82,19 +93,20 @@ public abstract class JAutonomousFinal_Shared {
      * Represents a group of numbers that means position.
      * */
     public enum Position {
-        LEFT,
-        CENTER,
-        RIGHT
+        Left,
+        Center,
+        Right,
+        Unknown
     }
 
     /**
      * Represents a group of strings can be used in navigation target detecting.
      * */
     public enum NavigationTargetName {
-        Blue_Rover,
-        Red_Footprint,
-        Front_Craters,
-        Back_Space
+        BlueRover,
+        RedFootprint,
+        FrontCraters,
+        BackSpace
     }
 
     /**
@@ -104,13 +116,13 @@ public abstract class JAutonomousFinal_Shared {
     public static NavigationTargetName parseNavigationTargetName(String nameStr) {
         switch (nameStr) {
             case "Blue-Rover":
-                return NavigationTargetName.Blue_Rover;
+                return NavigationTargetName.BlueRover;
             case "Red-Footprint":
-                return NavigationTargetName.Red_Footprint;
+                return NavigationTargetName.RedFootprint;
             case "Front-Craters":
-                return NavigationTargetName.Front_Craters;
+                return NavigationTargetName.FrontCraters;
             case "Back-Space":
-                return NavigationTargetName.Back_Space;
+                return NavigationTargetName.BackSpace;
             default:
                 throw new IllegalArgumentException(nameStr);
         }

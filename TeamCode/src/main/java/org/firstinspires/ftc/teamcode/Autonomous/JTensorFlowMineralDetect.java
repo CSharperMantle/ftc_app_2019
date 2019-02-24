@@ -19,8 +19,8 @@ public final class JTensorFlowMineralDetect extends LinearOpMode {
         TFObjectDetector objectDetector;
 
         VuforiaLocalizer.Parameters param = new VuforiaLocalizer.Parameters();
-        param.vuforiaLicenseKey = JAutonomousFinal_Shared.vuforiaLicenseKey;
-        param.cameraDirection = JAutonomousFinal_Shared.cameraDirection;
+        param.vuforiaLicenseKey = JAutonomousFinal_Shared.VUFORIA_LICENSE_KEY;
+        param.cameraDirection = JAutonomousFinal_Shared.CAMERA_DIRECTION;
         vuforia = ClassFactory.getInstance().createVuforia(param);
 
         if (!ClassFactory.getInstance().canCreateTFObjectDetector()) throw new RuntimeException("TFOD not supported");
