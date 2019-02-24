@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Parameters;
@@ -129,25 +126,4 @@ public abstract class JAutonomousFinal_Shared {
      * */
     public static final double MINIMUM_CONFIDENCE = 0.8;
 
-    public static void DriveDistance(JAutonomousFinal_DeviceManager.Direction direction,
-                                     double distanceCM,
-                                     JAutonomousFinal_DeviceManager deviceManager,
-                                     LinearOpMode caller) {
-        deviceManager.stopAllDrives();
-        deviceManager.setAllDriveMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        int newPosition = (int)(distanceCM * JAutonomousFinal_DeviceManager.COUNTS_PER_CM);
-        deviceManager.setAllDriveTargetPosition(newPosition);
-        deviceManager.setAllDriveMode(DcMotor.RunMode.RUN_TO_POSITION);
-        deviceManager.drive(direction);
-        while (caller.opModeIsActive() &&
-                deviceManager.frontLeftDrive.isBusy() &&
-                deviceManager.frontLeftDrive.isBusy() &&
-                deviceManager.backLeftDrive.isBusy() &&
-                deviceManager.backRightDrive.isBusy()) {
-            caller.telemetry.addData("Running to", newPosition);
-            caller.telemetry.update();
-        }
-        deviceManager.stopAllDrives();
-        deviceManager.setAllDriveMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
 }
