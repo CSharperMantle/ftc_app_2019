@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -9,17 +10,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Disabled
 @SuppressWarnings("unused")
 @Autonomous(name = "JTestVuMarkNavigation", group = "JTest")
 public final class JTestVuMarkNavigation extends LinearOpMode {
 
     public static final String TAG = "JTestVuMarkNavigation";
 
-    private final String vuforiaLicenseKey =JAutonomousFinal_Shared.VUFORIA_LICENSE_KEY;
+    private final String vuforiaLicenseKey = JTeamCode_Shared.VUFORIA_LICENSE_KEY;
 
     private OpenGLMatrix lastLocation = null;
     private VuforiaLocalizer vuforia = null;

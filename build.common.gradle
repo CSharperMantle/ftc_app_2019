@@ -30,6 +30,12 @@ android {
             storeFile rootProject.file('libs/ftc.debug.keystore')
             storePassword 'android'
         }
+        release {
+            keyAlias 'nfls_release_key'
+            keyPassword 'nfls.release.jks'
+            storeFile rootProject.file('libs/nfls.release.jks')
+            storePassword 'nfls.release.jks'
+        }
     }
 
     aaptOptions {

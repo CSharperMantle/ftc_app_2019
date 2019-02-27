@@ -11,10 +11,9 @@ public final class JTeleOpFinal_Main extends LinearOpMode {
      * Please do not swallow the InterruptedException, as it is used in cases
      * where the op mode needs to be terminated early.
      *
-     * @throws InterruptedException
      */
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         JTeleOpFinal_Facade facade = new JTeleOpFinal_Facade(this.hardwareMap);
 
         this.waitForStart();

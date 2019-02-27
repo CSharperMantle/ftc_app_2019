@@ -1,15 +1,18 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
 import java.util.List;
 
+@Disabled
 @SuppressWarnings("unused")
 @Autonomous(name="JTensorFlowMineralDetect", group="JTest")
 public final class JTensorFlowMineralDetect extends LinearOpMode {
@@ -19,19 +22,19 @@ public final class JTensorFlowMineralDetect extends LinearOpMode {
         TFObjectDetector objectDetector;
 
         VuforiaLocalizer.Parameters param = new VuforiaLocalizer.Parameters();
-        param.vuforiaLicenseKey = JAutonomousFinal_Shared.VUFORIA_LICENSE_KEY;
-        param.cameraDirection = JAutonomousFinal_Shared.CAMERA_DIRECTION;
+        param.vuforiaLicenseKey = JTeamCode_Shared.VUFORIA_LICENSE_KEY;
+        param.cameraDirection = JTeamCode_Shared.CAMERA_DIRECTION;
         vuforia = ClassFactory.getInstance().createVuforia(param);
 
         if (!ClassFactory.getInstance().canCreateTFObjectDetector()) throw new RuntimeException("TFOD not supported");
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = JAutonomousFinal_Shared.MINIMUM_CONFIDENCE;
+        tfodParameters.minimumConfidence = JTeamCode_Shared.MINIMUM_CONFIDENCE;
         objectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        objectDetector.loadModelFromAsset(JAutonomousFinal_Shared.TFOD_MODEL_ASSET,
-                JAutonomousFinal_Shared.LABEL_GOLD_MINERAL,
-                JAutonomousFinal_Shared.LABEL_SILVER_MINERAL);
+        objectDetector.loadModelFromAsset(JTeamCode_Shared.TFOD_MODEL_ASSET,
+                JTeamCode_Shared.LABEL_GOLD_MINERAL,
+                JTeamCode_Shared.LABEL_SILVER_MINERAL);
 
         telemetry.addData(this.toString(), "Ready to start");
         telemetry.update();
@@ -50,7 +53,7 @@ public final class JTensorFlowMineralDetect extends LinearOpMode {
                     int silverMineral1X = -1;
                     int silverMineral2X = -1;
                     for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getLabel().equals(JAutonomousFinal_Shared.LABEL_GOLD_MINERAL)) {
+                        if (recognition.getLabel().equals(JTeamCode_Shared.LABEL_GOLD_MINERAL)) {
                             goldMineralX = (int) recognition.getLeft();
                         } else if (silverMineral1X == -1) {
                             silverMineral1X = (int) recognition.getLeft();

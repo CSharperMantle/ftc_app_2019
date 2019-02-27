@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
+
 @SuppressWarnings("unused")
-@Autonomous(name = "2019 Autonomous Final")
-public final class JAutonomousFinal_Main extends LinearOpMode {
+@Autonomous(name = "Drive by encoders")
+public final class JDriveByEncoder extends LinearOpMode{
     /**
      * Override this method and place your code here.
      * <p>
@@ -16,12 +18,16 @@ public final class JAutonomousFinal_Main extends LinearOpMode {
     @Override
     public void runOpMode() {
         JAutonomousFinal_Facade facade = new JAutonomousFinal_Facade(this.hardwareMap);
-        JAutonomousFinal_PhasePipeline phasePipeline = new JAutonomousFinal_PhasePipeline(facade,
-                this);
 
         this.waitForStart();
 
-        phasePipeline.pipelinePhasesAndExecute();
+        while (this.opModeIsActive()) {
+            if (this.gamepad1.x) {
+                facade.driveWithEncoder(0.8, 1000, 1000, 15,
+                        JTeamCode_Shared.Direction.Forward,
+                        this);
+            }
+        }
 
         facade.close();
     }
