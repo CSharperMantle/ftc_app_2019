@@ -4,11 +4,20 @@ import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+@Disabled
 @SuppressWarnings("unused")
 @Autonomous
 public final class JMusicPlayer extends LinearOpMode {
+
+    private static final Object _lock = new Object();
+
     /**
      * Override this method and place your code here.
      * <p>
@@ -21,26 +30,42 @@ public final class JMusicPlayer extends LinearOpMode {
 
         this.waitForStart();
 
+        ExecutorService executor = Executors.newCachedThreadPool();
+
         while (this.opModeIsActive()) {
-            while (this.gamepad1.x) {
-                MediaPlayer mediaPlayer = new MediaPlayer();
-                try {
-                    mediaPlayer.setDataSource("/mnt/enmulated/0/music/test.mp3");
-                    mediaPlayer.prepare();
-                    mediaPlayer.start();
-                    while (true) {
-                        if (!mediaPlayer.isPlaying()) {
-                            break;
-                        }
+
+            if (this.gamepad1.x) {
+                Future<?> task = executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        playMusic("/storage/emulated/0/music/test.mp3");
                     }
-                    mediaPlayer.stop();
-                } catch (Exception e) {
-                    Log.e("JMusicPlayer", e.getMessage(), e);
-                } finally {
-                    mediaPlayer.release();
-                }
+                });
             }
         }
 
+    }
+
+    private void playMusic(String path) {
+        synchronized (_lock) {
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(path);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                while (true) {
+                    if (!mediaPlayer.isPlaying() ||
+                            this.isStopRequested() ||
+                            !this.opModeIsActive()) {
+                        break;
+                    }
+                }
+                mediaPlayer.stop();
+            } catch (Exception e) {
+                Log.e("JMusicPlayer", e.getMessage(), e);
+            } finally {
+                mediaPlayer.release();
+            }
+        }
     }
 }
