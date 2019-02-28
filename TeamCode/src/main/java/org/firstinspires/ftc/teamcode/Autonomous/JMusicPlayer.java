@@ -7,14 +7,20 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
+
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.TEST_MUSIC_PATH;
 
 @Disabled
 @SuppressWarnings("unused")
 @Autonomous
 public final class JMusicPlayer extends LinearOpMode {
+
+    public static final String TAG = "JMusicPlayer";
 
     private static final Object _lock = new Object();
 
@@ -30,17 +36,21 @@ public final class JMusicPlayer extends LinearOpMode {
 
         this.waitForStart();
 
-        ExecutorService executor = Executors.newCachedThreadPool();
+        ExecutorService executor = Executors.newFixedThreadPool(3);
 
         while (this.opModeIsActive()) {
 
             if (this.gamepad1.x) {
-                Future<?> task = executor.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        playMusic("/storage/emulated/0/music/test.mp3");
-                    }
-                });
+                try {
+                    Future<?> task = executor.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            playMusic(TEST_MUSIC_PATH);
+                        }
+                    });
+                } catch (RejectedExecutionException e) {
+                    Log.e(TAG, "Submit rejected.", e);
+                }
             }
         }
 
@@ -61,8 +71,8 @@ public final class JMusicPlayer extends LinearOpMode {
                     }
                 }
                 mediaPlayer.stop();
-            } catch (Exception e) {
-                Log.e("JMusicPlayer", e.getMessage(), e);
+            } catch (IOException e) {
+                Log.e("JMusicPlayer", "IO Error occurred.", e);
             } finally {
                 mediaPlayer.release();
             }

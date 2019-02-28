@@ -12,12 +12,28 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.CAMERA_DIRECTION;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.COUNTS_PER_CM;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_1_LEFT;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_1_RIGHT;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_LEFT_NAME;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_RIGHT_NAME;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.LABEL_GOLD_MINERAL;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.LABEL_SILVER_MINERAL;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MINIMUM_CONFIDENCE;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_2_LEFT_NAME;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_2_RIGHT_NAME;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_3_LEFT_NAME;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_3_RIGHT_NAME;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.TFOD_MODEL_ASSET;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.VUFORIA_LICENSE_KEY;
+
 public class JAutonomousFinal_Facade {
     public final DcMotor leftDrive;
     public final DcMotor rightDrive;
+    public final DcMotor level1LeftDrive;
+    public final DcMotor level1RightDrive;
 
-    public final Servo level1LeftServo;
-    public final Servo level1RightServo;
     public final Servo level2LeftServo;
     public final Servo level2RightServo;
     public final Servo level3LeftServo;
@@ -32,28 +48,22 @@ public class JAutonomousFinal_Facade {
         this.hardwareMapRef = hardwareMap;
 
         // Hardware (servos, drives, etc.) init phase
-        this.leftDrive = hardwareMap.get(DcMotor.class, JTeamCode_Shared.LEFT_DRIVE_NAME);
-        this.rightDrive = hardwareMap.get(DcMotor.class, JTeamCode_Shared.RIGHT_DRIVE_NAME);
+        this.leftDrive = hardwareMap.get(DcMotor.class, DRIVE_LEFT_NAME);
+        this.rightDrive = hardwareMap.get(DcMotor.class, DRIVE_RIGHT_NAME);
         this.leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.level1LeftDrive = hardwareMap.get(DcMotor.class, DRIVE_HAND_LEVEL_1_LEFT);
+        this.level1RightDrive = hardwareMap.get(DcMotor.class, DRIVE_HAND_LEVEL_1_RIGHT);
 
-        this.level1LeftServo = hardwareMap.get(Servo.class,
-                JTeamCode_Shared.LEVEL_1_LEFT_SERVO_NAME);
-        this.level1RightServo = hardwareMap.get(Servo.class,
-                JTeamCode_Shared.LEVEL_1_RIGHT_SERVO_NAME);
-        this.level2LeftServo = hardwareMap.get(Servo.class,
-                JTeamCode_Shared.LEVEL_2_LEFT_SERVO_NAME);
-        this.level2RightServo = hardwareMap.get(Servo.class,
-                JTeamCode_Shared.LEVEL_2_RIGHT_SERVO_NAME);
-        this.level3LeftServo = hardwareMap.get(Servo.class,
-                JTeamCode_Shared.LEVEL_3_LEFT_SERVO_NAME);
-        this.level3RightServo = hardwareMap.get(Servo.class,
-                JTeamCode_Shared.LEVEL_3_RIGHT_SERVO_NAME);
+        this.level2LeftServo = hardwareMap.get(Servo.class, SERVO_HAND_LEVEL_2_LEFT_NAME);
+        this.level2RightServo = hardwareMap.get(Servo.class, SERVO_HAND_LEVEL_2_RIGHT_NAME);
+        this.level3LeftServo = hardwareMap.get(Servo.class, SERVO_HAND_LEVEL_3_LEFT_NAME);
+        this.level3RightServo = hardwareMap.get(Servo.class, SERVO_HAND_LEVEL_3_RIGHT_NAME);
 
         // Vuforia init phase
         VuforiaLocalizer.Parameters vuParams = new VuforiaLocalizer.Parameters();
-        vuParams.vuforiaLicenseKey = JTeamCode_Shared.VUFORIA_LICENSE_KEY;
-        vuParams.cameraDirection = JTeamCode_Shared.CAMERA_DIRECTION;
+        vuParams.vuforiaLicenseKey = VUFORIA_LICENSE_KEY;
+        vuParams.cameraDirection = CAMERA_DIRECTION;
         this.vuforia = ClassFactory.getInstance().createVuforia(vuParams);
 
         // TFObjectDetector check phase
@@ -63,12 +73,12 @@ public class JAutonomousFinal_Facade {
 
         // TFObjectDetector init phase
         TFObjectDetector.Parameters tfParams = new TFObjectDetector.Parameters();
-        tfParams.minimumConfidence = JTeamCode_Shared.MINIMUM_CONFIDENCE;
+        tfParams.minimumConfidence = MINIMUM_CONFIDENCE;
         this.mineralDetector = ClassFactory.getInstance().createTFObjectDetector(tfParams,
                 this.vuforia);
-        this.mineralDetector.loadModelFromAsset(JTeamCode_Shared.TFOD_MODEL_ASSET,
-                JTeamCode_Shared.LABEL_GOLD_MINERAL,
-                JTeamCode_Shared.LABEL_SILVER_MINERAL);
+        this.mineralDetector.loadModelFromAsset(TFOD_MODEL_ASSET,
+                LABEL_GOLD_MINERAL,
+                LABEL_SILVER_MINERAL);
     }
 
     @Deprecated
@@ -138,8 +148,8 @@ public class JAutonomousFinal_Facade {
         ElapsedTime runtime = new ElapsedTime();
 
         // Determine new target position, and pass to motor controller
-        newLeftTarget = this.leftDrive.getCurrentPosition() + (int) (leftCMs * JTeamCode_Shared.COUNTS_PER_CM);
-        newRightTarget = this.rightDrive.getCurrentPosition() + (int) (rightCMs * JTeamCode_Shared.COUNTS_PER_CM);
+        newLeftTarget = this.leftDrive.getCurrentPosition() + (int) (leftCMs * COUNTS_PER_CM);
+        newRightTarget = this.rightDrive.getCurrentPosition() + (int) (rightCMs * COUNTS_PER_CM);
         this.leftDrive.setTargetPosition(newLeftTarget);
         this.rightDrive.setTargetPosition(newRightTarget);
 
@@ -152,20 +162,13 @@ public class JAutonomousFinal_Facade {
         this.leftDrive.setPower(Math.abs(speed));
         this.rightDrive.setPower(Math.abs(speed));
 
-        while (linearOpModeForRef.opModeIsActive() &&
-                (runtime.seconds() < timeoutS) &&
-                (this.leftDrive.isBusy() || this.rightDrive.isBusy())) {
+        while (true) {
 
-            // Blank while. Do nothing. Wait until finish or stop requested
-
-            /*
-            // Display it for the driver.
-            linearOpModeForRef.telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
-            linearOpModeForRef.telemetry.addData("Path2", "Running at %7d :%7d",
-                    this.leftDrive.getCurrentPosition(),
-                    this.rightDrive.getCurrentPosition());
-            linearOpModeForRef.telemetry.update();
-            */
+            if (!linearOpModeForRef.opModeIsActive() ||
+                    (runtime.seconds() >= timeoutS) ||
+                    !(this.leftDrive.isBusy() || this.rightDrive.isBusy())) {
+                break;
+            }
         }
 
         // Stop all motion;
@@ -180,8 +183,8 @@ public class JAutonomousFinal_Facade {
         this.leftDrive.close();
         this.rightDrive.close();
 
-        this.level1LeftServo.close();
-        this.level1RightServo.close();
+        this.level1LeftDrive.close();
+        this.level1RightDrive.close();
         this.level2LeftServo.close();
         this.level2RightServo.close();
         this.level3LeftServo.close();

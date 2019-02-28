@@ -5,14 +5,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 public abstract class JTeamCode_Shared {
-    public static final String LEFT_DRIVE_NAME = "left_drive";
-    public static final String RIGHT_DRIVE_NAME = "right_drive";
-    public static final String LEVEL_1_LEFT_SERVO_NAME = "level_1_left_servo";
-    public static final String LEVEL_1_RIGHT_SERVO_NAME = "level_1_right_servo";
-    public static final String LEVEL_2_LEFT_SERVO_NAME = "level_2_left_servo";
-    public static final String LEVEL_2_RIGHT_SERVO_NAME = "level_2_right_servo";
-    public static final String LEVEL_3_LEFT_SERVO_NAME = "level_3_left_servo";
-    public static final String LEVEL_3_RIGHT_SERVO_NAME = "level_3_right_servo";
+    public static final String DRIVE_LEFT_NAME = "drive_left";
+    public static final String DRIVE_RIGHT_NAME = "drive_right";
+    public static final String DRIVE_HAND_LEVEL_1_LEFT = "drive_level_1_right";
+    public static final String DRIVE_HAND_LEVEL_1_RIGHT = "drive_level_1_right";
+
+    public static final String SERVO_HAND_LEVEL_2_LEFT_NAME = "servo_level_2_left";
+    public static final String SERVO_HAND_LEVEL_2_RIGHT_NAME = "servo_level_2_right";
+    public static final String SERVO_HAND_LEVEL_3_LEFT_NAME = "servo_level_3_left";
+    public static final String SERVO_HAND_LEVEL_3_RIGHT_NAME = "servo_level_3_right";
     /**
      * The vuforia license key will be used in {@link VuforiaLocalizer.Parameters}*/
     public static final String VUFORIA_LICENSE_KEY =
@@ -66,7 +67,10 @@ public abstract class JTeamCode_Shared {
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
     public static final String MODEL_ASSET_NAME = "RoverRuckus";
-    public static final String VICTORY_MUSIC_PATH = "../";
+
+    public static final String AUTONOMOUS_FINISH_MUSIC_PATH = "/storage/emulated/0/music/autonomous_finish.mp3";
+    public static final String TEST_MUSIC_PATH = "/storage/emulated/0/music/test.mp3";
+
     /**
      * Represents the minimum confidence used in {@link TFObjectDetector}.
      * */
