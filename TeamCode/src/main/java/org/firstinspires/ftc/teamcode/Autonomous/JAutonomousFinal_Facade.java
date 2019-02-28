@@ -28,7 +28,7 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_3
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.TFOD_MODEL_ASSET;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.VUFORIA_LICENSE_KEY;
 
-public class JAutonomousFinal_Facade {
+public final class JAutonomousFinal_Facade {
     public final DcMotor leftDrive;
     public final DcMotor rightDrive;
     public final DcMotor level1LeftDrive;
@@ -42,23 +42,23 @@ public class JAutonomousFinal_Facade {
     public final VuforiaLocalizer vuforia;
     public final TFObjectDetector mineralDetector;
 
-    public final HardwareMap hardwareMapRef;
+    private final HardwareMap hardwareMapRef;
 
     public JAutonomousFinal_Facade(HardwareMap hardwareMap) {
         this.hardwareMapRef = hardwareMap;
 
         // Hardware (servos, drives, etc.) init phase
-        this.leftDrive = hardwareMap.get(DcMotor.class, DRIVE_LEFT_NAME);
-        this.rightDrive = hardwareMap.get(DcMotor.class, DRIVE_RIGHT_NAME);
+        this.leftDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_LEFT_NAME);
+        this.rightDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_RIGHT_NAME);
         this.leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.level1LeftDrive = hardwareMap.get(DcMotor.class, DRIVE_HAND_LEVEL_1_LEFT);
-        this.level1RightDrive = hardwareMap.get(DcMotor.class, DRIVE_HAND_LEVEL_1_RIGHT);
+        this.level1LeftDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_HAND_LEVEL_1_LEFT);
+        this.level1RightDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_HAND_LEVEL_1_RIGHT);
 
-        this.level2LeftServo = hardwareMap.get(Servo.class, SERVO_HAND_LEVEL_2_LEFT_NAME);
-        this.level2RightServo = hardwareMap.get(Servo.class, SERVO_HAND_LEVEL_2_RIGHT_NAME);
-        this.level3LeftServo = hardwareMap.get(Servo.class, SERVO_HAND_LEVEL_3_LEFT_NAME);
-        this.level3RightServo = hardwareMap.get(Servo.class, SERVO_HAND_LEVEL_3_RIGHT_NAME);
+        this.level2LeftServo = this.hardwareMapRef.get(Servo.class, SERVO_HAND_LEVEL_2_LEFT_NAME);
+        this.level2RightServo = this.hardwareMapRef.get(Servo.class, SERVO_HAND_LEVEL_2_RIGHT_NAME);
+        this.level3LeftServo = this.hardwareMapRef.get(Servo.class, SERVO_HAND_LEVEL_3_LEFT_NAME);
+        this.level3RightServo = this.hardwareMapRef.get(Servo.class, SERVO_HAND_LEVEL_3_RIGHT_NAME);
 
         // Vuforia init phase
         VuforiaLocalizer.Parameters vuParams = new VuforiaLocalizer.Parameters();

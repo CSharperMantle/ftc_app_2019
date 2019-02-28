@@ -55,7 +55,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 @Disabled
 @SuppressWarnings("unused")
 @TeleOp(name="Concept: Vuforia Rover Nav", group ="Concept")
-public class JRoverRuckusVuforiaNavigation extends LinearOpMode {
+public final class JRoverRuckusVuforiaNavigation extends LinearOpMode {
 
     private OpenGLMatrix lastLocation = null;
     private boolean targetVisible = false;

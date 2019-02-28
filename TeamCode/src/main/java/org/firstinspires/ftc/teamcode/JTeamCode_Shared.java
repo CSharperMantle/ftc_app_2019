@@ -14,6 +14,7 @@ public abstract class JTeamCode_Shared {
     public static final String SERVO_HAND_LEVEL_2_RIGHT_NAME = "servo_level_2_right";
     public static final String SERVO_HAND_LEVEL_3_LEFT_NAME = "servo_level_3_left";
     public static final String SERVO_HAND_LEVEL_3_RIGHT_NAME = "servo_level_3_right";
+
     /**
      * The vuforia license key will be used in {@link VuforiaLocalizer.Parameters}*/
     public static final String VUFORIA_LICENSE_KEY =
@@ -34,7 +35,7 @@ public abstract class JTeamCode_Shared {
     /**
      * One inch is equal to 25.4 mm.
      * */
-    public static final float MM_PER_INCH = 25.4f;
+    private static final float MM_PER_INCH = 25.4f;
     /**
      * The height of the targeting pictures.
      * */
@@ -56,13 +57,15 @@ public abstract class JTeamCode_Shared {
      * The horizontal distance of the camera to the middle line of the robot. (left is positive, right is negative)
      * */
     public static final int CAMERA_LEFT_DISPLACEMENT = 0;
-    public static final double COUNTS_PER_MOTOR_REV = 1478.4;
-    public static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
-    public static final double WHEEL_DIAMETER_MM = 4.0;     // For figuring circumference
+
+    private static final double COUNTS_PER_MOTOR_REV = 1478.4;
+    private static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
+    private static final double WHEEL_DIAMETER_MM = 4.0;     // For figuring circumference
     public static final double COUNTS_PER_CM = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             ((millimeterToInch(WHEEL_DIAMETER_MM) * Math.PI) / 2.54);
     public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (millimeterToInch(WHEEL_DIAMETER_MM) * Math.PI);
+
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     public static final String LABEL_SILVER_MINERAL = "Silver Mineral";

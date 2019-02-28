@@ -1,16 +1,41 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import android.media.MediaPlayer;
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
+
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.AUTONOMOUS_FINISH_MUSIC_PATH;
 
 @SuppressWarnings("unused")
 public final class JAutonomousFinal_PhasePipeline {
+
+    /**
+     * An instance of {@link JAutonomousFinal_Facade} for reference
+     */
     private final JAutonomousFinal_Facade facadeRef;
+
+    /**
+     * An instance of {@link LinearOpMode} for reference
+     */
     private final LinearOpMode opModeRef;
+
+    /**
+     * An instance of {@link Object} in order to provide locks
+     */
+    private static final Object _lock = new Object();
+
+    private static final String TAG = "JAutonomousPipeline";
 
 
     public JAutonomousFinal_PhasePipeline(JAutonomousFinal_Facade facadeForRef,
@@ -21,6 +46,8 @@ public final class JAutonomousFinal_PhasePipeline {
 
     private boolean lowerToGround() {
         //TODO: Finish this phase
+
+
 
         return false;
     }
@@ -97,7 +124,18 @@ public final class JAutonomousFinal_PhasePipeline {
         if (!isLastPhaseSuccessful)
             return false;
 
-        return true;
+        boolean isSuccessful;
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        try {
+            Future<?> future = executor.submit(new MusicPlayerRunnable());
+            isSuccessful = true;
+        } catch (RejectedExecutionException ex) {
+            Log.e(TAG, "Execution rejected. Music will not be played.", ex);
+            isSuccessful = false;
+        }
+
+        return isSuccessful;
     }
 
     public boolean pipelinePhasesAndExecute() {
@@ -111,5 +149,36 @@ public final class JAutonomousFinal_PhasePipeline {
         isLastPhaseSuccessful = this.parkInCrater(isLastPhaseSuccessful);
         isLastPhaseSuccessful = this.playMusicOfVictory(isLastPhaseSuccessful);
         return isLastPhaseSuccessful;
+    }
+
+    private class MusicPlayerRunnable implements Runnable {
+
+        /**
+         * Starts executing the active part of the class' code. This method is
+         * called when a thread is started that has been created with a class which
+         * implements {@code Runnable}.
+         */
+        @Override
+        public void run() {
+            synchronized (_lock) {
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                try {
+                    mediaPlayer.setDataSource(AUTONOMOUS_FINISH_MUSIC_PATH);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                    while (true) {
+                        if (!mediaPlayer.isPlaying() ||
+                                opModeRef.isStopRequested() ||
+                                !opModeRef.opModeIsActive()) {
+                            break;
+                        }
+                    }
+                } catch (IOException ex) {
+                    Log.e(TAG, "IO error occurred. Music will not be played.", ex);
+                } finally {
+                    mediaPlayer.release();
+                }
+            }
+        }
     }
 }

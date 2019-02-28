@@ -18,7 +18,7 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_3
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.Direction;
 
 
-public class JTeleOpFinal_Facade {
+public final class JTeleOpFinal_Facade {
     public final DcMotor leftDrive;
     public final DcMotor rightDrive;
     public final DcMotor level1LeftDrive;
