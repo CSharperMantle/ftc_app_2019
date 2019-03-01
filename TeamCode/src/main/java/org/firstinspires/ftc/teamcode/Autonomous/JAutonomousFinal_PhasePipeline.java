@@ -47,14 +47,12 @@ public final class JAutonomousFinal_PhasePipeline {
     private boolean lowerToGround() {
         //TODO: Finish this phase
 
-
-
         return false;
     }
 
     private JTeamCode_Shared.Position detectSamplingMineral(boolean isLastPhaseSuccessful) {
 
-        if (!isLastPhaseSuccessful)
+        if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return JTeamCode_Shared.Position.Unknown;
 
         this.facadeRef.mineralDetector.activate();
@@ -94,7 +92,7 @@ public final class JAutonomousFinal_PhasePipeline {
     private boolean pushSamplingMineral(JTeamCode_Shared.Position mineralPosition) {
         //TODO: Finish this phase
 
-        if (mineralPosition == JTeamCode_Shared.Position.Unknown)
+        if (mineralPosition == JTeamCode_Shared.Position.Unknown || !this.opModeRef.opModeIsActive())
             return false;
 
         return false;
@@ -103,7 +101,7 @@ public final class JAutonomousFinal_PhasePipeline {
     private boolean placeTeamMarker(boolean isLastPhaseSuccessful) {
         //TODO: Finish this phase
 
-        if (!isLastPhaseSuccessful)
+        if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
         return false;
@@ -112,7 +110,7 @@ public final class JAutonomousFinal_PhasePipeline {
     private boolean parkInCrater(boolean isLastPhaseSuccessful) {
         //TODO: Finish this phase
 
-        if (!isLastPhaseSuccessful)
+        if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
         return false;
@@ -121,7 +119,7 @@ public final class JAutonomousFinal_PhasePipeline {
     private boolean playMusicOfVictory(boolean isLastPhaseSuccessful) {
         //TODO: Finish this phase
 
-        if (!isLastPhaseSuccessful)
+        if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
         boolean isSuccessful;
@@ -155,11 +153,6 @@ public final class JAutonomousFinal_PhasePipeline {
 
         private static final String TAG = "MusicPlayerRunnable";
 
-        /**
-         * Starts executing the active part of the class' code. This method is
-         * called when a thread is started that has been created with a class which
-         * implements {@code Runnable}.
-         */
         @Override
         public void run() {
             synchronized (_lock) {
@@ -169,15 +162,23 @@ public final class JAutonomousFinal_PhasePipeline {
                     mediaPlayer.prepare();
                     mediaPlayer.start();
                     while (true) {
-                        if (!mediaPlayer.isPlaying() ||
-                                opModeRef.isStopRequested() ||
+                        if (opModeRef.isStopRequested() ||
                                 !opModeRef.opModeIsActive()) {
                             break;
+                        }
+
+                        if (!mediaPlayer.isPlaying()) {
+                            Thread.sleep(1000);
+                            mediaPlayer.reset();
+                            mediaPlayer.start();
                         }
                     }
                 } catch (IOException ex) {
                     Log.e(TAG, "IO error occurred. Music will not be played.", ex);
-                } finally {
+                } catch (InterruptedException ex) {
+                    Log.e(TAG, "Thread interrupted.", ex);
+                }
+                finally {
                     mediaPlayer.release();
                 }
             }
