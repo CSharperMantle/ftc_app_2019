@@ -4,7 +4,6 @@ import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.util.concurrent.RejectedExecutionException;
 
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.TEST_MUSIC_PATH;
 
-@Disabled
 @SuppressWarnings("unused")
 @Autonomous
 public final class JMusicPlayer extends LinearOpMode {
@@ -29,14 +27,13 @@ public final class JMusicPlayer extends LinearOpMode {
      * <p>
      * Please do not swallow the InterruptedException, as it is used in cases
      * where the op mode needs to be terminated early.
-     *
      */
     @Override
     public void runOpMode() {
 
         this.waitForStart();
 
-        ExecutorService executor = Executors.newFixedThreadPool(3);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
 
         while (this.opModeIsActive()) {
 
@@ -53,7 +50,6 @@ public final class JMusicPlayer extends LinearOpMode {
                 }
             }
         }
-
     }
 
     private void playMusic(String path) {
