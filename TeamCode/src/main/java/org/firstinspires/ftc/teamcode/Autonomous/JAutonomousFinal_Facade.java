@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -16,15 +15,12 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.CAMERA_DIRECTION;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.COUNTS_PER_CM;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_1_LEFT;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_1_RIGHT;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_2;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_LEFT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_RIGHT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.LABEL_GOLD_MINERAL;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.LABEL_SILVER_MINERAL;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MINIMUM_CONFIDENCE;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_2_LEFT_NAME;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_2_RIGHT_NAME;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_3_LEFT_NAME;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.SERVO_HAND_LEVEL_3_RIGHT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.TFOD_MODEL_ASSET;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.VUFORIA_LICENSE_KEY;
 
@@ -33,11 +29,7 @@ public final class JAutonomousFinal_Facade {
     public final DcMotor rightDrive;
     public final DcMotor level1LeftDrive;
     public final DcMotor level1RightDrive;
-
-    public final Servo level2LeftServo;
-    public final Servo level2RightServo;
-    public final Servo level3LeftServo;
-    public final Servo level3RightServo;
+    public final DcMotor level2Drive;
 
     public final VuforiaLocalizer vuforia;
     public final TFObjectDetector mineralDetector;
@@ -54,11 +46,7 @@ public final class JAutonomousFinal_Facade {
         this.rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.level1LeftDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_HAND_LEVEL_1_LEFT);
         this.level1RightDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_HAND_LEVEL_1_RIGHT);
-
-        this.level2LeftServo = this.hardwareMapRef.get(Servo.class, SERVO_HAND_LEVEL_2_LEFT_NAME);
-        this.level2RightServo = this.hardwareMapRef.get(Servo.class, SERVO_HAND_LEVEL_2_RIGHT_NAME);
-        this.level3LeftServo = this.hardwareMapRef.get(Servo.class, SERVO_HAND_LEVEL_3_LEFT_NAME);
-        this.level3RightServo = this.hardwareMapRef.get(Servo.class, SERVO_HAND_LEVEL_3_RIGHT_NAME);
+        this.level2Drive = this.hardwareMapRef.get(DcMotor.class, DRIVE_HAND_LEVEL_2);
 
         // Vuforia init phase
         VuforiaLocalizer.Parameters vuParams = new VuforiaLocalizer.Parameters();
@@ -187,10 +175,6 @@ public final class JAutonomousFinal_Facade {
 
         this.level1LeftDrive.close();
         this.level1RightDrive.close();
-        this.level2LeftServo.close();
-        this.level2RightServo.close();
-        this.level3LeftServo.close();
-        this.level3RightServo.close();
 
         this.mineralDetector.deactivate();
         this.mineralDetector.shutdown();

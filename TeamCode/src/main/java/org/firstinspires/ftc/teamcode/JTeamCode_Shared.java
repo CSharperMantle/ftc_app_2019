@@ -9,11 +9,7 @@ public abstract class JTeamCode_Shared {
     public static final String DRIVE_RIGHT_NAME = "drive_right";
     public static final String DRIVE_HAND_LEVEL_1_LEFT = "drive_level_1_right";
     public static final String DRIVE_HAND_LEVEL_1_RIGHT = "drive_level_1_right";
-
-    public static final String SERVO_HAND_LEVEL_2_LEFT_NAME = "servo_level_2_left";
-    public static final String SERVO_HAND_LEVEL_2_RIGHT_NAME = "servo_level_2_right";
-    public static final String SERVO_HAND_LEVEL_3_LEFT_NAME = "servo_level_3_left";
-    public static final String SERVO_HAND_LEVEL_3_RIGHT_NAME = "servo_level_3_right";
+    public static final String DRIVE_HAND_LEVEL_2 = "drive_level_2";
 
     /**
      * The vuforia license key will be used in {@link VuforiaLocalizer.Parameters}*/
