@@ -147,6 +147,9 @@ public final class JAutonomousFinal_Facade {
         int newRightTarget;
         ElapsedTime runtime = new ElapsedTime();
 
+        this.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         // Determine new target position, and pass to motor controller
         newLeftTarget = this.leftDrive.getCurrentPosition() + (int) (leftCMs * COUNTS_PER_CM);
         newRightTarget = this.rightDrive.getCurrentPosition() + (int) (rightCMs * COUNTS_PER_CM);
@@ -159,8 +162,7 @@ public final class JAutonomousFinal_Facade {
 
         // reset the timeout time and start motion.
         runtime.reset();
-        this.leftDrive.setPower(Math.abs(speed));
-        this.rightDrive.setPower(Math.abs(speed));
+        driveSeparated(direction, speed, speed);
 
         while (true) {
 
