@@ -13,9 +13,9 @@ import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.CAMERA_DIRECTION;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.COUNTS_PER_CM;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_1_LEFT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_1_RIGHT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_2;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_LEFT;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_RIGHT;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_2;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_LEFT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_RIGHT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.LABEL_GOLD_MINERAL;
@@ -44,9 +44,9 @@ public final class JAutonomousFinal_Facade {
         this.rightDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_RIGHT_NAME);
         this.leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        this.level1LeftDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_HAND_LEVEL_1_LEFT);
-        this.level1RightDrive = this.hardwareMapRef.get(DcMotor.class, DRIVE_HAND_LEVEL_1_RIGHT);
-        this.level2Drive = this.hardwareMapRef.get(DcMotor.class, DRIVE_HAND_LEVEL_2);
+        this.level1LeftDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
+        this.level1RightDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_1_RIGHT);
+        this.level2Drive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_2);
 
         // Vuforia init phase
         VuforiaLocalizer.Parameters vuParams = new VuforiaLocalizer.Parameters();

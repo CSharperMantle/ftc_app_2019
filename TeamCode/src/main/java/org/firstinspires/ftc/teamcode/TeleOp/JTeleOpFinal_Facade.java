@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_1_LEFT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_1_RIGHT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_HAND_LEVEL_2;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_LEFT;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_RIGHT;
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_2;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_LEFT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_RIGHT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.Direction;
@@ -24,9 +24,9 @@ public final class JTeleOpFinal_Facade {
     public JTeleOpFinal_Facade(HardwareMap hardwareMap) {
         this.leftDrive = hardwareMap.get(DcMotor.class, DRIVE_LEFT_NAME);
         this.rightDrive = hardwareMap.get(DcMotor.class, DRIVE_RIGHT_NAME);
-        this.level1LeftDrive = hardwareMap.get(DcMotor.class, DRIVE_HAND_LEVEL_1_LEFT);
-        this.level1RightDrive = hardwareMap.get(DcMotor.class, DRIVE_HAND_LEVEL_1_RIGHT);
-        this.level2Drive = hardwareMap.get(DcMotor.class, DRIVE_HAND_LEVEL_2);
+        this.level1LeftDrive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
+        this.level1RightDrive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_RIGHT);
+        this.level2Drive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_2);
     }
 
     @Deprecated

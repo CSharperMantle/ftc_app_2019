@@ -7,9 +7,10 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 public abstract class JTeamCode_Shared {
     public static final String DRIVE_LEFT_NAME = "drive_left";
     public static final String DRIVE_RIGHT_NAME = "drive_right";
-    public static final String DRIVE_HAND_LEVEL_1_LEFT = "drive_level_1_right";
-    public static final String DRIVE_HAND_LEVEL_1_RIGHT = "drive_level_1_right";
-    public static final String DRIVE_HAND_LEVEL_2 = "drive_level_2";
+    public static final String MOTOR_HAND_LEVEL_1_LEFT = "motor_level_1_right";
+    public static final String MOTOR_HAND_LEVEL_1_RIGHT = "motor_level_1_right";
+    public static final String MOTOR_HAND_LEVEL_2 = "motor_level_2";
+    public static final String MOTOR_ESCALATOR = "motor_escalator";
 
     /**
      * The vuforia license key will be used in {@link VuforiaLocalizer.Parameters}*/
