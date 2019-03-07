@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
@@ -19,6 +20,8 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.AUTONOMOUS_FINISH_
 
 @SuppressWarnings("unused")
 public final class JAutonomousFinal_PhasePipeline {
+
+    private static final String TAG = "JAutonomousPipeline";
 
     /**
      * An instance of {@link JAutonomousFinal_Facade} for reference
@@ -35,8 +38,8 @@ public final class JAutonomousFinal_PhasePipeline {
      */
     private static final Object _lock = new Object();
 
-    private static final String TAG = "JAutonomousPipeline";
-
+    private OpenGLMatrix lastLocation = null;
+    private boolean targetVisible = false;
 
     public JAutonomousFinal_PhasePipeline(JAutonomousFinal_Facade facadeForRef,
                                           LinearOpMode opModeForRef) {

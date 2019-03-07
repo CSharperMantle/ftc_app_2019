@@ -102,7 +102,7 @@ public abstract class JTeamCode_Shared {
      * Provides an easier way to convert target name in
      * format {@link String} to a new {@link NavigationTargetName}.
      * */
-    public static NavigationTargetName parseNavigationTargetName(String nameStr) {
+    public static NavigationTargetName strToNavigationTargetName(String nameStr) {
         switch (nameStr) {
             case "Blue-Rover":
                 return NavigationTargetName.BlueRover;
@@ -113,7 +113,27 @@ public abstract class JTeamCode_Shared {
             case "Back-Space":
                 return NavigationTargetName.BackSpace;
             default:
-                throw new IllegalArgumentException(nameStr);
+                throw new IllegalArgumentException(nameStr + " is not an acceptable name");
+        }
+    }
+
+    /**
+     * Provides an easier way to convert target name in
+     * {@link NavigationTargetName} to a new {@link String}.
+     * */
+    public static String navigationTargetNameToStr(NavigationTargetName name) {
+        switch (name) {
+            case BlueRover:
+                return "Blue-Rover";
+            case RedFootprint:
+                return "Red-Footprint";
+            case FrontCraters:
+                return "Front-Craters";
+            case BackSpace:
+                return "Back-Space";
+            default:
+                // Do nothing. It's impossible for programs to run to here
+                throw new RuntimeException();
         }
     }
 

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
+import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_ESCALATOR;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_LEFT;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_RIGHT;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_2;
@@ -13,13 +14,17 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_LEFT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_RIGHT_NAME;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.Direction;
 
-
+/**
+ * This class contains several methods to access hardware devices quickly.
+ * Users can also directly access the original hardware objects.
+ */
 public final class JTeleOpFinal_Facade {
     public final DcMotor leftDrive;
     public final DcMotor rightDrive;
     public final DcMotor level1LeftDrive;
     public final DcMotor level1RightDrive;
     public final DcMotor level2Drive;
+    public final DcMotor escalatorDrive;
 
     public JTeleOpFinal_Facade(HardwareMap hardwareMap) {
         this.leftDrive = hardwareMap.get(DcMotor.class, DRIVE_LEFT_NAME);
@@ -27,6 +32,8 @@ public final class JTeleOpFinal_Facade {
         this.level1LeftDrive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
         this.level1RightDrive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_RIGHT);
         this.level2Drive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_2);
+        this.escalatorDrive = hardwareMap.get(DcMotor.class, MOTOR_ESCALATOR);
+        escalatorDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Deprecated
