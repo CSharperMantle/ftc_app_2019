@@ -82,6 +82,33 @@ public final class JTeleOpFinal_Facade {
         this.rightDrive.setPower(0);
     }
 
+    public void moveRoboticArmLevel1(Direction direction, double power) {
+        Direction leftArmDirection;
+        Direction rightArmDirection;
+
+        switch (direction) {
+            case Forward:
+                leftArmDirection = Direction.Forward;
+                rightArmDirection = Direction.Backward;
+                break;
+            case Backward:
+                leftArmDirection = Direction.Backward;
+                rightArmDirection = Direction.Forward;
+                break;
+            default:
+                // Don't have this operation
+                throw new IllegalArgumentException("direction not acceptable");
+        }
+
+        this.level1LeftDrive.setDirection(leftArmDirection == Direction.Forward ?
+                DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
+        this.level1RightDrive.setDirection(rightArmDirection == Direction.Forward ?
+                DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
+
+        this.level1LeftDrive.setPower(power);
+        this.level1RightDrive.setPower(power);
+    }
+
     public void closeDevice() {
         this.leftDrive.close();
         this.rightDrive.close();
