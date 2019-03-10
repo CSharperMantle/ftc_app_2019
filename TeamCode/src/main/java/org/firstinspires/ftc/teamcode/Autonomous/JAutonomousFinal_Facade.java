@@ -126,7 +126,7 @@ public final class JAutonomousFinal_Facade {
         backSpace.setName(navigationTargetNameToStr(BackSpace));
         // ...Targets setup phase
 
-        this.allTrackables = new ArrayList<VuforiaTrackable>();
+        this.allTrackables = new ArrayList<>();
         this.allTrackables.addAll(targetsRoverRuckus);
         
         // Targets locating phase...
