@@ -157,7 +157,7 @@ public final class JAutonomousFinal_Facade {
         this.frontCratersLocationOnField = OpenGLMatrix
                 .translation(-MM_FTC_FIELD_WIDTH, 0, MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES,
-                        90, 0 , 90));
+                        90, 0, 90));
         frontCraters.setLocation(this.frontCratersLocationOnField);
 
         /*
