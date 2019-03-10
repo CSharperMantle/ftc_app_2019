@@ -44,34 +44,32 @@ public final class JTeleOpFinal_Facade {
 
     public void driveSeparated(JTeamCode_Shared.Direction direction,
                                       double leftPower, double rightPower) {
-        Direction leftDriveDirection;
-        Direction rightDriveDirection;
+        DcMotorSimple.Direction leftDriveDirection;
+        DcMotorSimple.Direction rightDriveDirection;
 
         switch (direction) {
             case Forward:
-                leftDriveDirection = Direction.Forward;
-                rightDriveDirection = Direction.Backward;
+                leftDriveDirection = DcMotorSimple.Direction.FORWARD;
+                rightDriveDirection = DcMotorSimple.Direction.REVERSE;
                 break;
             case Backward:
-                leftDriveDirection = Direction.Backward;
-                rightDriveDirection = Direction.Forward;
+                leftDriveDirection = DcMotorSimple.Direction.REVERSE;
+                rightDriveDirection = DcMotorSimple.Direction.FORWARD;
                 break;
             case TurnLeft:
-                leftDriveDirection = Direction.Forward;
-                rightDriveDirection = Direction.Forward;
+                leftDriveDirection = DcMotorSimple.Direction.FORWARD;
+                rightDriveDirection = DcMotorSimple.Direction.FORWARD;
                 break;
             case TurnRight:
-                leftDriveDirection = Direction.Backward;
-                rightDriveDirection = Direction.Backward;
+                leftDriveDirection = DcMotorSimple.Direction.REVERSE;
+                rightDriveDirection = DcMotorSimple.Direction.REVERSE;
                 break;
             default:
                 throw new IllegalArgumentException("direction not acceptable");
         }
 
-        this.leftDrive.setDirection(leftDriveDirection == Direction.Forward ?
-                DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
-        this.rightDrive.setDirection(rightDriveDirection == Direction.Forward ?
-                DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
+        this.leftDrive.setDirection(leftDriveDirection);
+        this.rightDrive.setDirection(rightDriveDirection);
 
         this.leftDrive.setPower(leftPower);
         this.rightDrive.setPower(rightPower);
@@ -83,27 +81,25 @@ public final class JTeleOpFinal_Facade {
     }
 
     public void moveRoboticArmLevel1(Direction direction, double power) {
-        Direction leftArmDirection;
-        Direction rightArmDirection;
+        DcMotorSimple.Direction leftArmDirection;
+        DcMotorSimple.Direction rightArmDirection;
 
         switch (direction) {
             case Forward:
-                leftArmDirection = Direction.Forward;
-                rightArmDirection = Direction.Backward;
+                leftArmDirection = DcMotorSimple.Direction.FORWARD;
+                rightArmDirection = DcMotorSimple.Direction.REVERSE;
                 break;
             case Backward:
-                leftArmDirection = Direction.Backward;
-                rightArmDirection = Direction.Forward;
+                leftArmDirection = DcMotorSimple.Direction.REVERSE;
+                rightArmDirection = DcMotorSimple.Direction.FORWARD;
                 break;
             default:
                 // Don't have this operation
                 throw new IllegalArgumentException("direction not acceptable");
         }
 
-        this.level1LeftDrive.setDirection(leftArmDirection == Direction.Forward ?
-                DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
-        this.level1RightDrive.setDirection(rightArmDirection == Direction.Forward ?
-                DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
+        this.level1LeftDrive.setDirection(leftArmDirection);
+        this.level1RightDrive.setDirection(rightArmDirection);
 
         this.level1LeftDrive.setPower(power);
         this.level1RightDrive.setPower(power);
