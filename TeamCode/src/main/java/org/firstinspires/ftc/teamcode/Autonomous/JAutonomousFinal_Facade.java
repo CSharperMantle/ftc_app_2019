@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import android.support.annotation.Nullable;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -87,6 +89,12 @@ public final class JAutonomousFinal_Facade {
     // Helpers
     private final HardwareMap hardwareMapRef;
 
+    /**
+     * 'Init' the devices but not start them. The constructor just loads the devices
+     * into the object, but not power, or engage them. To start all the devices to use,
+     * call {@link JAutonomousFinal_Facade#engage()}
+     * @param hardwareMap The hardware map to get devices from
+     */
     public JAutonomousFinal_Facade(HardwareMap hardwareMap) {
         this.hardwareMapRef = hardwareMap;
 
@@ -118,7 +126,7 @@ public final class JAutonomousFinal_Facade {
         backSpace.setName(navigationTargetNameToStr(BackSpace));
         // ...Targets setup phase
 
-        this.allTrackables = new ArrayList<VuforiaTrackable>();
+        this.allTrackables = new ArrayList<>();
         this.allTrackables.addAll(targetsRoverRuckus);
         
         // Targets locating phase...
@@ -226,6 +234,10 @@ public final class JAutonomousFinal_Facade {
         // THE END!
     }
 
+    /**
+     * Start up all devices. Should be called after the game started,
+     * or after the constructor
+     */
     public void engage() {
         // Engaging hardware...
         this.leftDrive.setZeroPowerBehavior(BRAKE);
@@ -234,7 +246,11 @@ public final class JAutonomousFinal_Facade {
         this.level1RightDrive.setZeroPowerBehavior(BRAKE);
         this.level2Drive.setZeroPowerBehavior(BRAKE);
         this.escalatorDrive.setZeroPowerBehavior(BRAKE);
-        stopAllDrives();
+        stopAllDrivingMotors();
+        this.level1LeftDrive.setPower(0);
+        this.level1RightDrive.setPower(0);
+        this.level2Drive.setPower(0);
+        this.escalatorDrive.setPower(0);
         // ...Engaging hardware
 
         // Engaging targets...
@@ -284,9 +300,9 @@ public final class JAutonomousFinal_Facade {
     }
 
     /**
-     * Stop all drives.
+     * Stop all motors of driving system
      */
-    public void stopAllDrives() {
+    public void stopAllDrivingMotors() {
         this.leftDrive.setPower(0);
         this.rightDrive.setPower(0);
     }
@@ -335,7 +351,7 @@ public final class JAutonomousFinal_Facade {
         }
 
         // Stop all motion;
-        this.stopAllDrives();
+        this.stopAllDrivingMotors();
 
         // Turn off RUN_TO_POSITION
         this.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -365,13 +381,21 @@ public final class JAutonomousFinal_Facade {
         return targetVisible;
     }
 
-    public RobotPositionData getRobotPositionData() {
+    /**
+     * Get an {@link RobotPosition} object which contains the latest position and orientation data
+     * @return The {@link RobotPosition} object
+     */
+    @Nullable
+    public RobotPosition getLatestRobotPosition() {
         if (this.targetVisible) {
-            return new RobotPositionData(this.lastLocation);
+            return new RobotPosition(this.lastLocation);
         }
         return null;
     }
 
+    /**
+     * Perform all the actions required to safely stop the activities and release resources in use
+     */
     public void close() {
         this.leftDrive.close();
         this.rightDrive.close();
@@ -384,7 +408,7 @@ public final class JAutonomousFinal_Facade {
         this.mineralDetector.shutdown();
     }
 
-    public class RobotPositionData {
+    public class RobotPosition {
         public final float X;
         public final float Y;
         public final float Z;
@@ -392,7 +416,7 @@ public final class JAutonomousFinal_Facade {
         public final float Pitch;
         public final float Heading;
 
-        private RobotPositionData(OpenGLMatrix lastLocation) {
+        private RobotPosition(OpenGLMatrix lastLocation) {
             VectorF trans = lastLocation.getTranslation();
             this.X = (float)millimeterToInch(trans.get(0));
             this.Y = (float)millimeterToInch(trans.get(1));
