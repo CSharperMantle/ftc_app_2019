@@ -78,7 +78,7 @@ public final class JAutonomousFinal_Facade {
 
     // Target locations
     private boolean targetVisible = false;
-    public OpenGLMatrix lastLocation = null;
+    private OpenGLMatrix lastLocation = null;
 
     public final OpenGLMatrix blueRoverLocationOnField;
     public final OpenGLMatrix redFootprintLocationOnField;
@@ -414,7 +414,7 @@ public final class JAutonomousFinal_Facade {
         public final float Z;
         public final float Roll;
         public final float Pitch;
-        public final float Heading;
+        public final float Yaw;
 
         private RobotLocation(OpenGLMatrix lastLocation) {
             VectorF trans = lastLocation.getTranslation();
@@ -425,7 +425,19 @@ public final class JAutonomousFinal_Facade {
             Orientation orientation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
             this.Roll = orientation.firstAngle;
             this.Pitch = orientation.secondAngle;
-            this.Heading = orientation.thirdAngle;
+            this.Yaw = orientation.thirdAngle;
+        }
+
+        public int getDimensionNumber() {
+            if (this.X > 0 && this.Y > 0) {
+                return 1;
+            } else if (this.X < 0 && this.Y > 0) {
+                return 2;
+            } else if (this.X < 0 && this.Y < 0) {
+                return 3;
+            } else { // this.X > 0 && this.Y < 0
+                return 4;
+            }
         }
     }
 }

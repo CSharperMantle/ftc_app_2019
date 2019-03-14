@@ -53,21 +53,6 @@ public final class JAutonomousFinal_PhasePipeline {
         return false;
     }
 
-    private boolean detectCurrentLocation(boolean isLastPhaseSuccessful) {
-        if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
-            return false;
-
-        while (this.opModeRef.opModeIsActive()) {
-            this.facadeRef.refreshRobotLocation();
-            this.lastLocation = facadeRef.getLatestRobotLocation();
-            if (this.lastLocation != null) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private JTeamCode_Shared.Position detectSamplingMineral(boolean isLastPhaseSuccessful) {
 
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
@@ -123,6 +108,30 @@ public final class JAutonomousFinal_PhasePipeline {
 
         //TODO: Drive and place the team marker
 
+        this.refreshLocationBlocked();
+        int dimension = this.lastLocation.getDimensionNumber();
+        float origYaw = this.lastLocation.Yaw;
+
+        switch (dimension) {
+            case 1:
+                this.facadeRef.driveSeparated(JTeamCode_Shared.Direction.TurnRight, 0.5, 0.5);
+                while (true) {
+                    this.refreshLocationBlocked();
+                    if (Math.abs(origYaw - this.lastLocation.Yaw) >= 90) {
+                        break;
+                    }
+                }
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            default:
+                break;
+        }
+
         return false;
     }
 
@@ -164,6 +173,16 @@ public final class JAutonomousFinal_PhasePipeline {
         isLastPhaseSuccessful = this.parkInCrater(isLastPhaseSuccessful);
         isLastPhaseSuccessful = this.playMusicOfVictory(isLastPhaseSuccessful);
         return isLastPhaseSuccessful;
+    }
+
+    private void refreshLocationBlocked() {
+        while (this.opModeRef.opModeIsActive()) {
+            this.facadeRef.refreshRobotLocation();
+            this.lastLocation = facadeRef.getLatestRobotLocation();
+            if (this.lastLocation != null) {
+                break;
+            }
+        }
     }
 
     private class MusicPlayerRunnable implements Runnable {
