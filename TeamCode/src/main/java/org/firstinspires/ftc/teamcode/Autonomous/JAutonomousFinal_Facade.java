@@ -382,13 +382,13 @@ public final class JAutonomousFinal_Facade {
     }
 
     /**
-     * Get an {@link RobotPosition} object which contains the latest position and orientation data
-     * @return The {@link RobotPosition} object
+     * Get an {@link RobotLocation} object which contains the latest position and orientation data
+     * @return The {@link RobotLocation} object
      */
     @Nullable
-    public RobotPosition getLatestRobotPosition() {
+    public RobotLocation getLatestRobotLocation() {
         if (this.targetVisible) {
-            return new RobotPosition(this.lastLocation);
+            return new RobotLocation(this.lastLocation);
         }
         return null;
     }
@@ -408,7 +408,7 @@ public final class JAutonomousFinal_Facade {
         this.mineralDetector.shutdown();
     }
 
-    public class RobotPosition {
+    public class RobotLocation {
         public final float X;
         public final float Y;
         public final float Z;
@@ -416,7 +416,7 @@ public final class JAutonomousFinal_Facade {
         public final float Pitch;
         public final float Heading;
 
-        private RobotPosition(OpenGLMatrix lastLocation) {
+        private RobotLocation(OpenGLMatrix lastLocation) {
             VectorF trans = lastLocation.getTranslation();
             this.X = (float)millimeterToInch(trans.get(0));
             this.Y = (float)millimeterToInch(trans.get(1));

@@ -19,12 +19,12 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.Direction;
  * Users can also directly access the original hardware objects.
  */
 public final class JTeleOpFinal_Facade {
-    public final DcMotor leftDrive;
-    public final DcMotor rightDrive;
-    public final DcMotor level1LeftDrive;
-    public final DcMotor level1RightDrive;
-    public final DcMotor level2Drive;
-    public final DcMotor escalatorDrive;
+    private final DcMotor leftDrive;
+    private final DcMotor rightDrive;
+    private final DcMotor level1LeftDrive;
+    private final DcMotor level1RightDrive;
+    private final DcMotor level2Drive;
+    private final DcMotor escalatorDrive;
 
     public JTeleOpFinal_Facade(HardwareMap hardwareMap) {
         this.leftDrive = hardwareMap.get(DcMotor.class, DRIVE_LEFT_NAME);
@@ -33,6 +33,9 @@ public final class JTeleOpFinal_Facade {
         this.level1RightDrive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_RIGHT);
         this.level2Drive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_2);
         this.escalatorDrive = hardwareMap.get(DcMotor.class, MOTOR_ESCALATOR);
+        level1LeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        level1RightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        level2Drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         escalatorDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -78,6 +81,9 @@ public final class JTeleOpFinal_Facade {
     public void stopAllDrives() {
         this.leftDrive.setPower(0);
         this.rightDrive.setPower(0);
+        this.level1LeftDrive.setPower(0);
+        this.level1RightDrive.setPower(0);
+        this.level2Drive.setPower(0);
     }
 
     public void moveRoboticArmLevel1(Direction direction, double power) {

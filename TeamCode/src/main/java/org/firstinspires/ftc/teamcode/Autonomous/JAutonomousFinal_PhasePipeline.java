@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
@@ -38,7 +37,8 @@ public final class JAutonomousFinal_PhasePipeline {
      */
     private static final Object _lock = new Object();
 
-    private OpenGLMatrix lastLocation = null;
+    private JAutonomousFinal_Facade.RobotLocation lastLocation = null;
+
     private boolean targetVisible = false;
 
     public JAutonomousFinal_PhasePipeline(JAutonomousFinal_Facade facadeForRef,
@@ -48,7 +48,22 @@ public final class JAutonomousFinal_PhasePipeline {
     }
 
     private boolean lowerToGround() {
-        //TODO: Finish this phase
+        //TODO: Control the hardware to lower down to the ground
+
+        return false;
+    }
+
+    private boolean detectCurrentLocation(boolean isLastPhaseSuccessful) {
+        if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
+            return false;
+
+        while (this.opModeRef.opModeIsActive()) {
+            this.facadeRef.refreshRobotLocation();
+            this.lastLocation = facadeRef.getLatestRobotLocation();
+            if (this.lastLocation != null) {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -58,6 +73,7 @@ public final class JAutonomousFinal_PhasePipeline {
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return JTeamCode_Shared.Position.Unknown;
 
+        //TODO: Head down to the mineral
         this.facadeRef.mineralDetector.activate();
         List<Recognition> updatedRecogs;
         while (this.opModeRef.opModeIsActive()) {
@@ -93,35 +109,33 @@ public final class JAutonomousFinal_PhasePipeline {
     }
 
     private boolean pushSamplingMineral(JTeamCode_Shared.Position mineralPosition) {
-        //TODO: Finish this phase
-
         if (mineralPosition == JTeamCode_Shared.Position.Unknown || !this.opModeRef.opModeIsActive())
             return false;
+
+        //TODO: Control hardware arms to push away the gold
 
         return false;
     }
 
     private boolean placeTeamMarker(boolean isLastPhaseSuccessful) {
-        //TODO: Finish this phase
-
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
+
+        //TODO: Drive and place the team marker
 
         return false;
     }
 
     private boolean parkInCrater(boolean isLastPhaseSuccessful) {
-        //TODO: Finish this phase
-
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
+
+        //TODO: Drive and park
 
         return false;
     }
 
     private boolean playMusicOfVictory(boolean isLastPhaseSuccessful) {
-        //TODO: Finish this phase
-
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
