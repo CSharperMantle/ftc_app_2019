@@ -80,11 +80,11 @@ public final class JAutonomousFinal_Facade {
     private boolean targetVisible = false;
     private OpenGLMatrix lastLocation = null;
 
-    public final OpenGLMatrix blueRoverLocationOnField;
-    public final OpenGLMatrix redFootprintLocationOnField;
-    public final OpenGLMatrix frontCratersLocationOnField;
-    public final OpenGLMatrix backSpaceLocationOnField;
-    public final OpenGLMatrix phoneLocationOnRobot;
+    private final OpenGLMatrix blueRoverLocationOnField;
+    private final OpenGLMatrix redFootprintLocationOnField;
+    private final OpenGLMatrix frontCratersLocationOnField;
+    private final OpenGLMatrix backSpaceLocationOnField;
+    private final OpenGLMatrix phoneLocationOnRobot;
 
     // Helpers
     private final HardwareMap hardwareMapRef;
