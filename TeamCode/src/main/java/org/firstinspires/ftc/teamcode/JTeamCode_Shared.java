@@ -168,4 +168,13 @@ public abstract class JTeamCode_Shared {
         FrontCraters,
         BackSpace
     }
+
+    public static abstract class BogusObject {
+        public static final int BOGUS_INT = Integer.MIN_VALUE;
+        public static final float BOGUS_FLOAT = Float.MIN_VALUE;
+        public static final double BOGUS_DOUBLE = Double.MIN_VALUE;
+        public static final boolean BOGUS_BOOLEAN = false;
+        public static final Object BOGUS_OBJECT = new Object();
+        public static final String BOGUS_STRING = "BOGUS";
+    }
 }

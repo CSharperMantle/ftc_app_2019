@@ -110,14 +110,14 @@ public final class JAutonomousFinal_PhasePipeline {
 
         this.refreshLocationBlocked();
         int dimension = this.lastLocation.getDimensionNumber();
-        float origYaw = this.lastLocation.Yaw;
 
         switch (dimension) {
             case 1:
-                this.facadeRef.driveSeparated(JTeamCode_Shared.Direction.TurnRight, 0.5, 0.5);
+                this.facadeRef.driveSeparated(JTeamCode_Shared.Direction.TurnLeft, 0.5, 0.5);
                 while (true) {
                     this.refreshLocationBlocked();
-                    if (Math.abs(origYaw - this.lastLocation.Yaw) >= 90) {
+                    if (this.lastLocation.Yaw <= JTeamCode_Shared.BogusObject.BOGUS_FLOAT) {
+                        //TODO: Get the real number to replace the bogus number
                         break;
                     }
                 }
