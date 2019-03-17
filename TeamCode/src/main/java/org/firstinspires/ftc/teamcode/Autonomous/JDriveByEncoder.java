@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
 @SuppressWarnings("unused")
 @Autonomous(name = "Drive by encoders")
-public final class JDriveByEncoder extends LinearOpMode{
+public final class JDriveByEncoder extends LinearOpMode {
     /**
      * Override this method and place your code here.
      * <p>

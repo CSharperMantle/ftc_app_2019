@@ -19,17 +19,17 @@ public abstract class JTeleOpFinal_Handler {
             facade.driveSeparated(JTeamCode_Shared.Direction.TurnRight, 0.5, 0.5);
         }
 
-        if (gamepad1.a) {
+        if (gamepad1.left_trigger > 0) {
             facade.moveRoboticArmLevel1(JTeamCode_Shared.Direction.Forward, 0.3);
         }
-        if (gamepad1.y) {
+        if (gamepad1.left_bumper) {
             facade.moveRoboticArmLevel1(JTeamCode_Shared.Direction.Backward, 0.3);
         }
 
-        if (gamepad1.b) {
+        if (gamepad1.right_trigger > 0) {
             facade.moveRoboticArmLevel2(JTeamCode_Shared.Direction.Forward, 0.3);
         }
-        if (gamepad1.x) {
+        if (gamepad1.right_bumper) {
             facade.moveRoboticArmLevel2(JTeamCode_Shared.Direction.Backward, 0.3);
         }
         facade.stopAllDrives();
