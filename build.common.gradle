@@ -21,7 +21,7 @@ apply plugin: 'com.android.application'
 
 android {
 
-    compileSdkVersion 23
+    compileSdkVersion Integer.parseInt(ANDROID_BUILD_SDK_VERSION)
 
     signingConfigs {
         debug {
@@ -43,9 +43,9 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.qualcomm.ftcrobotcontroller'
-        minSdkVersion 19
-        targetSdkVersion 19
+        applicationId APPLICATION_ID
+        minSdkVersion Integer.parseInt(ANDROID_BUILD_MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(ANDROID_BUILD_TARGET_SDK_VERSION)
 
         /**
          * We keep the versionCode and versionName of robot controller applications in sync with
@@ -68,7 +68,7 @@ android {
         def vCode = Integer.parseInt(matcher.group(1))
         //
         def vNamePattern = Pattern.compile("versionName=\"(.*)\"")
-        matcher = vNamePattern.matcher(manifestText);
+        matcher = vNamePattern.matcher(manifestText)
         matcher.find()
         def vName = matcher.group(1)
         //
@@ -85,6 +85,7 @@ android {
             ndk {
                 abiFilters "armeabi-v7a"
             }
+            signingConfig signingConfigs.release
         }
         debug {
             debuggable true
@@ -92,6 +93,21 @@ android {
             renderscriptDebuggable true
             ndk {
                 abiFilters "armeabi-v7a"
+            }
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            if ("true" == IS_JENKINS) {
+                variant.getPackageApplication().outputDirectory =
+                        new File(project.rootDir.absolutePath +
+                                File.separator +
+                                BUILD_PATH)
+                outputFileName = "ftc_app_2019" + "-" + defaultConfig.versionName + "-" + BUILD_TYPE + ".apk"
+            } else {
+                outputFileName = "ftc_app_2019" + "-" + defaultConfig.versionName + "-" + BUILD_TYPE + ".apk"
             }
         }
     }
