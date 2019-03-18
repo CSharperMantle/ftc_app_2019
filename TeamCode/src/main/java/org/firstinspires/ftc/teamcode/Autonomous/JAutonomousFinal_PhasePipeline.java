@@ -37,7 +37,7 @@ public final class JAutonomousFinal_PhasePipeline {
      */
     private static final Object _lock = new Object();
 
-    private JAutonomousFinal_Facade.RobotLocation lastLocation = null;
+    private JAutonomousFinal_Facade.RobotPosition lastPosition = null;
 
     private boolean targetVisible = false;
 
@@ -109,14 +109,14 @@ public final class JAutonomousFinal_PhasePipeline {
         //TODO: Drive and place the team marker
 
         this.refreshLocationBlocked();
-        int dimension = this.lastLocation.getDimensionNumber();
+        int dimension = this.lastPosition.getDimensionNumber();
 
         switch (dimension) {
             case 1:
                 this.facadeRef.driveSeparated(JTeamCode_Shared.Direction.TurnLeft, 0.5, 0.5);
                 while (true) {
                     this.refreshLocationBlocked();
-                    if (this.lastLocation.Yaw <= JTeamCode_Shared.BogusObject.BOGUS_FLOAT) {
+                    if (this.lastPosition.Yaw <= JTeamCode_Shared.BogusObject.BOGUS_FLOAT) {
                         //TODO: Get the real number to replace the bogus number
                         break;
                     }
@@ -177,9 +177,9 @@ public final class JAutonomousFinal_PhasePipeline {
 
     private void refreshLocationBlocked() {
         while (this.opModeRef.opModeIsActive()) {
-            this.facadeRef.refreshRobotLocation();
-            this.lastLocation = facadeRef.getLatestRobotLocation();
-            if (this.lastLocation != null) {
+            this.facadeRef.refreshRobotPosition();
+            this.lastPosition = facadeRef.getLatestRobotPosition();
+            if (this.lastPosition != null) {
                 break;
             }
         }

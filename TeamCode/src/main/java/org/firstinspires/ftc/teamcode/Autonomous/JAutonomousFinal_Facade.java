@@ -19,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.navigationTargetNa
  * This class also contains some objects related to {@link TFObjectDetector} and
  * {@link VuforiaLocalizer}
  */
-public final class JAutonomousFinal_Facade {
+public final class JAutonomousFinal_Facade implements Closeable {
     // Hardware devices
     public final DcMotor leftDrive;
     public final DcMotor rightDrive;
@@ -78,7 +79,7 @@ public final class JAutonomousFinal_Facade {
 
     // Target locations
     private boolean targetVisible = false;
-    private OpenGLMatrix lastLocation = null;
+    private OpenGLMatrix lastPosition = null;
 
     private final OpenGLMatrix blueRoverLocationOnField;
     private final OpenGLMatrix redFootprintLocationOnField;
@@ -362,7 +363,7 @@ public final class JAutonomousFinal_Facade {
      * Refresh the robot's location using {@link VuforiaLocalizer}.
      * @return 'true' if it was successful, otherwise 'false'
      */
-    public boolean refreshRobotLocation() {
+    public boolean refreshRobotPosition() {
         this.targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
@@ -373,7 +374,7 @@ public final class JAutonomousFinal_Facade {
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener())
                         .getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
-                    this.lastLocation = robotLocationTransform;
+                    this.lastPosition = robotLocationTransform;
                 }
                 return targetVisible;
             }
@@ -382,13 +383,13 @@ public final class JAutonomousFinal_Facade {
     }
 
     /**
-     * Get an {@link RobotLocation} object which contains the latest position and orientation data
-     * @return The {@link RobotLocation} object
+     * Get an {@link RobotPosition} object which contains the latest position and orientation data
+     * @return The {@link RobotPosition} object
      */
     @Nullable
-    public RobotLocation getLatestRobotLocation() {
+    public RobotPosition getLatestRobotPosition() {
         if (this.targetVisible) {
-            return new RobotLocation(this.lastLocation);
+            return new RobotPosition(this.lastPosition);
         }
         return null;
     }
@@ -397,6 +398,8 @@ public final class JAutonomousFinal_Facade {
      * Perform all the actions required to safely stop the activities and release resources in use
      */
     public void close() {
+        this.stopAllDrivingMotors();
+
         this.leftDrive.close();
         this.rightDrive.close();
 
@@ -408,7 +411,7 @@ public final class JAutonomousFinal_Facade {
         this.mineralDetector.shutdown();
     }
 
-    public class RobotLocation {
+    public class RobotPosition {
         public final float X;
         public final float Y;
         public final float Z;
@@ -416,13 +419,13 @@ public final class JAutonomousFinal_Facade {
         public final float Pitch;
         public final float Yaw;
 
-        private RobotLocation(OpenGLMatrix lastLocation) {
-            VectorF trans = lastLocation.getTranslation();
+        private RobotPosition(OpenGLMatrix lastPositionMatrix) {
+            VectorF trans = lastPositionMatrix.getTranslation();
             this.X = (float)millimeterToInch(trans.get(0));
             this.Y = (float)millimeterToInch(trans.get(1));
             this.Z = (float)millimeterToInch(trans.get(2));
 
-            Orientation orientation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            Orientation orientation = Orientation.getOrientation(lastPositionMatrix, EXTRINSIC, XYZ, DEGREES);
             this.Roll = orientation.firstAngle;
             this.Pitch = orientation.secondAngle;
             this.Yaw = orientation.thirdAngle;

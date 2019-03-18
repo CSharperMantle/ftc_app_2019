@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
 
+import java.io.Closeable;
+
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_ESCALATOR;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_LEFT;
 import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_RIGHT;
@@ -18,7 +20,7 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.Direction;
  * This class contains several methods to access hardware devices quickly.
  * Users can also directly access the original hardware objects.
  */
-public final class JTeleOpFinal_Facade {
+public final class JTeleOpFinal_Facade implements Closeable {
     private final DcMotor leftDrive;
     private final DcMotor rightDrive;
     private final DcMotor level1LeftDrive;
@@ -138,5 +140,12 @@ public final class JTeleOpFinal_Facade {
         this.level1LeftDrive.close();
         this.level1RightDrive.close();
         this.level2Drive.close();
+
+        this.escalatorDrive.close();
+    }
+
+    public void close() {
+        this.stopAllDrives();
+        this.closeDevice();
     }
 }
