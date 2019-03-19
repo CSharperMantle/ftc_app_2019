@@ -110,7 +110,10 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
         // ...Hardware (servos, drives, etc.) init phase
 
         // Vuforia init phase...
-        VuforiaLocalizer.Parameters vuParams = new VuforiaLocalizer.Parameters();
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId",
+                "id",
+                hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters vuParams = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         vuParams.vuforiaLicenseKey = VUFORIA_LICENSE_KEY;
         vuParams.cameraDirection = CAMERA_DIRECTION;
         this.vuforia = ClassFactory.getInstance().createVuforia(vuParams);
