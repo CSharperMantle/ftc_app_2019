@@ -91,6 +91,9 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
     // Helpers
     private final HardwareMap hardwareMapRef;
 
+    // Locks
+    private static final Object drivingLock = new Object();
+
     /**
      * 'Init' the devices but not start them. The constructor just loads the devices
      * into the object, but not power, or engage them. To start all the devices to use,
@@ -329,40 +332,43 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
                                 LinearOpMode linearOpModeForRef) {
         int newLeftTarget;
         int newRightTarget;
-        ElapsedTime runtime = new ElapsedTime();
 
-        this.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        this.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        synchronized (drivingLock) {
+            ElapsedTime runtime = new ElapsedTime();
 
-        // Determine new target position, and pass to motor controller
-        newLeftTarget = this.leftDrive.getCurrentPosition() + (int) (leftCMs * COUNTS_PER_CM);
-        newRightTarget = this.rightDrive.getCurrentPosition() + (int) (rightCMs * COUNTS_PER_CM);
-        this.leftDrive.setTargetPosition(newLeftTarget);
-        this.rightDrive.setTargetPosition(newRightTarget);
+            this.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            this.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        // Turn On RUN_TO_POSITION
-        this.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        this.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = this.leftDrive.getCurrentPosition() + (int) (leftCMs * COUNTS_PER_CM);
+            newRightTarget = this.rightDrive.getCurrentPosition() + (int) (rightCMs * COUNTS_PER_CM);
+            this.leftDrive.setTargetPosition(newLeftTarget);
+            this.rightDrive.setTargetPosition(newRightTarget);
 
-        // reset the timeout time and start motion.
-        runtime.reset();
-        driveSeparated(direction, speed, speed);
+            // Turn On RUN_TO_POSITION
+            this.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            this.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (true) {
+            // reset the timeout time and start motion.
+            runtime.reset();
+            driveSeparated(direction, speed, speed);
 
-            if (!linearOpModeForRef.opModeIsActive() ||
-                    (runtime.seconds() >= timeoutS) ||
-                    !(this.leftDrive.isBusy() || this.rightDrive.isBusy())) {
-                break;
+            while (true) {
+
+                if (!linearOpModeForRef.opModeIsActive() ||
+                        (runtime.seconds() >= timeoutS) ||
+                        !(this.leftDrive.isBusy() || this.rightDrive.isBusy())) {
+                    break;
+                }
             }
+
+            // Stop all motion;
+            this.stopAllDrivingMotors();
+
+            // Turn off RUN_TO_POSITION
+            this.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            this.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-
-        // Stop all motion;
-        this.stopAllDrivingMotors();
-
-        // Turn off RUN_TO_POSITION
-        this.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**

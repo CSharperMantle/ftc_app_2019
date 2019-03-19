@@ -22,44 +22,80 @@ public final class JLocatedDriving extends LinearOpMode {
         AutonomousFacade facade = new AutonomousFacade(this.hardwareMap);
         this.telemetry.log().setDisplayOrder(NEWEST_FIRST);
 
+        Thread drivingThread = new Thread(new DrivingHandlerRunnable(this, facade));
+        Thread locatingThread = new Thread(new LocatorHandlerRunnable(this, facade));
+
         this.waitForStart();
 
         facade.engage();
-        while (this.opModeIsActive()) {
-            if (this.gamepad1.dpad_up) {
-                facade.driveSeparated(Forward, 0.8, 0.8);
-            }
-            if (this.gamepad1.dpad_down) {
-                facade.driveSeparated(Backward, 0.8, 0.8);
-            }
-            if (this.gamepad1.dpad_left) {
-                facade.driveSeparated(TurnLeft, 0.8, 0.8);
-            }
-            if (this.gamepad1.dpad_right) {
-                facade.driveSeparated(TurnRight, 0.8, 0.8);
-            }
-            if (this.gamepad1.x) {
-                while (true) {
-                    if (facade.refreshRobotPosition() || !this.opModeIsActive()) {
-                        break;
-                    }
-                }
-                try {
-                    AutonomousFacade.RobotPosition position = Objects.requireNonNull(facade.getLatestRobotPosition());
-                    this.telemetry.addData("Pos (inch)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                            position.X, position.Y, position.Z);
-                    this.telemetry.addData("Rot (deg)", "{Roll, Pitch, Yaw} = %.0f, %.0f, %.0f",
-                            position.Roll, position.Pitch, position.Yaw);
-                    this.telemetry.update();
-                } catch (NullPointerException ex) {
-                    this.telemetry.log().add("Position unknown.");
-                    this.telemetry.log().add(ex.toString());
-                    this.telemetry.update();
-                }
-            }
-            facade.stopAllDrivingMotors();
-        }
+
+        drivingThread.start();
+        locatingThread.start();
 
         facade.close();
+    }
+
+    private class DrivingHandlerRunnable implements Runnable {
+        private final LinearOpMode opMode;
+        private final AutonomousFacade facade;
+
+        private DrivingHandlerRunnable(LinearOpMode opMode, AutonomousFacade facade) {
+            this.opMode = opMode;
+            this.facade = facade;
+        }
+
+        @Override
+        public void run() {
+            while (this.opMode.opModeIsActive()) {
+                if (this.opMode.gamepad1.dpad_up) {
+                    this.facade.driveSeparated(Forward, 0.8, 0.8);
+                }
+                if (this.opMode.gamepad1.dpad_down) {
+                    this.facade.driveSeparated(Backward, 0.8, 0.8);
+                }
+                if (this.opMode.gamepad1.dpad_left) {
+                    this.facade.driveSeparated(TurnLeft, 0.8, 0.8);
+                }
+                if (this.opMode.gamepad1.dpad_right) {
+                    this.facade.driveSeparated(TurnRight, 0.8, 0.8);
+                }
+                this.facade.stopAllDrivingMotors();
+            }
+        }
+    }
+
+    private class LocatorHandlerRunnable implements Runnable {
+        private final LinearOpMode opMode;
+        private final AutonomousFacade facade;
+
+        private LocatorHandlerRunnable(LinearOpMode opMode, AutonomousFacade facade) {
+            this.opMode = opMode;
+            this.facade = facade;
+        }
+
+        @Override
+        public void run() {
+            while (this.opMode.opModeIsActive()) {
+                if (this.opMode.gamepad1.x) {
+                    while (true) {
+                        if (this.facade.refreshRobotPosition() || !this.opMode.opModeIsActive()) {
+                            break;
+                        }
+                    }
+                    try {
+                        AutonomousFacade.RobotPosition position = Objects.requireNonNull(facade.getLatestRobotPosition());
+                        this.opMode.telemetry.addData("Pos (inch)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                                position.X, position.Y, position.Z);
+                        this.opMode.telemetry.addData("Rot (deg)", "{Roll, Pitch, Yaw} = %.0f, %.0f, %.0f",
+                                position.Roll, position.Pitch, position.Yaw);
+                        this.opMode.telemetry.update();
+                    } catch (NullPointerException ex) {
+                        this.opMode.telemetry.log().add("Position unknown.");
+                        this.opMode.telemetry.log().add(ex.toString());
+                        this.opMode.telemetry.update();
+                    }
+                }
+            }
+        }
     }
 }
