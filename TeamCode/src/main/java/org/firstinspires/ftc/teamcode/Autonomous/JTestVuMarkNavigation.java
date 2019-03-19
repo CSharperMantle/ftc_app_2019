@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
+import org.firstinspires.ftc.teamcode.SharedHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public final class JTestVuMarkNavigation extends LinearOpMode {
 
     public static final String TAG = "JTestVuMarkNavigation";
 
-    private final String vuforiaLicenseKey = JTeamCode_Shared.VUFORIA_LICENSE_KEY;
+    private final String vuforiaLicenseKey = SharedHelper.VUFORIA_LICENSE_KEY;
 
     private OpenGLMatrix lastLocation = null;
     private VuforiaLocalizer vuforia = null;

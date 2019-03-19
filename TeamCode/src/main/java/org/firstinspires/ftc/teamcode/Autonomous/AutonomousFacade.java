@@ -17,9 +17,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
+import org.firstinspires.ftc.teamcode.Facade.DrivingEncoderFacade;
+import org.firstinspires.ftc.teamcode.Facade.DrivingSimpleFacade;
+import org.firstinspires.ftc.teamcode.SharedHelper;
 
-import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,30 +30,30 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.CAMERA_DIRECTION;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.CAMERA_FORWARD_DISPLACEMENT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.CAMERA_LEFT_DISPLACEMENT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.CAMERA_VERTICAL_DISPLACEMENT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.COUNTS_PER_CM;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_LEFT_NAME;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_RIGHT_NAME;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.LABEL_GOLD_MINERAL;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.LABEL_SILVER_MINERAL;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MINIMUM_CONFIDENCE;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MM_FTC_FIELD_WIDTH;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MM_TARGET_HEIGHT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_ESCALATOR;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_LEFT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_RIGHT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_2;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.NavigationTargetName.BackSpace;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.NavigationTargetName.BlueRover;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.NavigationTargetName.FrontCraters;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.NavigationTargetName.RedFootprint;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.TFOD_MODEL_ASSET;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.VUFORIA_LICENSE_KEY;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.millimeterToInch;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.navigationTargetNameToStr;
+import static org.firstinspires.ftc.teamcode.SharedHelper.CAMERA_DIRECTION;
+import static org.firstinspires.ftc.teamcode.SharedHelper.CAMERA_FORWARD_DISPLACEMENT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.CAMERA_LEFT_DISPLACEMENT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.CAMERA_VERTICAL_DISPLACEMENT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.COUNTS_PER_CM;
+import static org.firstinspires.ftc.teamcode.SharedHelper.DRIVE_LEFT_NAME;
+import static org.firstinspires.ftc.teamcode.SharedHelper.DRIVE_RIGHT_NAME;
+import static org.firstinspires.ftc.teamcode.SharedHelper.LABEL_GOLD_MINERAL;
+import static org.firstinspires.ftc.teamcode.SharedHelper.LABEL_SILVER_MINERAL;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MINIMUM_CONFIDENCE;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MM_FTC_FIELD_WIDTH;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MM_TARGET_HEIGHT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_ESCALATOR;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_LEFT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_RIGHT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_2;
+import static org.firstinspires.ftc.teamcode.SharedHelper.NavigationTargetName.BackSpace;
+import static org.firstinspires.ftc.teamcode.SharedHelper.NavigationTargetName.BlueRover;
+import static org.firstinspires.ftc.teamcode.SharedHelper.NavigationTargetName.FrontCraters;
+import static org.firstinspires.ftc.teamcode.SharedHelper.NavigationTargetName.RedFootprint;
+import static org.firstinspires.ftc.teamcode.SharedHelper.TFOD_MODEL_ASSET;
+import static org.firstinspires.ftc.teamcode.SharedHelper.VUFORIA_LICENSE_KEY;
+import static org.firstinspires.ftc.teamcode.SharedHelper.millimeterToInch;
+import static org.firstinspires.ftc.teamcode.SharedHelper.navigationTargetNameToStr;
 
 /**
  * This class contains several methods to access hardware devices quickly.
@@ -60,7 +61,7 @@ import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.navigationTargetNa
  * This class also contains some objects related to {@link TFObjectDetector} and
  * {@link VuforiaLocalizer}
  */
-public final class JAutonomousFinal_Facade implements Closeable {
+public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncoderFacade {
     // Hardware devices
     public final DcMotor leftDrive;
     public final DcMotor rightDrive;
@@ -93,10 +94,10 @@ public final class JAutonomousFinal_Facade implements Closeable {
     /**
      * 'Init' the devices but not start them. The constructor just loads the devices
      * into the object, but not power, or engage them. To start all the devices to use,
-     * call {@link JAutonomousFinal_Facade#engage()}
+     * call {@link AutonomousFacade#engage()}
      * @param hardwareMap The hardware map to get devices from
      */
-    public JAutonomousFinal_Facade(HardwareMap hardwareMap) {
+    public AutonomousFacade(HardwareMap hardwareMap) {
         this.hardwareMapRef = hardwareMap;
 
         // Hardware (servos, drives, etc.) init phase...
@@ -260,40 +261,41 @@ public final class JAutonomousFinal_Facade implements Closeable {
     }
 
     @Deprecated
-    public void driveTogether(JTeamCode_Shared.Direction direction,
+    public void driveTogether(SharedHelper.Direction direction,
                               double power) {
         driveSeparated(direction, power, power);
     }
 
-    public void driveSeparated(JTeamCode_Shared.Direction direction,
+    @Override
+    public void driveSeparated(SharedHelper.Direction direction,
                                double leftPower, double rightPower) {
-        JTeamCode_Shared.Direction leftDriveDirection;
-        JTeamCode_Shared.Direction rightDriveDirection;
+        SharedHelper.Direction leftDriveDirection;
+        SharedHelper.Direction rightDriveDirection;
 
         switch (direction) {
             case Forward:
-                leftDriveDirection = JTeamCode_Shared.Direction.Forward;
-                rightDriveDirection = JTeamCode_Shared.Direction.Backward;
+                leftDriveDirection = SharedHelper.Direction.Forward;
+                rightDriveDirection = SharedHelper.Direction.Backward;
                 break;
             case Backward:
-                leftDriveDirection = JTeamCode_Shared.Direction.Backward;
-                rightDriveDirection = JTeamCode_Shared.Direction.Forward;
+                leftDriveDirection = SharedHelper.Direction.Backward;
+                rightDriveDirection = SharedHelper.Direction.Forward;
                 break;
             case TurnLeft:
-                leftDriveDirection = JTeamCode_Shared.Direction.Forward;
-                rightDriveDirection = JTeamCode_Shared.Direction.Forward;
+                leftDriveDirection = SharedHelper.Direction.Forward;
+                rightDriveDirection = SharedHelper.Direction.Forward;
                 break;
             case TurnRight:
-                leftDriveDirection = JTeamCode_Shared.Direction.Backward;
-                rightDriveDirection = JTeamCode_Shared.Direction.Backward;
+                leftDriveDirection = SharedHelper.Direction.Backward;
+                rightDriveDirection = SharedHelper.Direction.Backward;
                 break;
             default:
                 throw new IllegalArgumentException("direction not acceptable");
         }
 
-        this.leftDrive.setDirection(leftDriveDirection == JTeamCode_Shared.Direction.Forward ?
+        this.leftDrive.setDirection(leftDriveDirection == SharedHelper.Direction.Forward ?
                 DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
-        this.rightDrive.setDirection(rightDriveDirection == JTeamCode_Shared.Direction.Forward ?
+        this.rightDrive.setDirection(rightDriveDirection == SharedHelper.Direction.Forward ?
                 DcMotorSimple.Direction.FORWARD : DcMotorSimple.Direction.REVERSE);
 
         this.leftDrive.setPower(Math.abs(leftPower));
@@ -316,10 +318,11 @@ public final class JAutonomousFinal_Facade implements Closeable {
      * @param timeoutS The timeout in seconds.
      * @param linearOpModeForRef LinearOpMode for reference.
      */
+    @Override
     public void driveWithEncoder(double speed,
                                 double leftCMs, double rightCMs,
                                 double timeoutS,
-                                JTeamCode_Shared.Direction direction,
+                                SharedHelper.Direction direction,
                                 LinearOpMode linearOpModeForRef) {
         int newLeftTarget;
         int newRightTarget;
@@ -397,6 +400,7 @@ public final class JAutonomousFinal_Facade implements Closeable {
     /**
      * Perform all the actions required to safely stop the activities and release resources in use
      */
+    @Override
     public void close() {
         this.stopAllDrivingMotors();
 

@@ -14,7 +14,7 @@ public final class JTeleOpFinal_Main extends LinearOpMode {
      */
     @Override
     public void runOpMode() {
-        JTeleOpFinal_Facade facade = new JTeleOpFinal_Facade(this.hardwareMap);
+        TeleOpFacade facade = new TeleOpFacade(this.hardwareMap);
 
         this.waitForStart();
 

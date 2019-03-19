@@ -4,23 +4,22 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
+import org.firstinspires.ftc.teamcode.Facade.DrivingSimpleFacade;
+import org.firstinspires.ftc.teamcode.SharedHelper;
 
-import java.io.Closeable;
-
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_ESCALATOR;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_LEFT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_1_RIGHT;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.MOTOR_HAND_LEVEL_2;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_LEFT_NAME;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.DRIVE_RIGHT_NAME;
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.Direction;
+import static org.firstinspires.ftc.teamcode.SharedHelper.DRIVE_LEFT_NAME;
+import static org.firstinspires.ftc.teamcode.SharedHelper.DRIVE_RIGHT_NAME;
+import static org.firstinspires.ftc.teamcode.SharedHelper.Direction;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_ESCALATOR;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_LEFT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_RIGHT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_2;
 
 /**
  * This class contains several methods to access hardware devices quickly.
  * Users can also directly access the original hardware objects.
  */
-public final class JTeleOpFinal_Facade implements Closeable {
+public final class TeleOpFacade implements DrivingSimpleFacade {
     private final DcMotor leftDrive;
     private final DcMotor rightDrive;
     private final DcMotor level1LeftDrive;
@@ -28,7 +27,7 @@ public final class JTeleOpFinal_Facade implements Closeable {
     private final DcMotor level2Drive;
     private final DcMotor escalatorDrive;
 
-    public JTeleOpFinal_Facade(HardwareMap hardwareMap) {
+    public TeleOpFacade(HardwareMap hardwareMap) {
         this.leftDrive = hardwareMap.get(DcMotor.class, DRIVE_LEFT_NAME);
         this.rightDrive = hardwareMap.get(DcMotor.class, DRIVE_RIGHT_NAME);
         this.level1LeftDrive = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
@@ -42,12 +41,13 @@ public final class JTeleOpFinal_Facade implements Closeable {
     }
 
     @Deprecated
-    public void driveTogether(JTeamCode_Shared.Direction direction,
+    public void driveTogether(SharedHelper.Direction direction,
                                      double power) {
         driveSeparated(direction, power, power);
     }
 
-    public void driveSeparated(JTeamCode_Shared.Direction direction,
+    @Override
+    public void driveSeparated(SharedHelper.Direction direction,
                                       double leftPower, double rightPower) {
         DcMotorSimple.Direction leftDriveDirection;
         DcMotorSimple.Direction rightDriveDirection;
@@ -144,6 +144,7 @@ public final class JTeleOpFinal_Facade implements Closeable {
         this.escalatorDrive.close();
     }
 
+    @Override
     public void close() {
         this.stopAllDrives();
         this.closeDevice();

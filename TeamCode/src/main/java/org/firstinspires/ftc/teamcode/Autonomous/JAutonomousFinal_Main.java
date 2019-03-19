@@ -13,7 +13,7 @@ public final class JAutonomousFinal_Main extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        JAutonomousFinal_Facade facade = new JAutonomousFinal_Facade(this.hardwareMap);
+        AutonomousFacade facade = new AutonomousFacade(this.hardwareMap);
         facade.engage();
 
         JAutonomousFinal_PhasePipeline phasePipeline = new JAutonomousFinal_PhasePipeline(facade,

@@ -4,7 +4,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-public abstract class JTeamCode_Shared {
+public abstract class SharedHelper {
     public static final String DRIVE_LEFT_NAME = "drive_left";
     public static final String DRIVE_RIGHT_NAME = "drive_right";
     public static final String MOTOR_HAND_LEVEL_1_LEFT = "motor_level_1_left";
@@ -43,17 +43,17 @@ public abstract class JTeamCode_Shared {
      */
     public static final float MM_FTC_FIELD_WIDTH = (12 * 6) * MM_PER_INCH;
     /**
-     * The horizontal distance of the camera to the very front of the robot.
+     * The horizontal distance of the camera to the very front of the robot. Unit: mm
      */
-    public static final int CAMERA_FORWARD_DISPLACEMENT = 110;
+    public static final int CAMERA_FORWARD_DISPLACEMENT = 16;
     /**
-     * The vertical distance of the camera to the ground.
+     * The vertical distance of the camera to the ground. Unit: mm
      */
-    public static final int CAMERA_VERTICAL_DISPLACEMENT = 200;
+    public static final int CAMERA_VERTICAL_DISPLACEMENT = 319;
     /**
-     * The horizontal distance of the camera to the middle line of the robot. (left is positive, right is negative)
+     * The horizontal distance of the camera to the middle line of the robot. (left is positive, right is negative) Unit: mm
      */
-    public static final int CAMERA_LEFT_DISPLACEMENT = 0;
+    public static final int CAMERA_LEFT_DISPLACEMENT = -35;
 
     private static final double COUNTS_PER_MOTOR_REV = 1478.4;
     private static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP

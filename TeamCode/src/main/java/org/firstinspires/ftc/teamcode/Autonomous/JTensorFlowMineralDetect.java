@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
+import org.firstinspires.ftc.teamcode.SharedHelper;
 
 import java.util.List;
 
@@ -22,19 +22,19 @@ public final class JTensorFlowMineralDetect extends LinearOpMode {
         TFObjectDetector objectDetector;
 
         VuforiaLocalizer.Parameters param = new VuforiaLocalizer.Parameters();
-        param.vuforiaLicenseKey = JTeamCode_Shared.VUFORIA_LICENSE_KEY;
-        param.cameraDirection = JTeamCode_Shared.CAMERA_DIRECTION;
+        param.vuforiaLicenseKey = SharedHelper.VUFORIA_LICENSE_KEY;
+        param.cameraDirection = SharedHelper.CAMERA_DIRECTION;
         vuforia = ClassFactory.getInstance().createVuforia(param);
 
         if (!ClassFactory.getInstance().canCreateTFObjectDetector()) throw new RuntimeException("TFOD not supported");
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = JTeamCode_Shared.MINIMUM_CONFIDENCE;
+        tfodParameters.minimumConfidence = SharedHelper.MINIMUM_CONFIDENCE;
         objectDetector = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        objectDetector.loadModelFromAsset(JTeamCode_Shared.TFOD_MODEL_ASSET,
-                JTeamCode_Shared.LABEL_GOLD_MINERAL,
-                JTeamCode_Shared.LABEL_SILVER_MINERAL);
+        objectDetector.loadModelFromAsset(SharedHelper.TFOD_MODEL_ASSET,
+                SharedHelper.LABEL_GOLD_MINERAL,
+                SharedHelper.LABEL_SILVER_MINERAL);
 
         telemetry.addData(this.toString(), "Ready to start");
         telemetry.update();
@@ -53,7 +53,7 @@ public final class JTensorFlowMineralDetect extends LinearOpMode {
                     int silverMineral1X = -1;
                     int silverMineral2X = -1;
                     for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getLabel().equals(JTeamCode_Shared.LABEL_GOLD_MINERAL)) {
+                        if (recognition.getLabel().equals(SharedHelper.LABEL_GOLD_MINERAL)) {
                             goldMineralX = (int) recognition.getLeft();
                         } else if (silverMineral1X == -1) {
                             silverMineral1X = (int) recognition.getLeft();

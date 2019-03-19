@@ -6,7 +6,7 @@ import android.util.Log;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.JTeamCode_Shared;
+import org.firstinspires.ftc.teamcode.SharedHelper;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 
-import static org.firstinspires.ftc.teamcode.JTeamCode_Shared.AUTONOMOUS_FINISH_MUSIC_PATH;
+import static org.firstinspires.ftc.teamcode.SharedHelper.AUTONOMOUS_FINISH_MUSIC_PATH;
 
 @SuppressWarnings("unused")
 public final class JAutonomousFinal_PhasePipeline {
@@ -23,9 +23,9 @@ public final class JAutonomousFinal_PhasePipeline {
     private static final String TAG = "JAutonomousPipeline";
 
     /**
-     * An instance of {@link JAutonomousFinal_Facade} for reference
+     * An instance of {@link AutonomousFacade} for reference
      */
-    private final JAutonomousFinal_Facade facadeRef;
+    private final AutonomousFacade facadeRef;
 
     /**
      * An instance of {@link LinearOpMode} for reference
@@ -37,11 +37,11 @@ public final class JAutonomousFinal_PhasePipeline {
      */
     private static final Object _lock = new Object();
 
-    private JAutonomousFinal_Facade.RobotPosition lastPosition = null;
+    private AutonomousFacade.RobotPosition lastPosition = null;
 
     private boolean targetVisible = false;
 
-    public JAutonomousFinal_PhasePipeline(JAutonomousFinal_Facade facadeForRef,
+    public JAutonomousFinal_PhasePipeline(AutonomousFacade facadeForRef,
                                           LinearOpMode opModeForRef) {
         this.facadeRef = facadeForRef;
         this.opModeRef = opModeForRef;
@@ -53,10 +53,10 @@ public final class JAutonomousFinal_PhasePipeline {
         return false;
     }
 
-    private JTeamCode_Shared.Position detectSamplingMineral(boolean isLastPhaseSuccessful) {
+    private SharedHelper.Position detectSamplingMineral(boolean isLastPhaseSuccessful) {
 
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
-            return JTeamCode_Shared.Position.Unknown;
+            return SharedHelper.Position.Unknown;
 
         //TODO: Head down to the mineral
         this.facadeRef.mineralDetector.activate();
@@ -69,7 +69,7 @@ public final class JAutonomousFinal_PhasePipeline {
                     int silverMineral1X = -1;
                     int silverMineral2X = -1;
                     for (Recognition recog : updatedRecogs) {
-                        if (recog.getLabel().equals(JTeamCode_Shared.LABEL_GOLD_MINERAL)) {
+                        if (recog.getLabel().equals(SharedHelper.LABEL_GOLD_MINERAL)) {
                             goldMineralX = (int) recog.getLeft();
                         } else if (silverMineral1X == -1) {
                             silverMineral1X = (int) recog.getLeft();
@@ -79,22 +79,22 @@ public final class JAutonomousFinal_PhasePipeline {
                     }
                     if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                         if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                            return JTeamCode_Shared.Position.Left;
+                            return SharedHelper.Position.Left;
                         } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                            return JTeamCode_Shared.Position.Right;
+                            return SharedHelper.Position.Right;
                         } else {
-                            return JTeamCode_Shared.Position.Center;
+                            return SharedHelper.Position.Center;
                         }
                     }
                 }
             }
         }
 
-        return JTeamCode_Shared.Position.Unknown;
+        return SharedHelper.Position.Unknown;
     }
 
-    private boolean pushSamplingMineral(JTeamCode_Shared.Position mineralPosition) {
-        if (mineralPosition == JTeamCode_Shared.Position.Unknown || !this.opModeRef.opModeIsActive())
+    private boolean pushSamplingMineral(SharedHelper.Position mineralPosition) {
+        if (mineralPosition == SharedHelper.Position.Unknown || !this.opModeRef.opModeIsActive())
             return false;
 
         //TODO: Control hardware arms to push away the gold
@@ -113,10 +113,10 @@ public final class JAutonomousFinal_PhasePipeline {
 
         switch (dimension) {
             case 1:
-                this.facadeRef.driveSeparated(JTeamCode_Shared.Direction.TurnLeft, 0.5, 0.5);
+                this.facadeRef.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
                 while (true) {
                     this.refreshLocationBlocked();
-                    if (this.lastPosition.Yaw <= JTeamCode_Shared.BogusObject.BOGUS_FLOAT) {
+                    if (this.lastPosition.Yaw <= SharedHelper.BogusObject.BOGUS_FLOAT) {
                         //TODO: Get the real number to replace the bogus number
                         break;
                     }
@@ -164,7 +164,7 @@ public final class JAutonomousFinal_PhasePipeline {
 
     public boolean pipelinePhasesAndExecute() {
         boolean isLastPhaseSuccessful;
-        JTeamCode_Shared.Position mineralPosition;
+        SharedHelper.Position mineralPosition;
 
         isLastPhaseSuccessful = this.lowerToGround();
         mineralPosition = this.detectSamplingMineral(isLastPhaseSuccessful);
