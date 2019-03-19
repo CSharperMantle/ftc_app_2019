@@ -48,16 +48,16 @@ public final class JLocatedDriving extends LinearOpMode {
         public void run() {
             while (this.opMode.opModeIsActive()) {
                 if (this.opMode.gamepad1.dpad_up) {
-                    this.facade.driveSeparated(Forward, 0.8, 0.8);
+                    this.facade.driveSeparated(Forward, 0.5, 0.5);
                 }
                 if (this.opMode.gamepad1.dpad_down) {
-                    this.facade.driveSeparated(Backward, 0.8, 0.8);
+                    this.facade.driveSeparated(Backward, 0.5, 0.5);
                 }
                 if (this.opMode.gamepad1.dpad_left) {
-                    this.facade.driveSeparated(TurnLeft, 0.8, 0.8);
+                    this.facade.driveSeparated(TurnLeft, 0.5, 0.5);
                 }
                 if (this.opMode.gamepad1.dpad_right) {
-                    this.facade.driveSeparated(TurnRight, 0.8, 0.8);
+                    this.facade.driveSeparated(TurnRight, 0.5, 0.5);
                 }
                 this.facade.stopAllDrivingMotors();
             }

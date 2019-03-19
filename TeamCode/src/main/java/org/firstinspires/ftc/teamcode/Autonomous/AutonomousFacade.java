@@ -92,7 +92,7 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
     private final HardwareMap hardwareMapRef;
 
     // Locks
-    private static final Object drivingLock = new Object();
+    private static final Object _drivingLock = new Object();
 
     /**
      * 'Init' the devices but not start them. The constructor just loads the devices
@@ -333,7 +333,7 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
         int newLeftTarget;
         int newRightTarget;
 
-        synchronized (drivingLock) {
+        synchronized (_drivingLock) {
             ElapsedTime runtime = new ElapsedTime();
 
             this.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
