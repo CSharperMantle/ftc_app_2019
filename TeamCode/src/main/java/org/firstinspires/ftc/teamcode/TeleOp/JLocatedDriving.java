@@ -17,7 +17,7 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnRight;
 @TeleOp
 public final class JLocatedDriving extends LinearOpMode {
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         // HACK: To use a facade for Autonomous Period to display the location
         AutonomousFacade facade = new AutonomousFacade(this.hardwareMap);
         this.telemetry.log().setDisplayOrder(NEWEST_FIRST);
@@ -31,6 +31,9 @@ public final class JLocatedDriving extends LinearOpMode {
 
         drivingThread.start();
         locatingThread.start();
+
+        drivingThread.join();
+        locatingThread.join();
 
         facade.close();
     }
