@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousFacade;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Vector;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static org.firstinspires.ftc.robotcore.external.Telemetry.Log.DisplayOrder.NEWEST_FIRST;
@@ -17,6 +19,8 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnRight;
 @SuppressWarnings("unused")
 @TeleOp
 public final class JLocatedDriving extends LinearOpMode {
+    private final List<AutonomousFacade.RobotPosition> positionVector = new Vector<>();
+
     @Override
     public void runOpMode() throws InterruptedException {
         // HACK: To use a facade for Autonomous Period to display the location
@@ -27,7 +31,8 @@ public final class JLocatedDriving extends LinearOpMode {
         facade.rightDrive.setZeroPowerBehavior(FLOAT);
 
         Thread drivingThread = new Thread(new DrivingHandlerRunnable(this, facade));
-        Thread locatingThread = new Thread(new LocatorHandlerRunnable(this, facade));
+        Thread locatingThread = new Thread(new LocatingRunnable(this, facade));
+        Thread locationPrintingThread = new Thread(new LocationPrintingRunnable(this, facade));
 
         this.waitForStart();
 
@@ -35,9 +40,11 @@ public final class JLocatedDriving extends LinearOpMode {
 
         drivingThread.start();
         locatingThread.start();
+        locationPrintingThread.start();
 
         drivingThread.join();
         locatingThread.join();
+        locationPrintingThread.join();
 
         facade.close();
     }
@@ -71,11 +78,11 @@ public final class JLocatedDriving extends LinearOpMode {
         }
     }
 
-    private class LocatorHandlerRunnable implements Runnable {
+    private class LocatingRunnable implements Runnable {
         private final LinearOpMode opMode;
         private final AutonomousFacade facade;
 
-        private LocatorHandlerRunnable(LinearOpMode opMode, AutonomousFacade facade) {
+        private LocatingRunnable(LinearOpMode opMode, AutonomousFacade facade) {
             this.opMode = opMode;
             this.facade = facade;
         }
@@ -91,6 +98,7 @@ public final class JLocatedDriving extends LinearOpMode {
                     }
                     try {
                         AutonomousFacade.RobotPosition position = Objects.requireNonNull(facade.getLatestRobotPosition());
+                        positionVector.add(position);
                         this.opMode.telemetry.addData("Pos (inch)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                                 position.X, position.Y, position.Z);
                         this.opMode.telemetry.addData("Rot (deg)", "{Roll, Pitch, Yaw} = %.0f, %.0f, %.0f",
@@ -101,6 +109,30 @@ public final class JLocatedDriving extends LinearOpMode {
                         this.opMode.telemetry.log().add(ex.toString());
                         this.opMode.telemetry.update();
                     }
+                }
+            }
+        }
+    }
+
+    private class LocationPrintingRunnable implements Runnable {
+        private final LinearOpMode opMode;
+        private final AutonomousFacade facade;
+
+        private LocationPrintingRunnable(LinearOpMode opMode, AutonomousFacade facade) {
+            this.opMode = opMode;
+            this.facade = facade;
+        }
+
+        @Override
+        public void run() {
+            while (this.opMode.opModeIsActive()) {
+                if (this.opMode.gamepad1.y) {
+                    this.opMode.telemetry.log().add("START PRINTING POSITION");
+                    for (AutonomousFacade.RobotPosition pos : positionVector) {
+                        this.opMode.telemetry.log().add(pos.toString());
+                    }
+                    this.opMode.telemetry.log().add("END PRINTING POSITION");
+                    this.opMode.telemetry.update();
                 }
             }
         }

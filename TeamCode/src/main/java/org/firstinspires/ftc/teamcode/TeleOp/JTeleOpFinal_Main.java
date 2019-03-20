@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.SharedHelper;
+
 @TeleOp(name = "2019 TeleOp Final")
 public final class JTeleOpFinal_Main extends LinearOpMode {
     /**
@@ -19,7 +21,33 @@ public final class JTeleOpFinal_Main extends LinearOpMode {
         this.waitForStart();
 
         while (this.opModeIsActive()) {
-            JTeleOpFinal_Handler.gamepadsKeyHandler(facade, this.gamepad1, this.gamepad2);
+            if (gamepad1.dpad_up) {
+                facade.driveSeparated(SharedHelper.Direction.Forward, 0.8, 0.8);
+            }
+            if (gamepad1.dpad_down) {
+                facade.driveSeparated(SharedHelper.Direction.Backward, 0.8, 0.8);
+            }
+            if (gamepad1.dpad_left) {
+                facade.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
+            }
+            if (gamepad1.dpad_right) {
+                facade.driveSeparated(SharedHelper.Direction.TurnRight, 0.5, 0.5);
+            }
+
+            if (gamepad1.left_trigger > 0) {
+                facade.moveRoboticArmLevel1(SharedHelper.Direction.Forward, 0.5);
+            }
+            if (gamepad1.left_bumper) {
+                facade.moveRoboticArmLevel1(SharedHelper.Direction.Backward, 0.5);
+            }
+            if (gamepad1.right_trigger > 0) {
+                facade.moveRoboticArmLevel2(SharedHelper.Direction.Forward, 0.5);
+            }
+            if (gamepad1.right_bumper) {
+                facade.moveRoboticArmLevel2(SharedHelper.Direction.Backward, 0.5);
+            }
+
+            facade.stopAllMotors();
         }
 
         facade.closeDevice();

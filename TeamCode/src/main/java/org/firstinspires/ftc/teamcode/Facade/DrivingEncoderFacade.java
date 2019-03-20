@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.SharedHelper;
 
 public interface DrivingEncoderFacade extends Facade {
-    public void driveWithEncoder(double speed,
+    void driveWithEncoder(double speed,
                                  double leftCMs, double rightCMs,
                                  double timeoutS,
                                  SharedHelper.Direction direction,

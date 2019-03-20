@@ -20,17 +20,17 @@ public abstract class JTeleOpFinal_Handler {
         }
 
         if (gamepad1.left_trigger > 0) {
-            facade.moveRoboticArmLevel1(SharedHelper.Direction.Forward, 0.3);
+            facade.moveRoboticArmLevel1(SharedHelper.Direction.Forward, 1.0);
         }
         if (gamepad1.left_bumper) {
-            facade.moveRoboticArmLevel1(SharedHelper.Direction.Backward, 0.3);
+            facade.moveRoboticArmLevel1(SharedHelper.Direction.Backward, 1.0);
         }
 
         if (gamepad1.right_trigger > 0) {
-            facade.moveRoboticArmLevel2(SharedHelper.Direction.Forward, 0.3);
+            facade.moveRoboticArmLevel2(SharedHelper.Direction.Forward, 1.0);
         }
         if (gamepad1.right_bumper) {
-            facade.moveRoboticArmLevel2(SharedHelper.Direction.Backward, 0.3);
+            facade.moveRoboticArmLevel2(SharedHelper.Direction.Backward, 1.0);
         }
         facade.stopAllMotors();
     }
