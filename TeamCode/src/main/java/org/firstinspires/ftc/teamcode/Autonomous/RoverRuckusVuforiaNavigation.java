@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -52,8 +53,9 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
 @SuppressWarnings("unused")
+@Disabled
 @Autonomous(name="Concept: Vuforia Rover Nav", group ="Concept")
-public final class JRoverRuckusVuforiaNavigation extends LinearOpMode {
+public final class RoverRuckusVuforiaNavigation extends LinearOpMode {
 
     private OpenGLMatrix lastLocation = null;
     private boolean targetVisible = false;

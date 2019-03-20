@@ -5,8 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.SharedHelper;
 
+@SuppressWarnings("unused")
 @TeleOp(name = "2019 TeleOp Final")
-public final class JTeleOpFinal_Main extends LinearOpMode {
+public final class TeleOpFinal extends LinearOpMode {
     /**
      * Override this method and place your code here.
      * <p>

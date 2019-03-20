@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @SuppressWarnings("unused")
 @Autonomous(name = "2019 Autonomous Final")
-public final class JAutonomousFinal_Main extends LinearOpMode {
+public final class AutonomousFinal extends LinearOpMode {
 
     public static final String TAG = "2019 Autonomous Final";
 
@@ -16,7 +16,7 @@ public final class JAutonomousFinal_Main extends LinearOpMode {
         AutonomousFacade facade = new AutonomousFacade(this.hardwareMap);
         facade.engage();
 
-        JAutonomousFinal_PhasePipeline phasePipeline = new JAutonomousFinal_PhasePipeline(facade,
+        AutonomousFinal_PhasePipeline phasePipeline = new AutonomousFinal_PhasePipeline(facade,
                 this);
 
         this.waitForStart();

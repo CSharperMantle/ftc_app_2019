@@ -18,7 +18,7 @@ import java.util.concurrent.RejectedExecutionException;
 import static org.firstinspires.ftc.teamcode.SharedHelper.AUTONOMOUS_FINISH_MUSIC_PATH;
 
 @SuppressWarnings("unused")
-public final class JAutonomousFinal_PhasePipeline {
+public final class AutonomousFinal_PhasePipeline {
 
     private static final String TAG = "JAutonomousPipeline";
 
@@ -41,8 +41,8 @@ public final class JAutonomousFinal_PhasePipeline {
 
     private boolean targetVisible = false;
 
-    public JAutonomousFinal_PhasePipeline(AutonomousFacade facadeForRef,
-                                          LinearOpMode opModeForRef) {
+    public AutonomousFinal_PhasePipeline(AutonomousFacade facadeForRef,
+                                         LinearOpMode opModeForRef) {
         this.facadeRef = facadeForRef;
         this.opModeRef = opModeForRef;
     }

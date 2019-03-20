@@ -17,10 +17,10 @@ import java.util.List;
 
 @Disabled
 @SuppressWarnings("unused")
-@Autonomous(name = "JTestVuMarkNavigation", group = "JTest")
-public final class JTestVuMarkNavigation extends LinearOpMode {
+@Autonomous(name = "TestVuMarkNavigation", group = "JTest")
+public final class TestVuMarkNavigation extends LinearOpMode {
 
-    public static final String TAG = "JTestVuMarkNavigation";
+    public static final String TAG = "TestVuMarkNavigation";
 
     private final String vuforiaLicenseKey = SharedHelper.VUFORIA_LICENSE_KEY;
 

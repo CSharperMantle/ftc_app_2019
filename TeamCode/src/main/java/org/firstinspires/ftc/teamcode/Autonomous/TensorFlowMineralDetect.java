@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,15 +9,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.SharedHelper;
-import org.firstinspires.ftc.teamcode.R;
 
 import java.util.List;
 
 @Disabled
-@Autonomous(name="JMineralDetectionSoundPlayer", group="Test")
 @SuppressWarnings("unused")
-public final class JMineralDetectionSoundPlayer extends LinearOpMode {
-
+@Autonomous(name="TensorFlowMineralDetect", group="JTest")
+public final class TensorFlowMineralDetect extends LinearOpMode {
     @Override
     public void runOpMode() {
         VuforiaLocalizer vuforia;
@@ -45,23 +42,39 @@ public final class JMineralDetectionSoundPlayer extends LinearOpMode {
 
         objectDetector.activate();
         List<Recognition> updatedRecognitions;
-
-        while (opModeIsActive()) {
+        while (true) {
             updatedRecognitions = objectDetector.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
-                for (Recognition recognition : updatedRecognitions) {
-                    if (recognition.getLabel().equals(SharedHelper.LABEL_GOLD_MINERAL)) {
-                        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, R.raw.gold);
-                        while (recognition.getLabel().equals(SharedHelper.LABEL_GOLD_MINERAL)) { idle(); }
-                    } else if (recognition.getLabel().equals(SharedHelper.LABEL_SILVER_MINERAL)) {
-                        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, R.raw.silver);
-                        while (recognition.getLabel().equals(SharedHelper.LABEL_SILVER_MINERAL)) { idle(); }
+                telemetry.addData(this.toString(), Integer.toString(updatedRecognitions.size()) + " Object(s) detected");
+                telemetry.update();
+
+                if (updatedRecognitions.size() == 3) {
+                    int goldMineralX = -1;
+                    int silverMineral1X = -1;
+                    int silverMineral2X = -1;
+                    for (Recognition recognition : updatedRecognitions) {
+                        if (recognition.getLabel().equals(SharedHelper.LABEL_GOLD_MINERAL)) {
+                            goldMineralX = (int) recognition.getLeft();
+                        } else if (silverMineral1X == -1) {
+                            silverMineral1X = (int) recognition.getLeft();
+                        } else {
+                            silverMineral2X = (int) recognition.getLeft();
+                        }
+                    }
+                    if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                        if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                            telemetry.addData("Gold Mineral Position", "Left");
+                        } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                            telemetry.addData("Gold Mineral Position", "Right");
+                        } else {
+                            telemetry.addData("Gold Mineral Position", "Center");
+                        }
                     }
                 }
             }
             if (isStopRequested()) break;
         }
-
         objectDetector.shutdown();
+
     }
 }

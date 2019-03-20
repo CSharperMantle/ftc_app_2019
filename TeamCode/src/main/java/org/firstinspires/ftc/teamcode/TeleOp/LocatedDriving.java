@@ -18,7 +18,7 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnRight;
 
 @SuppressWarnings("unused")
 @TeleOp
-public final class JLocatedDriving extends LinearOpMode {
+public final class LocatedDriving extends LinearOpMode {
     private final List<AutonomousFacade.RobotPosition> positionVector = new Vector<>();
 
     @Override

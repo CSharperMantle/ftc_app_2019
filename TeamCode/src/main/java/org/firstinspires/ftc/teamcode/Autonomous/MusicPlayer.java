@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.io.IOException;
@@ -14,11 +15,12 @@ import java.util.concurrent.RejectedExecutionException;
 
 import static org.firstinspires.ftc.teamcode.SharedHelper.TEST_MUSIC_PATH;
 
+@Disabled
 @SuppressWarnings("unused")
 @Autonomous
-public final class JMusicPlayer extends LinearOpMode {
+public final class MusicPlayer extends LinearOpMode {
 
-    public static final String TAG = "JMusicPlayer";
+    public static final String TAG = "MusicPlayer";
 
     private static final Object _lock = new Object();
 
@@ -68,7 +70,7 @@ public final class JMusicPlayer extends LinearOpMode {
                 }
                 mediaPlayer.stop();
             } catch (IOException e) {
-                Log.e("JMusicPlayer", "IO Error occurred.", e);
+                Log.e("MusicPlayer", "IO Error occurred.", e);
             } finally {
                 mediaPlayer.release();
             }
