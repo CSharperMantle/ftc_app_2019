@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutonomousFacade;
 
 import java.util.Objects;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static org.firstinspires.ftc.robotcore.external.Telemetry.Log.DisplayOrder.NEWEST_FIRST;
 import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.Backward;
 import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.Forward;
@@ -21,6 +22,9 @@ public final class JLocatedDriving extends LinearOpMode {
         // HACK: To use a facade for Autonomous Period to display the location
         AutonomousFacade facade = new AutonomousFacade(this.hardwareMap);
         this.telemetry.log().setDisplayOrder(NEWEST_FIRST);
+
+        facade.leftDrive.setZeroPowerBehavior(FLOAT);
+        facade.rightDrive.setZeroPowerBehavior(FLOAT);
 
         Thread drivingThread = new Thread(new DrivingHandlerRunnable(this, facade));
         Thread locatingThread = new Thread(new LocatorHandlerRunnable(this, facade));

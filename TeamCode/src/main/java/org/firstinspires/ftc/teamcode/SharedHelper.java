@@ -45,15 +45,15 @@ public abstract class SharedHelper {
     /**
      * The horizontal distance of the camera to the very front of the robot. Unit: mm
      */
-    public static final int CAMERA_FORWARD_DISPLACEMENT = 21;
+    public static final int CAMERA_FORWARD_DISPLACEMENT = 140;
     /**
      * The vertical distance of the camera to the ground. Unit: mm
      */
-    public static final int CAMERA_VERTICAL_DISPLACEMENT = 314;
+    public static final int CAMERA_VERTICAL_DISPLACEMENT = 307;
     /**
-     * The horizontal distance of the camera to the middle line of the robot. (left is positive, right is negative) Unit: mm
+     * The horizontal distance of the camera to the middle line of the robot. (left is positive, right is negative). Unit: mm
      */
-    public static final int CAMERA_LEFT_DISPLACEMENT = -23;
+    public static final int CAMERA_LEFT_DISPLACEMENT = -32;
 
     private static final double COUNTS_PER_MOTOR_REV = 1478.4;
     private static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP

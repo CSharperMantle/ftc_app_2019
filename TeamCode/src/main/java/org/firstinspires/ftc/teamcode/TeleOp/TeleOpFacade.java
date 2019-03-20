@@ -80,9 +80,18 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
         this.rightDrive.setPower(rightPower);
     }
 
-    public void stopAllDrives() {
+    public void stopAllMotors() {
+        this.stopAllDrivingMotors();
+        this.stopAllArmMotors();
+    }
+
+    @Override
+    public void stopAllDrivingMotors() {
         this.leftDrive.setPower(0);
         this.rightDrive.setPower(0);
+    }
+
+    public void stopAllArmMotors() {
         this.level1LeftDrive.setPower(0);
         this.level1RightDrive.setPower(0);
         this.level2Drive.setPower(0);
@@ -146,7 +155,7 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
 
     @Override
     public void close() {
-        this.stopAllDrives();
+        this.stopAllMotors();
         this.closeDevice();
     }
 }

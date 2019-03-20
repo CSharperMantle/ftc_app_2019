@@ -32,6 +32,6 @@ public abstract class JTeleOpFinal_Handler {
         if (gamepad1.right_bumper) {
             facade.moveRoboticArmLevel2(SharedHelper.Direction.Backward, 0.3);
         }
-        facade.stopAllDrives();
+        facade.stopAllMotors();
     }
 }
