@@ -43,7 +43,6 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.LABEL_SILVER_MINERAL;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MINIMUM_CONFIDENCE;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MM_FTC_FIELD_WIDTH;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MM_TARGET_HEIGHT;
-import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_ESCALATOR;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_LEFT;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_RIGHT;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_2;
@@ -69,7 +68,6 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
     public final DcMotor level1LeftDrive;
     public final DcMotor level1RightDrive;
     public final DcMotor level2Drive;
-    public final DcMotor escalatorDrive;
 
     // Software devices
     public final VuforiaLocalizer vuforia;
@@ -110,7 +108,6 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
         this.level1LeftDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
         this.level1RightDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_1_RIGHT);
         this.level2Drive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_2);
-        this.escalatorDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_ESCALATOR);
         // ...Hardware (servos, drives, etc.) init phase
 
         // Vuforia init phase...
@@ -254,12 +251,10 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
         this.level1LeftDrive.setZeroPowerBehavior(BRAKE);
         this.level1RightDrive.setZeroPowerBehavior(BRAKE);
         this.level2Drive.setZeroPowerBehavior(BRAKE);
-        this.escalatorDrive.setZeroPowerBehavior(BRAKE);
         stopAllDrivingMotors();
         this.level1LeftDrive.setPower(0);
         this.level1RightDrive.setPower(0);
         this.level2Drive.setPower(0);
-        this.escalatorDrive.setPower(0);
         // ...Engaging hardware
 
         // Engaging targets...

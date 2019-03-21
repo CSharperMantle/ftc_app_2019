@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousFacade;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -19,7 +18,7 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnRight;
 @SuppressWarnings("unused")
 @TeleOp
 public final class LocatedDriving extends LinearOpMode {
-    private final List<AutonomousFacade.RobotPosition> positionVector = new Vector<>();
+    private final Vector<AutonomousFacade.RobotPosition> positionVector = new Vector<>();
 
     @Override
     public void runOpMode() throws InterruptedException {

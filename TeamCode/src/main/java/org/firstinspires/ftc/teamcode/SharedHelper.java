@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 public abstract class SharedHelper {
+    // DEVICE NAME
     public static final String DRIVE_LEFT_NAME = "drive_left";
     public static final String DRIVE_RIGHT_NAME = "drive_right";
     public static final String MOTOR_HAND_LEVEL_1_LEFT = "motor_level_1_left";
     public static final String MOTOR_HAND_LEVEL_1_RIGHT = "motor_level_1_right";
     public static final String MOTOR_HAND_LEVEL_2 = "motor_level_2";
-    public static final String MOTOR_ESCALATOR = "motor_escalator";
+    public static final String SERVO_HANGING_HOOK = "servo_hanging_hook";
 
+    // LOCATING ALGORITHM CONST
     /**
      * The vuforia license key will be used in {@link VuforiaLocalizer.Parameters}
      */
@@ -55,6 +56,7 @@ public abstract class SharedHelper {
      */
     public static final int CAMERA_LEFT_DISPLACEMENT = -32;
 
+    // ENCODER DRIVING CONST
     private static final double COUNTS_PER_MOTOR_REV = 1478.4;
     private static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
     private static final double WHEEL_DIAMETER_MM = 4.0;     // For figuring circumference
@@ -63,19 +65,23 @@ public abstract class SharedHelper {
     public static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (millimeterToInch(WHEEL_DIAMETER_MM) * Math.PI);
 
+    // OBJECT DETECTING CONST
     public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
     public static final String MODEL_ASSET_NAME = "RoverRuckus";
-
-    public static final String AUTONOMOUS_FINISH_MUSIC_PATH = "/storage/emulated/0/music/autonomous_finish.mp3";
-    public static final String TEST_MUSIC_PATH = "/storage/emulated/0/music/test.mp3";
 
     /**
      * Represents the minimum confidence used in {@link TFObjectDetector}.
      */
     public static final double MINIMUM_CONFIDENCE = 0.8;
 
+    // FILEPATH
+    public static final String AUTONOMOUS_FINISH_MUSIC_PATH = "/storage/emulated/0/music/autonomous_finish.mp3";
+    public static final String TEST_MUSIC_PATH = "/storage/emulated/0/music/test.mp3";
+
+
+    // UNIT CONVERTING
     /**
      * Converts an value in mm to inch.
      */
@@ -90,15 +96,7 @@ public abstract class SharedHelper {
         return inch * MM_PER_INCH;
     }
 
-    /**
-     * Provides an easier way to write a message on an instance of {@link Telemetry}, and
-     * than refresh it.
-     */
-    public static void writeMessageRefresh(String caption, String text, Telemetry t) {
-        t.addData(caption, text);
-        t.update();
-    }
-
+    // NAVIGATION TARGET HELPER
     /**
      * Provides an easier way to convert target name in
      * format {@link String} to a new {@link NavigationTargetName}.
@@ -138,6 +136,7 @@ public abstract class SharedHelper {
         }
     }
 
+    // ENUM
     /**
      * Provides a set of directions.
      */
@@ -169,6 +168,10 @@ public abstract class SharedHelper {
         BackSpace
     }
 
+    // BOGUS OBJECT
+    /**
+     * Provides a set of bogus objects to use in the code.
+     */
     public static abstract class BogusObject {
         public static final int BOGUS_INT = Integer.MIN_VALUE;
         public static final float BOGUS_FLOAT = Float.MIN_VALUE;

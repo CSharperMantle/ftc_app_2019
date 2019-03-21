@@ -53,6 +53,19 @@ public final class AutonomousFinal_PhasePipeline {
         return false;
     }
 
+    private boolean locateRobot(boolean isLastPhaseSuccessful) {
+        if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
+            return false;
+
+        this.facadeRef.driveSeparated(SharedHelper.Direction.TurnRight, 0.5, 0.5);
+        while (!this.opModeRef.opModeIsActive()) {
+            if (this.facadeRef.refreshRobotPosition()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private SharedHelper.Position detectSamplingMineral(boolean isLastPhaseSuccessful) {
 
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
@@ -167,6 +180,7 @@ public final class AutonomousFinal_PhasePipeline {
         SharedHelper.Position mineralPosition;
 
         isLastPhaseSuccessful = this.lowerToGround();
+        isLastPhaseSuccessful = this.locateRobot(isLastPhaseSuccessful);
         mineralPosition = this.detectSamplingMineral(isLastPhaseSuccessful);
         isLastPhaseSuccessful = this.pushSamplingMineral(mineralPosition);
         isLastPhaseSuccessful = this.placeTeamMarker(isLastPhaseSuccessful);
