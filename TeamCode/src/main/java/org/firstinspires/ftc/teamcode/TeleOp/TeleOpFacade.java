@@ -143,6 +143,14 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
         this.level2Motor.setPower(power);
     }
 
+    public void moveHangingHook(boolean isOpen) {
+        if (isOpen) {
+            this.hangingHookServo.setPosition(180);
+        } else {
+            this.hangingHookServo.setPosition(0);
+        }
+    }
+
     public void closeDevice() {
         this.leftDrive.close();
         this.rightDrive.close();
