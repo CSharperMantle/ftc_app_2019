@@ -102,6 +102,7 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
      * call {@link AutonomousFacade#engage()}
      * @param hardwareMap The hardware map to get devices from
      */
+    //TODO: Mark this function as package-private
     public AutonomousFacade(HardwareMap hardwareMap) {
         this.hardwareMapRef = hardwareMap;
 

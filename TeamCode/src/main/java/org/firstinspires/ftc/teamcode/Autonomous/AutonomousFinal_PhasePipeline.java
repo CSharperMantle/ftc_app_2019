@@ -41,7 +41,7 @@ public final class AutonomousFinal_PhasePipeline {
 
     private boolean targetVisible = false;
 
-    public AutonomousFinal_PhasePipeline(AutonomousFacade facadeForRef,
+    AutonomousFinal_PhasePipeline(AutonomousFacade facadeForRef,
                                          LinearOpMode opModeForRef) {
         this.facadeRef = facadeForRef;
         this.opModeRef = opModeForRef;

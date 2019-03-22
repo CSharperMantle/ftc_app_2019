@@ -28,7 +28,7 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
     private final DcMotor level2Motor;
     private final Servo hangingHookServo;
 
-    public TeleOpFacade(HardwareMap hardwareMap) {
+    TeleOpFacade(HardwareMap hardwareMap) {
         this.leftDrive = hardwareMap.get(DcMotor.class, DRIVE_LEFT_NAME);
         this.rightDrive = hardwareMap.get(DcMotor.class, DRIVE_RIGHT_NAME);
         this.level1LeftMotor = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
