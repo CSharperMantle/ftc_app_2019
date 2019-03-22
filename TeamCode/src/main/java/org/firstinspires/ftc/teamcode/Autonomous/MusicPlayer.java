@@ -20,7 +20,7 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.TEST_MUSIC_PATH;
 @Autonomous
 public final class MusicPlayer extends LinearOpMode {
 
-    public static final String TAG = "MusicPlayer";
+    private static final String TAG = "MusicPlayer";
 
     private static final Object _lock = new Object();
 

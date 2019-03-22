@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -50,6 +51,7 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.NavigationTargetName.B
 import static org.firstinspires.ftc.teamcode.SharedHelper.NavigationTargetName.BlueRover;
 import static org.firstinspires.ftc.teamcode.SharedHelper.NavigationTargetName.FrontCraters;
 import static org.firstinspires.ftc.teamcode.SharedHelper.NavigationTargetName.RedFootprint;
+import static org.firstinspires.ftc.teamcode.SharedHelper.SERVO_HANGING_HOOK;
 import static org.firstinspires.ftc.teamcode.SharedHelper.TFOD_MODEL_ASSET;
 import static org.firstinspires.ftc.teamcode.SharedHelper.VUFORIA_LICENSE_KEY;
 import static org.firstinspires.ftc.teamcode.SharedHelper.millimeterToInch;
@@ -68,6 +70,7 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
     public final DcMotor level1LeftDrive;
     public final DcMotor level1RightDrive;
     public final DcMotor level2Drive;
+    private final Servo hangingHookServo;
 
     // Software devices
     public final VuforiaLocalizer vuforia;
@@ -108,6 +111,7 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
         this.level1LeftDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
         this.level1RightDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_1_RIGHT);
         this.level2Drive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_2);
+        this.hangingHookServo = this.hardwareMapRef.get(Servo.class, SERVO_HANGING_HOOK);
         // ...Hardware (servos, drives, etc.) init phase
 
         // Vuforia init phase...
@@ -364,6 +368,15 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
             // Turn off RUN_TO_POSITION
             this.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             this.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    public void moveHangingHook(boolean isOpen) {
+        //TODO: Is 180 deg open? Or 0 deg open
+        if (isOpen) {
+            this.hangingHookServo.setPosition(180);
+        } else {
+            this.hangingHookServo.setPosition(0);
         }
     }
 

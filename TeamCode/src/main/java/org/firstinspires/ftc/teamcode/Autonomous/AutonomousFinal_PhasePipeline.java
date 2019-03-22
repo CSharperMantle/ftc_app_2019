@@ -48,16 +48,16 @@ public final class AutonomousFinal_PhasePipeline {
     }
 
     private boolean lowerToGround() {
-        //TODO: Control the hardware to lower down to the ground
-
-        return false;
+        this.facadeRef.moveHangingHook(true);
+        //TODO: Wait until the robot was safely placed on the ground
+        return true;
     }
 
     private boolean locateRobot(boolean isLastPhaseSuccessful) {
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
-        this.facadeRef.driveSeparated(SharedHelper.Direction.TurnRight, 0.5, 0.5);
+        this.facadeRef.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
         while (!this.opModeRef.opModeIsActive()) {
             if (this.facadeRef.refreshRobotPosition()) {
                 return true;
@@ -71,7 +71,7 @@ public final class AutonomousFinal_PhasePipeline {
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return SharedHelper.Position.Unknown;
 
-        //TODO: Head down to the mineral
+        //No need to head down.
         this.facadeRef.mineralDetector.activate();
         List<Recognition> updatedRecogs;
         while (this.opModeRef.opModeIsActive()) {
@@ -119,28 +119,23 @@ public final class AutonomousFinal_PhasePipeline {
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
-        //TODO: Drive and place the team marker
-
         this.refreshLocationBlocked();
         int dimension = this.lastPosition.getDimensionNumber();
 
+        this.facadeRef.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
+        //TODO: Turn around. Then drive for a given distance, as the switch statement given below
+
         switch (dimension) {
             case 1:
-                this.facadeRef.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
-                while (true) {
-                    this.refreshLocationBlocked();
-                    if (this.lastPosition.Yaw <= SharedHelper.BogusObject.BOGUS_FLOAT) {
-                        //TODO: Get the real number to replace the bogus number
-                        break;
-                    }
-                }
-                break;
-            case 2:
-                break;
             case 3:
+                //TODO: Turn left first, and then turn left again
                 break;
+
+            case 2:
             case 4:
+                //TODO: Turn left first, and then turn right
                 break;
+
             default:
                 break;
         }
@@ -152,7 +147,7 @@ public final class AutonomousFinal_PhasePipeline {
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
-        //TODO: Drive and park
+        //TODO: Turn around and then drive for a given distance to park
 
         return false;
     }

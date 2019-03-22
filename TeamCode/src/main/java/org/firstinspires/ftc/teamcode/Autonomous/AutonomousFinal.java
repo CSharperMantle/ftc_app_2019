@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name = "2019 Autonomous Final")
 public final class AutonomousFinal extends LinearOpMode {
 
-    public static final String TAG = "2019 Autonomous Final";
+    private static final String TAG = "2019 Autonomous Final";
 
     @Override
     public void runOpMode() {

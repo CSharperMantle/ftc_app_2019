@@ -144,6 +144,7 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
     }
 
     public void moveHangingHook(boolean isOpen) {
+        //TODO: Is 180 deg open? Or 0 deg open
         if (isOpen) {
             this.hangingHookServo.setPosition(180);
         } else {

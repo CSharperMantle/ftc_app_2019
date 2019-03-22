@@ -20,7 +20,7 @@ import java.util.List;
 @Autonomous(name = "TestVuMarkNavigation", group = "JTest")
 public final class TestVuMarkNavigation extends LinearOpMode {
 
-    public static final String TAG = "TestVuMarkNavigation";
+    private static final String TAG = "TestVuMarkNavigation";
 
     private final String vuforiaLicenseKey = SharedHelper.VUFORIA_LICENSE_KEY;
 
