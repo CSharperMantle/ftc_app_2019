@@ -91,9 +91,9 @@ public final class TeleOpFinal extends LinearOpMode {
                 if (this.opMode.gamepad1.left_stick_y != 0
                         || this.opMode.gamepad1.right_stick_x != 0) {
                     double drive = -gamepad1.left_stick_y;
-                    double turn  =  gamepad1.right_stick_x;
-                    double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-                    double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+                    double turn = gamepad1.right_stick_x;
+                    double leftPower = Range.clip(drive + turn, -1.0, 1.0) ;
+                    double rightPower = Range.clip(drive - turn, -1.0, 1.0) ;
 
                     this.facade.driveSeparated(Unknown, leftPower, rightPower);
                 }
@@ -113,12 +113,20 @@ public final class TeleOpFinal extends LinearOpMode {
         @Override
         public void run() {
             while (this.opMode.opModeIsActive()) {
-                if (gamepad1.x) {
-                    facade.moveHangingHook(true);
+                if (this.opMode.gamepad1.x) {
+                    this.facade.moveHangingHook(true);
                 }
-                if (gamepad1.y) {
-                    facade.moveHangingHook(false);
+                if (this.opMode.gamepad1.y) {
+                    this.facade.moveHangingHook(false);
                 }
+
+                if (this.opMode.gamepad1.a) {
+                    this.facade.moveEscalatorMotor(SharedHelper.Direction.Forward, 0.5);
+                }
+                if (this.opMode.gamepad1.b) {
+                    this.facade.moveEscalatorMotor(SharedHelper.Direction.Backward, 0.5);
+                }
+                this.facade.moveEscalatorMotor(SharedHelper.Direction.Forward, 0);
             }
         }
     }

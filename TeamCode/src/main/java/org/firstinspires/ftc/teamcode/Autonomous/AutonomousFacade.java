@@ -44,6 +44,7 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.LABEL_SILVER_MINERAL;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MINIMUM_CONFIDENCE;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MM_FTC_FIELD_WIDTH;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MM_TARGET_HEIGHT;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_ESCALATOR;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_LEFT;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_RIGHT;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_2;
@@ -67,9 +68,10 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
     // Hardware devices
     public final DcMotor leftDrive;
     public final DcMotor rightDrive;
-    public final DcMotor level1LeftDrive;
-    public final DcMotor level1RightDrive;
-    public final DcMotor level2Drive;
+    private final DcMotor level1LeftDrive;
+    private final DcMotor level1RightDrive;
+    private final DcMotor level2Drive;
+    private final DcMotor escalatorMotor;
     private final Servo hangingHookServo;
 
     // Software devices
@@ -112,6 +114,7 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
         this.level1LeftDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
         this.level1RightDrive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_1_RIGHT);
         this.level2Drive = this.hardwareMapRef.get(DcMotor.class, MOTOR_HAND_LEVEL_2);
+        this.escalatorMotor = this.hardwareMapRef.get(DcMotor.class, MOTOR_ESCALATOR);
         this.hangingHookServo = this.hardwareMapRef.get(Servo.class, SERVO_HANGING_HOOK);
         // ...Hardware (servos, drives, etc.) init phase
 
@@ -256,6 +259,7 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
         this.level1LeftDrive.setZeroPowerBehavior(BRAKE);
         this.level1RightDrive.setZeroPowerBehavior(BRAKE);
         this.level2Drive.setZeroPowerBehavior(BRAKE);
+        this.escalatorMotor.setZeroPowerBehavior(BRAKE);
         stopAllDrivingMotors();
         this.level1LeftDrive.setPower(0);
         this.level1RightDrive.setPower(0);

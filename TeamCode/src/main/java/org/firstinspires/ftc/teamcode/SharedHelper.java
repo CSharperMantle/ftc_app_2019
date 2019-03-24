@@ -11,6 +11,7 @@ public abstract class SharedHelper {
     public static final String MOTOR_HAND_LEVEL_1_RIGHT = "motor_level_1_right";
     public static final String MOTOR_HAND_LEVEL_2 = "motor_level_2";
     public static final String SERVO_HANGING_HOOK = "servo_hanging_hook";
+    public static final String MOTOR_ESCALATOR = "motor_escalator";
 
     // LOCATING ALGORITHM CONST
     /**

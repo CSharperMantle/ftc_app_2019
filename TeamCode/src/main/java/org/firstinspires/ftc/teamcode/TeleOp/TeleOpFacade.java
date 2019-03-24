@@ -8,9 +8,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Facade.DrivingSimpleFacade;
 import org.firstinspires.ftc.teamcode.SharedHelper;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static org.firstinspires.ftc.teamcode.SharedHelper.DRIVE_LEFT_NAME;
 import static org.firstinspires.ftc.teamcode.SharedHelper.DRIVE_RIGHT_NAME;
 import static org.firstinspires.ftc.teamcode.SharedHelper.Direction;
+import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_ESCALATOR;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_LEFT;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_1_RIGHT;
 import static org.firstinspires.ftc.teamcode.SharedHelper.MOTOR_HAND_LEVEL_2;
@@ -26,6 +28,7 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
     private final DcMotor level1LeftMotor;
     private final DcMotor level1RightMotor;
     private final DcMotor level2Motor;
+    private final DcMotor escalatorMotor;
     private final Servo hangingHookServo;
 
     TeleOpFacade(HardwareMap hardwareMap) {
@@ -34,9 +37,11 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
         this.level1LeftMotor = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_LEFT);
         this.level1RightMotor = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_1_RIGHT);
         this.level2Motor = hardwareMap.get(DcMotor.class, MOTOR_HAND_LEVEL_2);
-        level1LeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        level1RightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        level2Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.escalatorMotor = hardwareMap.get(DcMotor.class, MOTOR_ESCALATOR);
+        level1LeftMotor.setZeroPowerBehavior(BRAKE);
+        level1RightMotor.setZeroPowerBehavior(BRAKE);
+        level2Motor.setZeroPowerBehavior(BRAKE);
+        this.escalatorMotor.setZeroPowerBehavior(BRAKE);
 
         this.hangingHookServo = hardwareMap.get(Servo.class, SERVO_HANGING_HOOK);
     }
@@ -85,6 +90,7 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
     public void stopAllMotors() {
         this.stopAllDrivingMotors();
         this.stopAllArmMotors();
+        this.moveEscalatorMotor(Direction.Forward, 0);
     }
 
     @Override
@@ -97,6 +103,21 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
         this.level1LeftMotor.setPower(0);
         this.level1RightMotor.setPower(0);
         this.level2Motor.setPower(0);
+    }
+
+    public void moveEscalatorMotor(Direction direction, double power) {
+        switch (direction) {
+            case Forward:
+                this.escalatorMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+                break;
+            case Backward:
+                this.escalatorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                break;
+            default:
+                break;
+        }
+
+        this.escalatorMotor.setPower(power);
     }
 
     public void moveRoboticArmLevel1(Direction direction, double power) {
