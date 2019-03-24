@@ -54,6 +54,7 @@ public final class TeleOpFacade implements DrivingSimpleFacade {
         DcMotorSimple.Direction rightDriveDirection;
 
         switch (direction) {
+            case Unknown:
             case Forward:
                 leftDriveDirection = DcMotorSimple.Direction.FORWARD;
                 rightDriveDirection = DcMotorSimple.Direction.REVERSE;

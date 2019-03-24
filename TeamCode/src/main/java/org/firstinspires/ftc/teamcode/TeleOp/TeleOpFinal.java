@@ -2,8 +2,11 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.SharedHelper;
+
+import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.Unknown;
 
 @SuppressWarnings("unused")
 @TeleOp(name = "2019 TeleOp Final")
@@ -71,19 +74,29 @@ public final class TeleOpFinal extends LinearOpMode {
         @Override
         public void run() {
             while (this.opMode.opModeIsActive()) {
-                if (gamepad1.left_trigger > 0) {
+                if (this.opMode.gamepad1.left_trigger > 0) {
                     facade.moveRoboticArmLevel1(SharedHelper.Direction.Forward, 0.5);
                 }
-                if (gamepad1.left_bumper) {
+                if (this.opMode.gamepad1.left_bumper) {
                     facade.moveRoboticArmLevel1(SharedHelper.Direction.Backward, 0.5);
                 }
-                if (gamepad1.right_trigger > 0) {
+                if (this.opMode.gamepad1.right_trigger > 0) {
                     facade.moveRoboticArmLevel2(SharedHelper.Direction.Forward, 0.5);
                 }
-                if (gamepad1.right_bumper) {
+                if (this.opMode.gamepad1.right_bumper) {
                     facade.moveRoboticArmLevel2(SharedHelper.Direction.Backward, 0.5);
                 }
                 facade.stopAllArmMotors();
+
+                if (this.opMode.gamepad1.left_stick_y != 0
+                        || this.opMode.gamepad1.right_stick_x != 0) {
+                    double drive = -gamepad1.left_stick_y;
+                    double turn  =  gamepad1.right_stick_x;
+                    double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+                    double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+
+                    this.facade.driveSeparated(Unknown, leftPower, rightPower);
+                }
             }
         }
     }
