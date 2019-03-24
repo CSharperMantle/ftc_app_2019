@@ -467,7 +467,7 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
 
         @Override
         public String toString() {
-            return super.toString() + String.format(Locale.ENGLISH, "<X=%.1f, Y=%.1f, Z=%.1f, Pitch=%.0f, Yaw=%.0f, Roll=%.0f>",
+            return String.format(Locale.ENGLISH, "<X=%.1f, Y=%.1f, Z=%.1f, Pitch=%.0f, Yaw=%.0f, Roll=%.0f>",
                     this.X, this.Y, this.Z, this.Pitch, this.Yaw, this.Roll);
         }
     }

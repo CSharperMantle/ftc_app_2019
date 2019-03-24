@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.SharedHelper;
 
 @SuppressWarnings("unused")
-@Autonomous(name = "Drive by encoders")
+@Autonomous(name = "Drive by encoders", group = "Test")
 public final class DriveByEncoder extends LinearOpMode {
     /**
      * Override this method and place your code here.

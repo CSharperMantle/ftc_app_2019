@@ -16,6 +16,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 
 import static org.firstinspires.ftc.teamcode.SharedHelper.AUTONOMOUS_FINISH_MUSIC_PATH;
+import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnLeft;
+import static org.firstinspires.ftc.teamcode.SharedHelper.LABEL_GOLD_MINERAL;
+import static org.firstinspires.ftc.teamcode.SharedHelper.Position.Center;
+import static org.firstinspires.ftc.teamcode.SharedHelper.Position.Left;
+import static org.firstinspires.ftc.teamcode.SharedHelper.Position.Right;
 
 @SuppressWarnings("unused")
 public final class AutonomousFinal_PhasePipeline {
@@ -57,7 +62,7 @@ public final class AutonomousFinal_PhasePipeline {
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
-        this.facadeRef.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
+        this.facadeRef.driveSeparated(TurnLeft, 0.5, 0.5);
         while (!this.opModeRef.opModeIsActive()) {
             if (this.facadeRef.refreshRobotPosition()) {
                 this.facadeRef.stopAllDrivingMotors();
@@ -83,7 +88,7 @@ public final class AutonomousFinal_PhasePipeline {
                     int silverMineral1X = -1;
                     int silverMineral2X = -1;
                     for (Recognition recog : updatedRecogs) {
-                        if (recog.getLabel().equals(SharedHelper.LABEL_GOLD_MINERAL)) {
+                        if (recog.getLabel().equals(LABEL_GOLD_MINERAL)) {
                             goldMineralX = (int) recog.getLeft();
                         } else if (silverMineral1X == -1) {
                             silverMineral1X = (int) recog.getLeft();
@@ -93,11 +98,11 @@ public final class AutonomousFinal_PhasePipeline {
                     }
                     if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                         if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                            return SharedHelper.Position.Left;
+                            return Left;
                         } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                            return SharedHelper.Position.Right;
+                            return Right;
                         } else {
-                            return SharedHelper.Position.Center;
+                            return Center;
                         }
                     }
                 }
@@ -126,7 +131,7 @@ public final class AutonomousFinal_PhasePipeline {
 
         int dimension = this.lastPosition.getDimensionNumber();
 
-        this.facadeRef.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
+        this.facadeRef.driveSeparated(TurnLeft, 0.5, 0.5);
         //TODO: Turn around. Then drive for a given distance, as the switch statement given below
 
         switch (dimension) {

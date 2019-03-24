@@ -17,7 +17,7 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.TEST_MUSIC_PATH;
 
 @Disabled
 @SuppressWarnings("unused")
-@Autonomous
+@Autonomous(group = "Test")
 public final class MusicPlayer extends LinearOpMode {
 
     private static final String TAG = "MusicPlayer";

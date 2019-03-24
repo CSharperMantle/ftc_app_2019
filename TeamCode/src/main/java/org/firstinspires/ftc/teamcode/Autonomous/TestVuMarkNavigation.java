@@ -17,7 +17,7 @@ import java.util.List;
 
 @Disabled
 @SuppressWarnings("unused")
-@Autonomous(name = "TestVuMarkNavigation", group = "JTest")
+@Autonomous(group = "Test")
 public final class TestVuMarkNavigation extends LinearOpMode {
 
     private static final String TAG = "TestVuMarkNavigation";

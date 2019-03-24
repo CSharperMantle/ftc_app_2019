@@ -14,7 +14,7 @@ import java.util.List;
 
 @Disabled
 @SuppressWarnings("unused")
-@Autonomous(name="TensorFlowMineralDetect", group="JTest")
+@Autonomous(group="Test")
 public final class TensorFlowMineralDetect extends LinearOpMode {
     @Override
     public void runOpMode() {

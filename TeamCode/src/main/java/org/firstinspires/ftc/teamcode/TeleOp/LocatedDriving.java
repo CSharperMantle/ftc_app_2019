@@ -16,7 +16,7 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnLeft;
 import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnRight;
 
 @SuppressWarnings("unused")
-@TeleOp
+@TeleOp(group = "Test")
 public final class LocatedDriving extends LinearOpMode {
     private static final String TAG = "LocatedDriving";
 
@@ -112,7 +112,7 @@ public final class LocatedDriving extends LinearOpMode {
                     }
                 }
 
-                if (this.opMode.gamepad1.y) {
+                if (this.opMode.gamepad1.a) {
                     this.facade.driveSeparated(TurnLeft, 0.5, 0.5);
                     while (this.opMode.opModeIsActive()) {
                         if (this.facade.refreshRobotPosition()) {
