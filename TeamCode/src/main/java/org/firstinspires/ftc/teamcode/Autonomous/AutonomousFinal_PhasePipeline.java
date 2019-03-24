@@ -60,6 +60,7 @@ public final class AutonomousFinal_PhasePipeline {
         this.facadeRef.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
         while (!this.opModeRef.opModeIsActive()) {
             if (this.facadeRef.refreshRobotPosition()) {
+                this.facadeRef.stopAllDrivingMotors();
                 return true;
             }
         }
@@ -119,7 +120,10 @@ public final class AutonomousFinal_PhasePipeline {
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
-        this.refreshLocationBlocked();
+        if (!this.refreshLocationBlocked()) {
+            return false;
+        }
+
         int dimension = this.lastPosition.getDimensionNumber();
 
         this.facadeRef.driveSeparated(SharedHelper.Direction.TurnLeft, 0.5, 0.5);
@@ -137,7 +141,7 @@ public final class AutonomousFinal_PhasePipeline {
                 break;
 
             default:
-                break;
+                return false;
         }
 
         return false;
@@ -184,14 +188,14 @@ public final class AutonomousFinal_PhasePipeline {
         return isLastPhaseSuccessful;
     }
 
-    private void refreshLocationBlocked() {
+    private boolean refreshLocationBlocked() {
         while (this.opModeRef.opModeIsActive()) {
-            this.facadeRef.refreshRobotPosition();
-            this.lastPosition = facadeRef.getLatestRobotPosition();
-            if (this.lastPosition != null) {
-                break;
+            if (this.facadeRef.refreshRobotPosition()) {
+                this.lastPosition = facadeRef.getLatestRobotPosition();
+                return true;
             }
         }
+        return false;
     }
 
     private class MusicPlayerRunnable implements Runnable {

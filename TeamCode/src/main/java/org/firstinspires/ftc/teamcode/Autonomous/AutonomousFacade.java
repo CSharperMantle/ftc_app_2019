@@ -355,7 +355,6 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
             driveSeparated(direction, speed, speed);
 
             while (true) {
-
                 if (!linearOpModeForRef.opModeIsActive() ||
                         (runtime.seconds() >= timeoutS) ||
                         !(this.leftDrive.isBusy() || this.rightDrive.isBusy())) {

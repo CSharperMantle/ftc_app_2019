@@ -18,6 +18,8 @@ import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnRight;
 @SuppressWarnings("unused")
 @TeleOp
 public final class LocatedDriving extends LinearOpMode {
+    private static final String TAG = "LocatedDriving";
+
     private final Vector<AutonomousFacade.RobotPosition> positionVector = new Vector<>();
 
     @Override
@@ -90,8 +92,8 @@ public final class LocatedDriving extends LinearOpMode {
         public void run() {
             while (this.opMode.opModeIsActive()) {
                 if (this.opMode.gamepad1.x) {
-                    while (true) {
-                        if (this.facade.refreshRobotPosition() || !this.opMode.opModeIsActive()) {
+                    while (this.opMode.opModeIsActive()) {
+                        if (this.facade.refreshRobotPosition()) {
                             break;
                         }
                     }
@@ -108,6 +110,18 @@ public final class LocatedDriving extends LinearOpMode {
                         this.opMode.telemetry.log().add(ex.toString());
                         this.opMode.telemetry.update();
                     }
+                }
+
+                if (this.opMode.gamepad1.y) {
+                    this.facade.driveSeparated(TurnLeft, 0.5, 0.5);
+                    while (this.opMode.opModeIsActive()) {
+                        if (this.facade.refreshRobotPosition()) {
+                            break;
+                        }
+                    }
+                    this.facade.stopAllDrivingMotors();
+                    this.opMode.telemetry.addData(TAG, this.facade.getLatestRobotPosition().toString());
+                    this.opMode.telemetry.update();
                 }
             }
         }
