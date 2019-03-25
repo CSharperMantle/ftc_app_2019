@@ -145,78 +145,30 @@ public final class AutonomousFacade implements DrivingSimpleFacade, DrivingEncod
         
         // Targets locating phase...
 
-        /*
-         * To place the BlueRover target in the middle of the blue perimeter wall:
-         * - First we rotate it 90 around the field's X axis to flip it upright.
-         * - Then, we translate it along the Y axis to the blue perimeter wall.
-         */
         this.blueRoverLocationOnField = OpenGLMatrix
                 .translation(0, MM_FTC_FIELD_WIDTH, MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES,
                         90, 0, 0));
         blueRover.setLocation(this.blueRoverLocationOnField);
 
-        /*
-         * To place the RedFootprint target in the middle of the red perimeter wall:
-         * - First we rotate it 90 around the field's X axis to flip it upright.
-         * - Second, we rotate it 180 around the field's Z axis so the image is flat against the red perimeter wall
-         *   and facing inwards to the center of the field.
-         * - Then, we translate it along the negative Y axis to the red perimeter wall.
-         */
         this.redFootprintLocationOnField = OpenGLMatrix
                 .translation(0, -MM_FTC_FIELD_WIDTH, MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES,
                         90, 0, 180));
         redFootprint.setLocation(this.redFootprintLocationOnField);
 
-        /*
-         * To place the FrontCraters target in the middle of the front perimeter wall:
-         * - First we rotate it 90 around the field's X axis to flip it upright.
-         * - Second, we rotate it 90 around the field's Z axis so the image is flat against the front wall
-         *   and facing inwards to the center of the field.
-         * - Then, we translate it along the negative X axis to the front perimeter wall.
-         */
         this.frontCratersLocationOnField = OpenGLMatrix
                 .translation(-MM_FTC_FIELD_WIDTH, 0, MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES,
                         90, 0, 90));
         frontCraters.setLocation(this.frontCratersLocationOnField);
 
-        /*
-         * To place the BackSpace target in the middle of the back perimeter wall:
-         * - First we rotate it 90 around the field's X axis to flip it upright.
-         * - Second, we rotate it -90 around the field's Z axis so the image is flat against the back wall
-         *   and facing inwards to the center of the field.
-         * - Then, we translate it along the X axis to the back perimeter wall.
-         */
         this.backSpaceLocationOnField = OpenGLMatrix
                 .translation(MM_FTC_FIELD_WIDTH, 0, MM_TARGET_HEIGHT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES,
                         90, 0, -90));
         backSpace.setLocation(this.backSpaceLocationOnField);
 
-        /*
-         * Create a transformation matrix describing where the phone is on the robot.
-         *
-         * The coordinate frame for the robot looks the same as the field.
-         * The robot's "forward" direction is facing out along X axis, with the LEFT side facing out along the Y axis.
-         * Z is UP on the robot.  This equates to a bearing angle of Zero degrees.
-         *
-         * The phone starts out lying flat, with the screen facing Up and with the physical top of the phone
-         * pointing to the LEFT side of the Robot.  It's very important when you test this code that the top of the
-         * camera is pointing to the left side of the  robot.  The rotation angles don't work if you flip the phone.
-         *
-         * If using the rear (High Res) camera:
-         * We need to rotate the camera around it's long axis to bring the rear camera forward.
-         * This requires a negative 90 degree rotation on the Y axis
-         *
-         * If using the Front (Low Res) camera
-         * We need to rotate the camera around it's long axis to bring the FRONT camera forward.
-         * This requires a Positive 90 degree rotation on the Y axis
-         *
-         * Next, translate the camera lens to where it is on the robot.
-         * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
-         */
         this.phoneLocationOnRobot = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES,
