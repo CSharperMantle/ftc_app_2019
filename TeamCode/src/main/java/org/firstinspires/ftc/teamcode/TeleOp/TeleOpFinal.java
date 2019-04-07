@@ -1,34 +1,43 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.SharedHelper;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.Unknown;
 
 @SuppressWarnings("unused")
 @TeleOp(name = "2019 TeleOp Final")
 public final class TeleOpFinal extends LinearOpMode {
+    private static final String TAG = "TeleOpFinal";
 
     @Override
     public void runOpMode() throws InterruptedException {
         TeleOpFacade facade = new TeleOpFacade(this.hardwareMap);
-        
-        Thread drivingThread = new Thread(new DrivingHandlerRunnable(this, facade));
-        Thread armMovingThread = new Thread(new ArmMovingHandlerRunnable(this, facade));
-        Thread hookMovingThread = new Thread(new HookMovingHandlerRunnable(this, facade));
+
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        Future<?> drivingTaskResult = executorService.submit(new DrivingHandlerRunnable(this, facade));
+        Future<?> armTaskResult = executorService.submit(new ArmMovingHandlerRunnable(this, facade));
+        Future<?> hookTaskResult = executorService.submit(new HookMovingHandlerRunnable(this, facade));
 
         this.waitForStart();
 
-        drivingThread.start();
-        armMovingThread.start();
-        hookMovingThread.start();
-
-        drivingThread.join();
-        armMovingThread.join();
-        hookMovingThread.join();
+        try {
+            drivingTaskResult.get();
+            armTaskResult.get();
+            hookTaskResult.get();
+        } catch (ExecutionException ex) {
+            Log.w(TAG, ex);
+        }
 
         facade.closeDevice();
     }

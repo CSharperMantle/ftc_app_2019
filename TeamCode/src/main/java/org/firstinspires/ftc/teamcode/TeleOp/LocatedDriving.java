@@ -27,6 +27,7 @@ public final class LocatedDriving extends LinearOpMode {
         // HACK: To use a facade for Autonomous Period to display the location
         AutonomousFacade facade = new AutonomousFacade(this.hardwareMap);
         this.telemetry.log().setDisplayOrder(NEWEST_FIRST);
+        this.telemetry.log().setCapacity(1024);
 
         facade.leftDrive.setZeroPowerBehavior(FLOAT);
         facade.rightDrive.setZeroPowerBehavior(FLOAT);
@@ -105,10 +106,16 @@ public final class LocatedDriving extends LinearOpMode {
                         this.opMode.telemetry.addData("Rot (deg)", "{Roll, Pitch, Yaw} = %.0f, %.0f, %.0f",
                                 position.Roll, position.Pitch, position.Yaw);
                         this.opMode.telemetry.update();
+                        Thread.sleep(500);
                     } catch (NullPointerException ex) {
                         this.opMode.telemetry.log().add("Position unknown.");
                         this.opMode.telemetry.log().add(ex.toString());
                         this.opMode.telemetry.update();
+                    } catch (InterruptedException ex) {
+                        this.opMode.telemetry.log().add("Interrupted.");
+                        this.opMode.telemetry.log().add(ex.toString());
+                        this.opMode.telemetry.update();
+                        break;
                     }
                 }
 
@@ -146,6 +153,14 @@ public final class LocatedDriving extends LinearOpMode {
                     }
                     this.opMode.telemetry.log().add("END PRINTING POSITION");
                     this.opMode.telemetry.update();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        this.opMode.telemetry.log().add("Interrupted.");
+                        this.opMode.telemetry.log().add(ex.toString());
+                        this.opMode.telemetry.update();
+                        break;
+                    }
                 }
             }
         }
