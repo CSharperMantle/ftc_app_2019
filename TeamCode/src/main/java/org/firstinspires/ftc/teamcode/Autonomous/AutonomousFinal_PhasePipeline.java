@@ -16,7 +16,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 
 import static org.firstinspires.ftc.teamcode.SharedHelper.AUTONOMOUS_FINISH_MUSIC_PATH;
+import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.Forward;
 import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnLeft;
+import static org.firstinspires.ftc.teamcode.SharedHelper.Direction.TurnRight;
 import static org.firstinspires.ftc.teamcode.SharedHelper.LABEL_GOLD_MINERAL;
 import static org.firstinspires.ftc.teamcode.SharedHelper.Position.Center;
 import static org.firstinspires.ftc.teamcode.SharedHelper.Position.Left;
@@ -137,17 +139,26 @@ public final class AutonomousFinal_PhasePipeline {
         switch (dimension) {
             case 1:
             case 3:
-                //TODO: Turn left first, and then turn left again
+                // TODO : It needs test
+                this.facadeRef.driveSeparated(TurnLeft, 0.5, 0.5);
+                this.facadeRef.driveSeparated(Forward, 0.5, 0.5);
+                this.facadeRef.driveSeparated(TurnLeft, 0.5, 0.5);
+                this.facadeRef.driveSeparated(Forward, 0.5, 0.5);
                 break;
 
             case 2:
             case 4:
-                //TODO: Turn left first, and then turn right
+                // TODO : It needs test
+                this.facadeRef.driveSeparated(TurnLeft, 0.5, 0.5);
+                this.facadeRef.driveSeparated(Forward, 0.5, 0.5);
+                this.facadeRef.driveSeparated(TurnRight, 0.5, 0.5);
+                this.facadeRef.driveSeparated(Forward, 0.5, 0.5);
                 break;
 
             default:
                 return false;
         }
+        // TODO : Put the team marker
 
         return false;
     }
@@ -156,7 +167,9 @@ public final class AutonomousFinal_PhasePipeline {
         if (!isLastPhaseSuccessful || !this.opModeRef.opModeIsActive())
             return false;
 
-        //TODO: Turn around and then drive for a given distance to park
+        // TODO : It needs test
+        this.facadeRef.driveWithEncoder(0.5, 1000, 1000, 30,
+                SharedHelper.Direction.Backward, this.opModeRef);
 
         return false;
     }
